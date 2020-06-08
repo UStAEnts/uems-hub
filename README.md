@@ -24,3 +24,17 @@ $ docker run -it --name "rabbit-uems" -p 5672:5672 -p 15672:15672 rabbit-uems-im
 | `rdadmin`     | `5PeztA2*^wGETm8qce*9` | `.*` - administrator |
 
 ==NOTE: These password will not be used in production==
+
+## Working on Windows
+
+This project will rely heavily on Docker to deploy microservices. However, docker is not supported at all on Windows 10 Home. If you are wanting to develop on Windows, you will either need a working WSL2 installation and then follow along as if you are on linux, or you will need to run it in another way. I recommend running Vagrant and as such a Vagrantfile is provided in the root of the project. Details on how to setup Vagrant can be found [here](https://www.vagrantup.com/docs/installation). You need some form of virtualisation software available so they recommend installing VirtualBox because it's free.
+
+Then to setup this project do:
+
+```cmd
+> vagrant up
+> vagrant ssh
+$ cd /uems
+```
+
+And this should magically setup an ubuntu virtual machine and ssh you into it, navigating to the project folder, at which point you should be able to run the project as described above.
