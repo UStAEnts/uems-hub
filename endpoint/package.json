@@ -1,0 +1,37 @@
+{
+  "name": "endpoint",
+  "version": "1.0.0",
+  "description": "main endpoint for the uems system handling authentication and routing",
+  "main": "out/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ents-crew/uems-hub.git"
+  },
+  "author": "Ents Crew <ents@st-andrews.ac.uk> (https://entscrew.net)",
+  "contributors": [
+    {
+      "name": "Ryan Delaney",
+      "email": "vitineth@gmail.com",
+      "url": "https://xiomi.org"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ents-crew/uems-hub/issues"
+  },
+  "homepage": "https://github.com/ents-crew/uems-hub#readme",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.0.12",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  }
+}
