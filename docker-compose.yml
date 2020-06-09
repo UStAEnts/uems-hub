@@ -1,0 +1,52 @@
+version: '2.4'
+networks:
+  uems-dev:
+services:
+  db:
+    container_name: uems_db
+    build: /uems/docker-help/postgres/
+    environment:
+      POSTGRES_USER: cas
+      POSTGRES_DB: xiomi_cas
+      POSTGRES_PASSWORD: web_backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cas"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - uems-dev
+    ports:
+      - "5432:5432"
+  rabbit-uems:
+    container_name: rabbit-uems
+    image: rabbit-uems-image
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - uems-dev
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  xiomi-live:
+    build: /uems/docker-help/xiomi
+    # image: vitineth/xiomi:0.3
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbit-uems:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./endpoint/
+        target: /usr/src/endpoint/
+    networks:
+      - uems-dev
+
+
