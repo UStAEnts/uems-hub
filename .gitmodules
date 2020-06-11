@@ -1,0 +1,3 @@
+[submodule "endpoint"]
+	path = endpoint
+	url = https://github.com/ents-crew/uems-endpoint-cerberus.git
