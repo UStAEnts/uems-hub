@@ -2,6 +2,19 @@
 
 ## Setup
 
+### Microservices
+
+Each microservice is hosted as a different repository but will need to be cloned into this project to get everything up and running correctly. The following commands will clone the repositories in the right place and should be run before running `docker-compose up`. They are shown for bash but will work on windows too
+
+```bash
+$ git clone https://github.com/ents-crew/uems-endpoint-cerberus.git endpoint
+
+# Build endpoint, follow any specific compilation instructions in the git repository if relevant
+$ cd endpoint
+$ npm i -D
+$ npm run build
+```
+
 ### RabbitMQ
 
 RabbitMQ is provided as a Docker image
