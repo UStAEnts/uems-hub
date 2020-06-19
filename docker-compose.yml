@@ -4,7 +4,7 @@ networks:
 services:
   db:
     container_name: uems_db
-    build: /uems/docker-help/postgres/
+    build: ./docker-help/postgres/
     environment:
       POSTGRES_USER: cas
       POSTGRES_DB: xiomi_cas
@@ -20,7 +20,7 @@ services:
       - "5432:5432"
   rabbit-uems:
     container_name: rabbit-uems
-    image: rabbit-uems-image
+    build: ./rabbit-mq-docker
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -32,7 +32,7 @@ services:
       timeout: 10s
       retries: 5
   xiomi-live:
-    build: /uems/docker-help/xiomi
+    build: ./docker-help/xiomi
     # image: vitineth/xiomi:0.3
     ports:
       - "3000:3000"
