@@ -4,10 +4,17 @@
 
 ### Microservices
 
-Each microservice is hosted as a different repository but will need to be cloned into this project to get everything up and running correctly. The following commands will clone the repositories in the right place and should be run before running `docker-compose up`. They are shown for bash but will work on windows too
+Each microservice is hosted as a different repository but will need to be cloned into this project to get everything up and running correctly. They are all embedded as submodules in this git repository but will require some setup and care for when you pull. 
 
 ```bash
-$ git clone https://github.com/ents-crew/uems-endpoint-cerberus.git endpoint
+# On initial pull, make sure git includes the submodules
+$ git clone --recurse-submodules https://github.com/ents-crew/uems-hub.git
+
+# When pulling in the future
+$ git pull
+
+# To manually update the submodules to a newer version run this. It will download the new versions and pin the repository at that version
+$ git submodule update --remote
 
 # Build endpoint, follow any specific compilation instructions in the git repository if relevant
 $ cd endpoint
