@@ -42,6 +42,7 @@ $ docker run -it --name "rabbit-uems" -p 5672:5672 -p 15672:15672 rabbit-uems-im
 | `xssso`       | `Lrn6t8@P5uH3ONW%9WVf` | `^auth.*$`           |
 | `event-micro` | `rEzYuMK6vUaY$u1#1apY` | `^mse.*$`            |
 | `rdadmin`     | `5PeztA2*^wGETm8qce*9` | `.*` - administrator |
+| `endpoint-micro` | `*AWIOX^CiWgMg14tY0Ts` | `^mse.*$` |
 
 ==NOTE: These password will not be used in production==
 
