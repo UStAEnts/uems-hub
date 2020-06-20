@@ -289,19 +289,45 @@ Same as convenor
 
 ### 4.1 Data Architecture
 
+> This section describes the Data Architectural requirements part of the Business Requirements. You would normally complete the Domain Class Diagram if you are using UML (Use Cases) or the Entity Relationship Diagram if you are following the Oracle Designer approach, but rarely both. 
+
 ### 4.2 Data Conversion
+
+> This section describes at a high-level any data conversion requirements, namely the system, data source and destination. For example: “User data will be pulled from the Active Directory System and converted to enhance the Peoplesoft HR user record.”
 
 ### 4.3 Data Retention and Archiving
 
 ### 4.4 Security and Privacy Implications
 
+> This section describes the sensitivity levels of each class of data. The following criteria are used in determining the sensitivity level of each conceptual class/entity.
+>
+> * **Non-sensitive** information that would not reasonably be expected to cause injury (harm) if released to the public;
+> * **Protected A**:  information that, if compromised, could reasonably be expected to cause injury (harm), e.g. loss of privacy;
+> * **Protected B**: information that, if compromised, could reasonably be expected to cause serious injury (harm), e.g. the conduct of a court proceeding would be adversely affected;
+> * **Protected C**: information that, if compromised, could reasonably be expected to cause extremely grave injury (harm), e.g. loss of life.
+
 ## 5 Non Functional Requirements
+
+> This section describes the non-functional requirements part of the Business Requirements. A non-functional requirement is typically a special requirement that is not easily or naturally specified in the text of the Use Case’s or function’s event flow. Examples of non-functional requirements include legal and regulatory requirements, application standards, and quality attributes of the system to be built including usability, reliability, performance or supportability requirements. 
 
 ### 5.1 Security Requirements
 
-### 5.2 Authentication
+#### 5.1.1 Authentication
 
-### 5.3 Authorisation and Access Controls
+> This section describes the Authentication requirements part of the Business Requirements
 
-### 5.4 Scalability Requirements
+#### 5.1.2 Authorisation and Access Controls
 
+> This section describes the Authorization and Access Control requirements part of the Business Requirements at a high-level. Authorization is the process of determining if the person/group, once identified through the “Authentication process”, is permitted to have access to certain services
+
+### 5.2 Availability Requirements
+
+
+
+### 5.3 Scalability Requirements
+
+> This section describes how the system is expected to scale to new higher or lower levels. Both user and application scalability requirements are described here.
+
+### 5.4 System Help Requirements
+
+> This section describes what kind of System Help features need to be built into the system
