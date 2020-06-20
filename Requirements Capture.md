@@ -16,6 +16,7 @@
 | Author   | Date       | Comment                        | Version Bump |
 | -------- | ---------- | ------------------------------ | ------------ |
 | vitineth | 05-06-2020 | Initial requirements gathering | 0.0.1        |
+| vitineth | 20-06-2020 | Requirement specification cont.| 0.0.1        |
 
 ## 1 Introduction
 
@@ -330,4 +331,16 @@ Same as convenor
 
 ### 5.4 System Help Requirements
 
-> This section describes what kind of System Help features need to be built into the system
+- New ents crew member signup process tutorial
+
+
+## Epic User Stories 
+
+> Epic user stories are broad user stories which encompass an action which a user wants to take which involves multiple parts.
+
+- A member of the ents committee wants to add an event to the system so that members can signup.
+
+- A member of the ents crew wishes to view all events coming up in the next 4 weeks so they can decide which events they are interested in taking part in.
+
+- A member of the ents crew wishes to sign up to an event so that they can volunteer.
+
