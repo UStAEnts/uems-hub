@@ -339,10 +339,10 @@ Same as convenor
 > Epic user stories are broad user stories which encompass an action which a user wants to take which involves multiple parts.
 
 - A member of the ents committee wants to add an event to the system so that members can signup.
-- A member of the ents committee wishes to record users meeting requirements
+- A member of the ents committee wishes to record users meeting requirements so that crew members know what to expect.
 - A member of the ents crew wishes to view all events coming up in the next 4 weeks so they can decide which events they are interested in taking part in.
 - A member of the ents crew wishes to sign up to an event so that they can volunteer.
-- Ents convenor wishes to send a list of un-manned events to the Technical Supervisor
-- An event organiser wants to upload stage plans and riders for an event
-- Building supervisor wishes to view all upcoming events as a calendar by venue
+- Ents convenor wishes to send a list of un-manned events to the Technical Supervisor so that they can handle them.
+- An event organiser wants to upload stage plans and riders for an event so that the crew know what to expect.
+- Building supervisor wishes to view all upcoming events as a calendar by venue so that they can see what is coming up.
 
