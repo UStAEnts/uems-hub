@@ -8,7 +8,7 @@
 
 **Business Requirements For**: Union Event Management System (UEMS)
 **Document Created: ** 5 June 2020
-**Author**: Ryan Delaney <ryan.delaney@xiomi.org>
+**Author**: Ryan Delaney <ryan.delaney@xiomi.org>, Paul Lancaster <paul@lancasterzone.com>
 **Distribution**: Ents Crew
 
 ## 0 Revision History
@@ -16,7 +16,7 @@
 | Author   | Date       | Comment                        | Version Bump |
 | -------- | ---------- | ------------------------------ | ------------ |
 | vitineth | 05-06-2020 | Initial requirements gathering | 0.0.1        |
-| vitineth | 20-06-2020 | Requirement specification cont.| 0.0.1        |
+| vitineth, Lan2u | 20-06-2020 | Requirement specification cont.| 0.0.1        |
 
 ## 1 Introduction
 
