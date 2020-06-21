@@ -31,22 +31,5 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-  xiomi-live:
-    build: ./docker-help/xiomi
-    # image: vitineth/xiomi:0.3
-    ports:
-      - "3000:3000"
-      - "3001:3001"
-    depends_on:
-      db:
-        condition: service_healthy
-      rabbit-uems:
-        condition: service_healthy
-    volumes:
-      - type: bind
-        source: ./endpoint/
-        target: /usr/src/endpoint/
-    networks:
-      - uems-dev
 
 
