@@ -1,5 +1,8 @@
 # uems-hub
 
+## General Technology Stack
+![alt text](https://github.com/ents-crew/uems-hub/blob/master/UEMS-Stack.png?raw=true)
+
 ## Setup
 
 ### Microservices
