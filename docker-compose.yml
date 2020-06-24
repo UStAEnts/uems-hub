@@ -31,5 +31,16 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
+  micro-dionysus:
+    container_name: uems-event-micro-dionysus
+    build: ./uems-event-micro-dionysus
+    ports:
+      - "15670:15670"
+    networks:
+      - uems-dev
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15670"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
