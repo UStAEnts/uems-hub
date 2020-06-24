@@ -1,3 +1,6 @@
 [submodule "endpoint"]
 	path = endpoint
 	url = https://github.com/ents-crew/uems-endpoint-cerberus.git
+[submodule "uems-event-micro-dionysus"]
+	path = uems-event-micro-dionysus
+	url = https://github.com/ents-crew/uems-event-micro-dionysus.git

@@ -11,7 +11,3 @@ This has a Dockerfile that builds a PostgreSQL instance for the xiomi-v3 web ser
 |test-floe|test-flow123|
 
 The security questions are either 'a', 'b', or 'c' but I can't remember which is which. 
-
-## xiomi
-
-This builds a modified version of the xiomi-v3 webserver copying in the binding files required which include certificates, JavaScript files and templates which are required for the server to run. This is to avoid us making a bind mount to the host system. If you want to, you can modify docker-compose.yml to re-enable the bind mount volume and just extract the archive into that folder and everything should work normally. 
