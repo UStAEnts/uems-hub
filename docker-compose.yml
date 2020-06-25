@@ -60,11 +60,13 @@ services:
     container_name: uems-event-micro-dionysus
     build: ./uems-event-micro-dionysus
     ports:
-      - "15670:15670"
+      - "15550:15550"
     networks:
       - uems-dev
+    depends_on: 
+      - mongo-event-seeding
     healthcheck:
-      test: ["CMD", "wget", "http://localhost:15670"]
+      test: ["CMD", "wget", "http://localhost:15550"]
       interval: 30s
       timeout: 10s
       retries: 5
