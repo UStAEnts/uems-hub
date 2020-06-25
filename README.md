@@ -19,6 +19,9 @@ $ git pull
 # To manually update the submodules to a newer version run this. It will download the new versions and pin the repository at that version
 $ git submodule update --remote
 
+# If the submodule folders (e.g. uems-evnet-micro-dionysus) are blank then run
+$ git submodule update --init
+
 # Build endpoint, follow any specific compilation instructions in the git repository if relevant
 $ cd endpoint
 $ npm i -D
