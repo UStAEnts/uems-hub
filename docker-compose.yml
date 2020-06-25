@@ -37,6 +37,12 @@ services:
     environment: 
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
+  mongo-event-seeding:
+    build: ./mongo-seeding
+    depends_on: 
+      - mongo
+    networks:
+      - uems-dev
   rabbit-uems:
     container_name: rabbit-uems
     build: ./rabbit-mq-docker
