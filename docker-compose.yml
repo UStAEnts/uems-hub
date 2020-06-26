@@ -65,6 +65,7 @@ services:
       - uems-dev
     depends_on: 
       - mongo-event-seeding
+      - rabbit-uems
     healthcheck:
       test: ["CMD", "wget", "http://localhost:15550"]
       interval: 30s
@@ -77,6 +78,8 @@ services:
       - "15450:15450"
     networks:
       - uems-dev
+    depends_on: 
+      - rabbit-uems
     healthcheck:
       test: ["CMD", "wget", "http://localhost:15450/status"]
       interval: 30s
