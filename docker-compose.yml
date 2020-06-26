@@ -70,4 +70,15 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
+  gateway:
+    container_name: uems-gateway
+    build: ./uems-gateway
+    ports:
+      - "15450:15450"
+    networks:
+      - uems-dev
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15450/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
