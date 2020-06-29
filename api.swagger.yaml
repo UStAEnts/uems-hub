@@ -1,0 +1,251 @@
+openapi: 3.0.1
+info:
+  title: UEMS Gatway
+  description: API gateway for access to the UEMS System
+  contact:
+    email: ents@st-andrews.ac.uk
+  version: 0.0.1-alpha
+servers:
+  - url: 'https://gateway.uems.entscrew.net/api/v0'
+tags:
+  - name: event
+    description: >-
+      Access to event instances being hosted within, in association with the
+      Union or that the Union should be aware of
+  - name: user
+    description: Acces to details and operations against users of the system
+  - name: ents-state
+components:
+  responses:
+    BadRequestResponse:
+      description: the request was invalid, the response will describe the issue in the response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/FailedAPIResponse'
+    UnauthorizedResponse:
+      description: user is not authenticated. response will contain the uri at which the user can authenticate
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/FailedAPIResponse'
+              - type: object
+                properties:
+                  authenticationEndpoint:
+                    type: string
+  schemas:
+    EventQuery:
+      description: represents a query against all the available events in the system
+      type: object
+      properties:
+        name:
+          type: string
+          description: A substring of the event name to be queried in the system
+        startBefore:
+          type: number
+          format: unix
+          description: the timestamp before which the event must begin
+        startAfter:
+          type: number
+          format: unix
+          description: the timestamp after which the event must begin
+        endBefore:
+          type: number
+          format: unix
+          description: the timestamp before which the event must end
+        endAfter:
+          type: number
+          format: unix
+          description: the timestamp after which the event must end
+    Event:
+      description: a single universal event instance as represented in the backend system 
+      type: object
+      required:
+        - name
+        - startDate
+        - endDate
+      properties:
+        id:
+          type: number
+          description: the id of the event contained in the event system
+        name:
+          type: string
+          description: The name of the event as it should be displayed in the system
+        startDate:
+          type: number
+          format: unix
+          description: The unix timestamp at which the event begins
+        endDate:
+          type: number
+          format: unix
+          description: The unix timestamp at which the event ends
+    SuccessfulAPIResponse:
+      type: object
+      required:
+        - status
+        - result
+      properties:
+        status:
+          type: string
+          format: enum
+          default: 'OK'
+        result: {}
+    FailedAPIResponse:
+      type: object
+      required:
+        - status
+        - error
+      properties:
+        status:
+          type: string
+          format: enum
+          default: 'FAIL'
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+paths:
+  /:
+    get:
+      operationId: baseQuery
+      summary: Lists the properties about this system at the time of the request
+      responses:
+        '200':
+          description: The gateway system is active and the API version is displayed
+          content:
+            application/json:
+              example:
+                value:
+                  version: 0.0.1
+                  identifier: gateway
+  /events:
+    get:
+      tags:
+        - event
+      operationId: getEvent
+      summary: Retrieves the event
+      parameters: 
+        - name: query
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/EventQuery'
+          description: |
+            The filter to be applied to the events returned by this query. if omitted it will return all events contained in the system.
+            startBefore, startAfter, endBefore and endAfter are all unix timestamps used to filter when the event will be happening.
+            All parameters are optional. If not specified, they will not be applied as a filter.
+            See the EventQuery schema for details on each property
+      responses:
+        '200':
+          description: returns an array of
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items: 
+                          $ref: '#/components/schemas/Event'
+                    
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+    post:
+      tags:
+        - event
+      operationId: createEvent
+      summary: Creates an event
+      requestBody:
+        description: Follows the event schema but you are forbidden from providing an ID value as this will be generated automatically by the backend system
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: The event was created successfully and the newly created event will be returned in the response body.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+  '/events/{id}':
+    patch:
+      summary: Updates an event
+      tags:
+        - event
+      operationId: updateEvent
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: the id of the event which should be updated
+          schema:
+            type: number
+      requestBody:
+        description: any property excluding the ID of the event can be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: The event was updated successfully and the newly updated event will be returned in the response body.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/Event'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+    delete:
+      summary: Deletes an event
+      tags:
+        - event
+      operationId: deleteEvent
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: the id of the event which should be updated
+          schema:
+            type: number
+      responses:
+        '200':
+          description: the event was deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                            description: the id of the event which was deleted
