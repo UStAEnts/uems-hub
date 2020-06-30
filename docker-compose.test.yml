@@ -1,0 +1,78 @@
+version: '2.4'
+networks:
+  uems-test:
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - uems-test
+  # Mongo-express (admin interface) used for development only.
+  mongo-express: 
+    image: mongo-express
+    restart: always
+    networks:
+      - uems-test
+    ports:
+      - 8081:8081
+    environment: 
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+  mongo-event-seeding:
+    build: ./mongo-seeding
+    depends_on: 
+      - mongo
+    networks:
+      - uems-test
+  rabbit-uems:
+    container_name: rabbit-uems
+    build: ./rabbit-mq-docker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - uems-test
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  micro-dionysus:
+    container_name: uems-event-micro-dionysus
+    build: ./uems-event-micro-dionysus
+    ports:
+      - "15550:15550"
+    networks:
+      - uems-test
+    depends_on: 
+      - mongo-event-seeding
+      - rabbit-uems
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15550"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  gateway:
+    container_name: uems-gateway
+    build: ./uems-gateway
+    ports:
+      - "15450:15450"
+    networks:
+      - uems-test
+    depends_on: 
+      - rabbit-uems
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15450/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  sut:
+    build: ./integration-tests
+    networks:
+        - uems-test
+    depends_on:
+        - gateway
+        - micro-dionysus
