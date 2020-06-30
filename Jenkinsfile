@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building... Build ID ${env.BUILD_ID}"
+                sh "dockerd"
                 sh "docker-compose -f docker-compose.test.yml -p CI build"
             }
         }
