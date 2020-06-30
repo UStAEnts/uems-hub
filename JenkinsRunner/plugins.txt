@@ -1,0 +1,34 @@
+SSH Credentials Plugin (ssh-credentials): 1.18.1
+JUnit Plugin (junit): 1.29
+Matrix Project Plugin (matrix-project): 1.16
+JSch dependency plugin (jsch): 0.1.55.2
+Oracle Java SE Development Kit Installer Plugin (jdk-tool): 1.4
+Git plugin (git): 4.3.0
+Matrix Authorization Strategy Plugin (matrix-auth): 2.6.1
+Pipeline: API (workflow-api): 2.40
+OkHttp Plugin (okhttp-api): 3.14.9
+Plain Credentials Plugin (plain-credentials): 1.7
+Apache HttpComponents Client 4.x API Plugin (apache-httpcomponents-client-4-api): 4.5.10-2.0
+Pipeline: SCM Step (workflow-scm-step): 2.11
+OWASP Markup Formatter Plugin (antisamy-markup-formatter): 2.0
+SCM API Plugin (scm-api): 2.6.3
+GitHub API Plugin (github-api): 1.114.3
+WMI Windows Agents Plugin (windows-slaves): 1.6
+Script Security Plugin (script-security): 1.73
+LDAP Plugin (ldap): 1.24
+Trilead API Plugin (trilead-api): 1.0.8
+Command Agent Launcher Plugin (command-launcher): 1.4
+Display URL API (display-url-api): 2.3.2
+Jackson 2 API Plugin (jackson2-api): 2.11.1
+External Monitor Job Type Plugin (external-monitor-job): 1.7
+PAM Authentication plugin (pam-auth): 1.6
+Structs Plugin (structs): 1.20
+Pipeline: Step API (workflow-step-api): 2.22
+bouncycastle API Plugin (bouncycastle-api): 2.18
+Snakeyaml API Plugin (snakeyaml-api): 1.26.4
+Token Macro Plugin (token-macro): 2.12
+Green Balls (greenballs): 1.15
+Git client plugin (git-client): 3.3.0
+GitHub plugin (github): 1.30.0
+Mailer Plugin (mailer): 1.32
+Credentials Plugin (credentials): 2.3.11
