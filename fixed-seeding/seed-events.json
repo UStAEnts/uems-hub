@@ -1,0 +1,38 @@
+{
+    "events": [
+        {
+            "name": "The Bop",
+            "start_date": {
+                "year": 2020,
+                "month": 7,
+                "day": 3,
+                "hour": 22,
+                "minute": 30
+            },
+            "end_date": {
+                "year": 2020,
+                "month": 7,
+                "day": 4,
+                "hour": 2,
+                "minute": 0
+            }
+        },
+        {
+            "name": "Sinners",
+            "start_date": {
+                "year": 2020,
+                "month": 7,
+                "day": 1,
+                "hour": 22,
+                "minute": 30
+            },
+            "end_date": {
+                "year": 2020,
+                "month": 7,
+                "day": 2,
+                "hour": 2,
+                "minute": 0
+            }
+        }
+    ]
+}

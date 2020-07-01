@@ -21,8 +21,9 @@ services:
     environment: 
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-  mongo-event-seeding:
-    build: ./mongo-seeding
+  # This is used to seed the mongodb database with fixed values used in the integration tests.
+  fixed-seeding:
+    build: ./fixed-seeding
     depends_on: 
       - mongo
     networks:
@@ -46,7 +47,7 @@ services:
     networks:
       - uems-dev
     depends_on: 
-      - mongo-event-seeding
+      - fixed-seeding
       - rabbit-uems
     healthcheck:
       test: ["CMD", "wget", "http://localhost:15550"]
