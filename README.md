@@ -65,3 +65,10 @@ $ cd /uems
 ```
 
 And this should magically setup an ubuntu virtual machine and ssh you into it, navigating to the project folder, at which point you should be able to run the project as described above.
+
+## Testing
+
+Integration tests can be run (on linux) by running:
+```
+sh test.sh
+```
