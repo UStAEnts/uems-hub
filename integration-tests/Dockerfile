@@ -5,5 +5,6 @@ WORKDIR /user/src/uems/tests/
 COPY . .
 
 RUN pip install pytest
+RUN pip install requests
 
-CMD ["pytest"]
+CMD ["sh", "run.sh"]
