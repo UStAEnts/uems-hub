@@ -7,7 +7,7 @@ from datetime import timezone
 
 EVENTS_BASE_URL = "http://gateway:15450/events"
 
-def make_query(params):
+def send_get_query(params):
     try:
         res = requests.get(EVENTS_BASE_URL, params=params)
     except RuntimeError:
@@ -15,9 +15,17 @@ def make_query(params):
     assert (res.status_code == 200)
     return res.json()
 
-def make_add_event(params):
+def send_add_event(params):
     try:
         res = requests.post(EVENTS_BASE_URL, json=params)
+    except RuntimeError:
+        assert False
+    assert (res.status_code == 200)
+    return res.json()
+
+def send_update_query(params):
+    try:
+        res = requests.patch(EVENTS_BASE_URL, json=params)
     except RuntimeError:
         assert False
     assert (res.status_code == 200)
@@ -35,12 +43,12 @@ def json_datetime(year=0, month=0, day=0, hour=0, minute=0):
     )
 
 def test_query_event_name():
-    content = make_query(params={'access_token': 1, 'name': 'The Bop'})
+    content = send_get_query(params={'access_token': 1, 'name': 'The Bop'})
     assert (len(content) == 1)
     assert (content[0]['name'] == 'The Bop')
 
 def test_query_all():
-    content = make_query(params={'access_token': 1})
+    content = send_get_query(params={'access_token': 1})
     assert (len(content) == 2)
     if content[0]['name'] == 'The Bop':
         assert content[1]['name'] == 'Sinners'
@@ -57,7 +65,7 @@ def test_add_get_event():
 
     event_name = 'TestEvent'
 
-    make_add_event(params={
+    send_add_event(params={
         'access_token' : 1,
         'name': 'TestEvent',
         'start_date': start_date.replace(tzinfo=timezone.utc).timestamp(),
@@ -66,7 +74,28 @@ def test_add_get_event():
         }
     )
 
-    res = make_query(params={'access_token': 1, 'name': event_name, 'venue': venue})
+    res = send_get_query(params={'access_token': 1, 'name': event_name, 'venue': venue})
     assert (len(res) == 1)
     assert (res[0]['name'] == event_name)
     assert (res[0]['venue'] == venue)
+
+def test_get_modify_event_name():
+    content = send_get_query(params={'access_token': 1, 'name': 'The Bop'})
+    assert (len(content) == 1)
+    assert (content[0]['name'] == 'The Bop')
+
+    id = content[0]['_id']
+
+    # Update event name from 'The Bop' to 'The Wop'
+    send_update_query(params= {
+        'access_token': 1, 
+        'event_id': id, 
+        'name': 'The Wop',
+        'start_date': content[0]['start_date'],
+        'end_date': content[0]['end_date'],
+        'venue': content[0]['venue']
+        })
+
+    content = send_get_query(params={'access_token': 1, 'name': 'The Wop'})
+    assert (len(content) == 1)
+    assert (content[0]['name'] == 'The Wop')
