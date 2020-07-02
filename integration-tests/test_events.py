@@ -2,6 +2,7 @@ import pytest
 import requests
 import datetime
 import json
+import dateutil.parser
 
 from datetime import timezone
 
@@ -84,6 +85,10 @@ def test_get_modify_event_name():
     assert (len(content) == 1)
     assert (content[0]['name'] == 'The Bop')
 
+    start_date = dateutil.parser.parse(content[0]['start_date'])
+    end_date = dateutil.parser.parse(content[0]['end_date'])
+    venue = content[0]['venue']
+
     id = content[0]['_id']
 
     # Update event name from 'The Bop' to 'The Wop'
@@ -91,11 +96,14 @@ def test_get_modify_event_name():
         'access_token': 1, 
         'event_id': id, 
         'name': 'The Wop',
-        'start_date': content[0]['start_date'],
-        'end_date': content[0]['end_date'],
+        'start_date': start_date.replace(tzinfo=timezone.utc).timestamp(),
+        'end_date': end_date.replace(tzinfo=timezone.utc).timestamp(),
         'venue': content[0]['venue']
         })
 
-    content = send_get_query(params={'access_token': 1, 'name': 'The Wop'})
-    assert (len(content) == 1)
-    assert (content[0]['name'] == 'The Wop')
+    new_res = send_get_query(params={'access_token': 1, 'name': 'The Wop'})
+    assert (len(new_res) == 1)
+    assert (new_res[0]['name'] == 'The Wop')
+    assert (dateutil.parser.parse(new_res[0]['start_date']) == start_date)
+    assert (dateutil.parser.parse(new_res[0]['end_date']) == end_date)
+    assert (new_res[0]['venue'] == venue)
