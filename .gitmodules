@@ -4,3 +4,6 @@
 [submodule "uems-event-micro-dionysus"]
 	path = uems-event-micro-dionysus
 	url = https://github.com/ents-crew/uems-event-micro-dionysus.git
+[submodule "uems-frontend-themis"]
+	path = uems-frontend-themis
+	url = https://github.com/ents-crew/uems-frontend-themis.git
