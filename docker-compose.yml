@@ -69,3 +69,12 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+  themis:
+    container_name: uems-themis
+    build: ./uems-frontend-themis
+    ports:
+      - "15300:15300"
+    networks:
+      - uems-dev
+    depends_on:
+      - gateway
