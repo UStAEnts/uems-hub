@@ -33,7 +33,8 @@ def load_event(event):
     return {
         "name": event['name'],
         "start_date": load_datetime(event['start_date']),
-        "end_date": load_datetime(event['end_date'])
+        "end_date": load_datetime(event['end_date']),
+        "venue": event['venue']
     }
 
 def load_events(path):
