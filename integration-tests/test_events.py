@@ -32,6 +32,14 @@ def send_update_query(params):
     assert (res.status_code == 200)
     return res.json()
 
+def send_delete_query(params):
+    try:
+        res = requests.delete(EVENTS_BASE_URL, json=params)
+    except RuntimeError:
+        assert False
+    assert (res.status_code == 200)
+    return res.json()
+
 def json_datetime(year=0, month=0, day=0, hour=0, minute=0):
     return json.dumps(
         {
@@ -107,3 +115,26 @@ def test_get_modify_event_name():
     assert (dateutil.parser.parse(new_res[0]['start_date']) == start_date)
     assert (dateutil.parser.parse(new_res[0]['end_date']) == end_date)
     assert (new_res[0]['venue'] == venue)
+
+def test_add_get_delete_event():
+    event_name = 'TESTDELETEEVENT'
+    send_add_event(params={
+        'access_token' : 1,
+        'name': event_name,
+        'start_date': datetime.datetime(2020, 7, 1, 13, 30).replace(tzinfo=timezone.utc).timestamp(),
+        'end_date': datetime.datetime(2020, 7, 1, 17, 0).replace(tzinfo=timezone.utc).timestamp(),
+        'venue': 'The Stage'
+        }
+    )
+
+    content = send_get_query(params={'access_token': 1, 'name': 'TESTDELETEEVENT'})
+    assert (len(content) == 1)
+    assert (content[0]['name'] == event_name)
+
+    id = content[0]['_id']
+
+    send_delete_query(params={'access_token': 1, 'event_id': id})
+
+    res = send_get_query(params={'access_token': 1, 'name': event_name})
+    assert (len(res) == 0)
+    
