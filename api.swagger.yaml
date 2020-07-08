@@ -475,21 +475,8 @@ paths:
         - event
       operationId: deleteEvent
       responses:
-        '200':
-          description: the event was deleted successfully
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: object
-                        properties:
-                          id:
-                            type: number
-                            description: the id of the event which was deleted
+        '204':
+          description: No Content - the event was removed
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -672,17 +659,8 @@ paths:
       summary: Deletes the comment from the event
       operationId: delete-events-id-comments-comment
       responses:
-        '200':
-          description: OK - the comment has been deleted successfully and returns the ID of the deleted comment
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: string
+        '204':
+          description: No Content - the comment was removed successfully
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -811,17 +789,8 @@ paths:
       summary: Unlinks a file from an event
       operationId: delete-events-id-files-file
       responses:
-        '200':
-          description: OK - the file was unlinked successfully and the ID returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: string
+        '204':
+          description: OK - the file was unlinked successfully
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -976,15 +945,8 @@ paths:
       summary: Deletes a signup on this event
       operationId: delete-events-id-signups-signup
       responses:
-        '200':
-          description: OK - the signup was deleted successfully and the ID of the deleted signup is returned
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
+        '204':
+          description: OK - the signup was deleted successfully
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1157,17 +1119,8 @@ paths:
       summary: Deletes this file
       operationId: delete-files-id
       responses:
-        '200':
-          description: OK - the file metadata and file itself is deleted and the ID is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: string
+        '204':
+          description: OK - the file metadata and file itself is deleted
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1355,17 +1308,8 @@ paths:
       summary: Delete this comment
       operationId: delete-files-id-comments-comment
       responses:
-        '200':
-          description: OK - the comment is deleted and its ID is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: string
+        '204':
+          description: OK - the comment is deleted
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1554,17 +1498,8 @@ paths:
       summary: Deletes this ents state
       operationId: delete-ents-id
       responses:
-        '200':
-          description: OK - the ents state is deleted and the ID is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: string
+        '204':
+          description: OK - the ents state is deleted
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1696,17 +1631,8 @@ paths:
       summary: Delete this state
       operationId: delete-states-id
       responses:
-        '200':
-          description: OK - the state is deleted and the ID is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: string
+        '204':
+          description: OK - the state is deleted
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1866,17 +1792,8 @@ paths:
       summary: Deletes this topic
       operationId: delete-topics-id
       responses:
-        '200':
-          description: OK - the topic is deleted and the ID is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: string
+        '204':
+          description: OK - the topic is deleted
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
