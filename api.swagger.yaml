@@ -429,6 +429,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/EventResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -566,6 +572,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/CommentResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -722,6 +734,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/FileResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -851,6 +869,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/SignupResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1003,6 +1027,12 @@ paths:
                               uploadURI:
                                 type: string
                                 format: uri
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1214,6 +1244,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/CommentResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1416,6 +1452,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/EntsStateResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1549,6 +1591,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/StateResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1717,6 +1765,12 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/TopicResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
