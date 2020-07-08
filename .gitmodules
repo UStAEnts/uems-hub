@@ -7,3 +7,6 @@
 [submodule "uems-frontend-themis"]
 	path = uems-frontend-themis
 	url = https://github.com/ents-crew/uems-frontend-themis.git
+[submodule "uems-gateway"]
+	path = uems-gateway
+	url = https://github.com/ents-crew/uems-gateway.git
