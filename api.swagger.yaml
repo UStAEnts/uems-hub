@@ -4,21 +4,27 @@ info:
   description: API gateway for access to the UEMS System
   contact:
     email: ents@st-andrews.ac.uk
+    name: St Andrews Students Association Ents Crew
+    url: 'https://entscrew.net'
   version: 0.0.1-alpha
 servers:
   - url: 'https://gateway.uems.entscrew.net/api/v0'
 tags:
   - name: event
-    description: >-
-      Access to event instances being hosted within, in association with the
-      Union or that the Union should be aware of
+    description: 'Access to event instances being hosted within, in association with the Union or that the Union should be aware of'
   - name: user
     description: Acces to details and operations against users of the system
-  - name: ents-state
+  - name: comment
+  - name: file
+  - name: signup
+  - name: ents
+  - name: state
+  - name: system
+  - name: topic
 components:
   responses:
     BadRequestResponse:
-      description: the request was invalid, the response will describe the issue in the response
+      description: 'the request was invalid, the response will describe the issue in the response'
       content:
         application/json:
           schema:
@@ -35,6 +41,20 @@ components:
                 properties:
                   authenticationEndpoint:
                     type: string
+    NotFoundIDResponse:
+      description: 'One of the IDs in the request path was not found, the resource likely does not exist'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/FailedAPIResponse'
+    ForbiddenResponse:
+      description: You do not have the necessary permisssions to perform this action
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/FailedAPIResponse'
   schemas:
     EventQuery:
       description: represents a query against all the available events in the system
@@ -59,28 +79,6 @@ components:
           type: number
           format: unix
           description: the timestamp after which the event must end
-    Event:
-      description: a single universal event instance as represented in the backend system 
-      type: object
-      required:
-        - name
-        - startDate
-        - endDate
-      properties:
-        id:
-          type: number
-          description: the id of the event contained in the event system
-        name:
-          type: string
-          description: The name of the event as it should be displayed in the system
-        startDate:
-          type: number
-          format: unix
-          description: The unix timestamp at which the event begins
-        endDate:
-          type: number
-          format: unix
-          description: The unix timestamp at which the event ends
     SuccessfulAPIResponse:
       type: object
       required:
@@ -90,7 +88,7 @@ components:
         status:
           type: string
           format: enum
-          default: 'OK'
+          default: OK
         result: {}
     FailedAPIResponse:
       type: object
@@ -101,7 +99,7 @@ components:
         status:
           type: string
           format: enum
-          default: 'FAIL'
+          default: FAIL
         error:
           type: object
           properties:
@@ -109,6 +107,250 @@ components:
               type: string
             message:
               type: string
+    CommentUpdate:
+      title: CommentUpdate
+      type: object
+      properties:
+        content:
+          type: string
+        topic:
+          type: string
+      required:
+        - content
+    User:
+      title: User
+      type: object
+      description: Represents the basic properties of a User
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        profile:
+          type: string
+          format: uri
+        id:
+          type: string
+      required:
+        - name
+        - username
+        - id
+    CommentResponse:
+      title: CommentResponse
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            posted:
+              type: number
+            poster:
+              $ref: '#/components/schemas/User'
+            topic:
+              $ref: '#/components/schemas/TopicResponse'
+          required:
+            - id
+            - posted
+            - poster
+        - $ref: '#/components/schemas/CommentUpdate'
+      description: A response comment including an ID
+    SignupUpdate:
+      title: SignupUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        role:
+          type: string
+    SignupResponse:
+      title: SignupResponse
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            user:
+              $ref: '#/components/schemas/User'
+            date:
+              type: number
+          required:
+            - id
+            - user
+            - date
+            - name
+            - role
+        - $ref: '#/components/schemas/SignupCreation'
+    FileUpdate:
+      title: FileUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        private:
+          type: boolean
+    FileResponse:
+      title: FileResponse
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            filename:
+              type: string
+            created:
+              type: number
+            author:
+              $ref: '#/components/schemas/User'
+            size:
+              type: number
+            downloadURL:
+              type: string
+          required:
+            - id
+            - filename
+            - created
+            - author
+            - size
+            - downloadURL
+            - private
+        - $ref: '#/components/schemas/FileCreation'
+    EntsStateUpdate:
+      title: EntsStateUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        color:
+          type: string
+        icon:
+          type: string
+    EntsStateResponse:
+      title: EntsStateResponse
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+          required:
+            - id
+            - name
+            - color
+            - icon
+        - $ref: '#/components/schemas/EntsStateCreation'
+    StateUpdate:
+      title: StateUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        icon:
+          type: string
+        color:
+          type: string
+    StateResponse:
+      title: StateResponse
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+          required:
+            - id
+            - icon
+            - color
+        - $ref: '#/components/schemas/StateCreation'
+    EntsStateCreation:
+      title: EntsStateCreation
+      allOf:
+        - $ref: '#/components/schemas/EntsStateUpdate'
+        - type: object
+          required:
+            - name
+            - color
+            - icon
+    EventUpdate:
+      title: EventUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        startDate:
+          type: number
+        endDate:
+          type: number
+    EventCreation:
+      title: EventCreation
+      allOf:
+        - $ref: '#/components/schemas/EventUpdate'
+        - type: object
+          required:
+            - name
+            - startDate
+            - endDate
+    EventResponse:
+      title: EventResponse
+      allOf:
+        - $ref: '#/components/schemas/EventCreation'
+        - type: object
+          properties:
+            id:
+              type: string
+          required:
+            - id
+    FileCreation:
+      title: FileCreation
+      allOf:
+        - $ref: '#/components/schemas/FileUpdate'
+        - type: object
+          required:
+            - name
+    SignupCreation:
+      title: SignupCreation
+      allOf:
+        - $ref: '#/components/schemas/SignupUpdate'
+        - type: object
+          properties:
+            userID:
+              type: string
+    StateCreation:
+      title: StateCreation
+      allOf:
+        - $ref: '#/components/schemas/StateUpdate'
+        - type: object
+          required:
+            - name
+    TopicUpdate:
+      title: TopicUpdate
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        icon:
+          type: string
+    TopicCreation:
+      title: TopicCreation
+      allOf:
+        - $ref: '#/components/schemas/TopicUpdate'
+        - type: object
+          required:
+            - name
+    TopicResponse:
+      title: TopicResponse
+      allOf:
+        - $ref: '#/components/schemas/TopicCreation'
+        - type: object
+          properties:
+            id:
+              type: string
+          required:
+            - id
+            - description
+            - color
+            - icon
 paths:
   /:
     get:
@@ -123,13 +365,16 @@ paths:
                 value:
                   version: 0.0.1
                   identifier: gateway
+      description: Returns the APIs version
+      tags:
+        - system
   /events:
     get:
       tags:
         - event
       operationId: getEvent
       summary: Retrieves the event
-      parameters: 
+      parameters:
         - name: query
           in: query
           required: false
@@ -152,13 +397,15 @@ paths:
                     properties:
                       result:
                         type: array
-                        items: 
-                          $ref: '#/components/schemas/Event'
-                    
+                        items:
+                          $ref: '#/components/schemas/EventResponse'
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      description: 'Gets the full list of events stored in the system, filtered by the optional get parameter queries'
     post:
       tags:
         - event
@@ -167,11 +414,11 @@ paths:
       requestBody:
         description: Follows the event schema but you are forbidden from providing an ID value as this will be generated automatically by the backend system
         content:
-          'application/json':
+          application/json:
             schema:
-              $ref: '#/components/schemas/Event'
+              $ref: '#/components/schemas/EventCreation'
       responses:
-        '200':
+        '201':
           description: The event was created successfully and the newly created event will be returned in the response body.
           content:
             application/json:
@@ -181,30 +428,26 @@ paths:
                   - type: object
                     properties:
                       result:
-                        $ref: '#/components/schemas/Event'
+                        $ref: '#/components/schemas/EventResponse'
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      description: Creates a new event in the system with the specified properties
   '/events/{id}':
     patch:
       summary: Updates an event
       tags:
         - event
       operationId: updateEvent
-      parameters: 
-        - name: id
-          in: path
-          required: true
-          description: the id of the event which should be updated
-          schema:
-            type: number
       requestBody:
-        description: any property excluding the ID of the event can be updated
+        description: 'any property excluding the ID of the event can be updated, any value provided will be updated'
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Event'
+              $ref: '#/components/schemas/EventUpdate'
       responses:
         '200':
           description: The event was updated successfully and the newly updated event will be returned in the response body.
@@ -216,23 +459,21 @@ paths:
                   - type: object
                     properties:
                       result:
-                        $ref: '#/components/schemas/Event'
+                        $ref: '#/components/schemas/EventResponse'
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Updates the specified event with the given information
     delete:
       summary: Deletes an event
       tags:
         - event
       operationId: deleteEvent
-      parameters: 
-        - name: id
-          in: path
-          required: true
-          description: the id of the event which should be updated
-          schema:
-            type: number
       responses:
         '200':
           description: the event was deleted successfully
@@ -249,3 +490,1399 @@ paths:
                           id:
                             type: number
                             description: the id of the event which was deleted
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Deletes the event with the given ID
+    get:
+      summary: Retrieves a single event
+      operationId: get-events-id
+      responses:
+        '200':
+          description: The properties of the event that is specified by the ID given
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/EventResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Fetches details of a singular event
+      parameters: []
+      tags:
+        - event
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the event
+  '/events/{id}/comments':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the event
+    get:
+      summary: Fetches all comments on an event
+      tags:
+        - event
+        - comment
+      responses:
+        '200':
+          description: OK - returns all comments linked to the given event
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CommentResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-events-id-comments
+      description: Retrieves all comments related to the event with the specified ID
+    post:
+      summary: Creates a new comment on an event
+      operationId: post-events-id-comments
+      responses:
+        '201':
+          description: OK - new comment is created and returned with its ID
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/CommentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Creates a new comment on the given event
+      tags:
+        - comment
+        - event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdate'
+  '/events/{id}/comments/{comment}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the event on which this comment exists
+      - schema:
+          type: string
+        name: comment
+        in: path
+        required: true
+        description: The ID of the comment being manipulated
+    get:
+      summary: Retrieves a single comment on an event
+      tags:
+        - event
+        - comment
+      responses:
+        '200':
+          description: OK - The single comment response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/CommentResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-events-id-comments-comment
+      description: Retrieves a single comment on this event
+    patch:
+      summary: Edits a given comment on a given event
+      operationId: patch-events-id-comments-comment
+      responses:
+        '200':
+          description: OK - the comment has been updated and returns the newly updated comment instance
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/CommentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Updates the given comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdate'
+        description: 'All properties are optional, any value provided will be updated'
+      tags:
+        - event
+        - comment
+    delete:
+      summary: Deletes the comment from the event
+      operationId: delete-events-id-comments-comment
+      responses:
+        '200':
+          description: OK - the comment has been deleted successfully and returns the ID of the deleted comment
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Removes the specified comment from the event
+      tags:
+        - event
+        - comment
+      parameters: []
+  '/events/{id}/files':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the event
+    get:
+      summary: Gets the list of files for this event
+      tags:
+        - event
+        - file
+      responses:
+        '200':
+          description: OK - the full list of files linked with this event is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FileResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-events-id-files
+      description: Retrieves the entire list of files associated with this event
+    post:
+      summary: Links a new file to this event
+      operationId: post-events-id-files
+      responses:
+        '201':
+          description: OK - the file is linked and the new file link returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/FileResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Links a new file to the event specified
+      tags:
+        - event
+        - file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fileID:
+                  type: string
+              required:
+                - fileID
+  '/events/{id}/files/{file}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the event
+      - schema:
+          type: string
+        name: file
+        in: path
+        required: true
+        description: The file being fetched or manipulated
+    get:
+      summary: Retrieves a single file from an event
+      tags:
+        - event
+        - file
+      responses:
+        '200':
+          description: OK - returns the properties of the file specified
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FileResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-events-id-files-file
+      description: Retrieves a single file properties that is linked with an event
+    delete:
+      summary: Unlinks a file from an event
+      operationId: delete-events-id-files-file
+      responses:
+        '200':
+          description: OK - the file was unlinked successfully and the ID returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      tags:
+        - event
+        - file
+      description: Deletes a file link to an event
+  '/events/{id}/signups':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the event
+    get:
+      summary: Retrieves the full list of signups for this event
+      tags:
+        - event
+        - signup
+      responses:
+        '200':
+          description: OK - the signups were fetched successfully and returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SignupResponse'
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-events-id-signups
+      description: Retrieves all signups on this event
+    post:
+      summary: Adds a new signup to this event
+      operationId: post-events-id-signups
+      responses:
+        '201':
+          description: OK - the signup was created successfully and returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/SignupResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      tags:
+        - event
+        - signup
+      description: Creates a new signup on this event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupCreation'
+        description: ''
+  '/events/{id}/signups/{signup}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the event
+      - schema:
+          type: string
+        name: signup
+        in: path
+        required: true
+        description: The signup being fetched or manipulated
+    get:
+      summary: Retrieves properties about a given signup
+      tags:
+        - event
+        - signup
+      responses:
+        '200':
+          description: OK - the file properties
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/SignupResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-events-id-signups-signup
+      description: Gets a single signup from the ID
+    patch:
+      summary: Updates a signup on this event
+      operationId: patch-events-id-signups-signup
+      responses:
+        '200':
+          description: OK - the signup was updated successfully and the response will contain the newly updated signup
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/SignupResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      tags:
+        - event
+        - signup
+      description: Updates the specified signup properties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupUpdate'
+        description: Any property provided will be updated where possible
+    delete:
+      summary: Deletes a signup on this event
+      operationId: delete-events-id-signups-signup
+      responses:
+        '200':
+          description: OK - the signup was deleted successfully and the ID of the deleted signup is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      tags:
+        - event
+        - signup
+      description: Deletes the specified signup from the event
+  /files:
+    get:
+      summary: Retrieves all files on the server
+      tags:
+        - file
+      responses:
+        '200':
+          description: OK - all files on the server are returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FileResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      operationId: get-files
+      description: Retrieves all files on the server even completely unlinked files. This does not include the events they are linked to
+    post:
+      summary: ''
+      operationId: post-files
+      responses:
+        '201':
+          description: Created - the file metadata is created and the URI at which to upload the file itself is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        allOf:
+                          - $ref: '#/components/schemas/FileResponse'
+                          - type: object
+                            properties:
+                              uploadURI:
+                                type: string
+                                format: uri
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      description: Uploads file metadata to the server without file content. This will allow you to then 'PUT' data to the file endpoint with the ID returned
+      tags:
+        - file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileCreation'
+        description: File metadata to create
+  '/files/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the file being fetched or manipulated
+    get:
+      summary: Retrieves this files properties
+      tags:
+        - file
+      responses:
+        '200':
+          description: OK - the properties of the file requested
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      '':
+                        $ref: '#/components/schemas/FileResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-files-id
+      description: Returns the properties about this file as returned by /files
+    put:
+      summary: Uploads the file content to this metadata entry
+      operationId: put-files-id
+      responses:
+        '200':
+          description: OK - the file is uploaded and linked to the metadata. The updated file metadata is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/FileResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: 'Attaches the uploaded file to the metadata held at this endpoint. This URI can only be used once with this method for the initial upload. File contents cannot be replaced, they will have to be deleted and reuploaded. '
+      tags:
+        - file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+        description: Multipart data containing the file to be linked with this metadata entry
+    patch:
+      summary: Updates the file properties
+      operationId: patch-files-id
+      responses:
+        '200':
+          description: OK - the file metadata is updated successfully and the updated metadata is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/FileResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Updates the metadata associated with this file
+      tags:
+        - file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileUpdate'
+        description: Any property provided will be updated where possible
+    delete:
+      summary: Deletes this file
+      operationId: delete-files-id
+      responses:
+        '200':
+          description: OK - the file metadata and file itself is deleted and the ID is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: 'Deletes the given file. If this file is associated with any events, it will just be removed. '
+      tags:
+        - file
+  '/files/{id}/events':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Retrieve events associated with this file
+      tags:
+        - file
+        - event
+      responses:
+        '200':
+          description: OK - returns the list of events associated with this file
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EventResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-files-id-events
+      description: 'Returns the list of events that use this file in their entry. Events cannot be manipulated this way so it is only GET - to modify the event entries use `/events/{id}/files/{file}`. '
+  '/files/{id}/comments':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the file
+    get:
+      summary: Retrieve all comments on this file
+      tags:
+        - file
+        - comment
+      responses:
+        '200':
+          description: OK - returns the list of all comments on this file
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CommentResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-files-id-comments
+      description: Returns a list of comments associated with this file
+    post:
+      summary: Adds a new comment to this file
+      operationId: post-files-id-comments
+      responses:
+        '201':
+          description: Created - the new comment is created and it is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/CommentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Creates a new comment on this file
+      tags:
+        - file
+        - comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdate'
+        description: ''
+  '/files/{id}/comments/{comment}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the file
+      - schema:
+          type: string
+        name: comment
+        in: path
+        required: true
+        description: The ID of the comment being fetched or manipulated
+    get:
+      summary: Retrieves only this comment
+      tags:
+        - file
+        - comment
+      responses:
+        '200':
+          description: OK - the comment is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/CommentResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-files-id-comments-comment
+      description: 'Retrieves this comment as returned by `/file/{id}/comments`'
+    patch:
+      summary: Update this comment
+      operationId: patch-files-id-comments-comment
+      responses:
+        '200':
+          description: OK - the comment is updated successfully and the new comment is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/CommentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Edits this comment to update the body
+      tags:
+        - file
+        - comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdate'
+        description: Any property provided will be updated where possible
+    delete:
+      summary: Delete this comment
+      operationId: delete-files-id-comments-comment
+      responses:
+        '200':
+          description: OK - the comment is deleted and its ID is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Deletes this comment from this file
+      tags:
+        - file
+        - comment
+  /users:
+    get:
+      summary: Retrieves all registered users
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK - returns the list of all users registered on the system
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      operationId: get-users
+      description: Retrieves all users currently registered on this system
+  '/users/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Retrieves this user
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK - the details of the user is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-users-id
+      description: Retrieves this user as returned by `/users`
+  /ents:
+    get:
+      summary: Gets the full list of ents states
+      tags:
+        - ents
+      responses:
+        '200':
+          description: OK - returns all ents statuses on the server
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EntsStateResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      operationId: get-ents
+      description: Retrives the full list of ents states on the server
+    post:
+      summary: Creates a new ents state
+      operationId: post-ents
+      responses:
+        '201':
+          description: Created - the ents state is created and returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/EntsStateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      tags:
+        - ents
+      description: Creates a new ents state and returns the newly created state
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntsStateCreation'
+  '/ents/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the ents state being fetched or manipulated
+    get:
+      summary: Retrieves a single ents state
+      tags:
+        - ents
+      responses:
+        '200':
+          description: OK - returns the ents state
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/EntsStateResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-ents-id
+      description: Retrieves a single ents state and returns its properties as listed in the /ents endpoint
+    patch:
+      summary: Updates a single ents state
+      operationId: patch-ents-id
+      responses:
+        '200':
+          description: OK - the ents state is updated and returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/EntsStateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Updates this ents state which will be reflected across the rest of the system
+      tags:
+        - ents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntsStateUpdate'
+        description: Any value provided will be updated where possible
+    delete:
+      summary: Deletes this ents state
+      operationId: delete-ents-id
+      responses:
+        '200':
+          description: OK - the ents state is deleted and the ID is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Deletes this ents state. Any events currently holding this state will have it updated to 'unknown'
+      tags:
+        - ents
+  /states:
+    get:
+      summary: Retrieves all available ents states
+      tags:
+        - state
+      responses:
+        '200':
+          description: OK - returns all statuses on the server
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StateResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      operationId: get-states
+      description: Returns all available states as an array
+    post:
+      summary: Creates a new event state
+      operationId: post-states
+      responses:
+        '201':
+          description: Created - the new state is created and returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/StateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      description: Creates a new event state which will return a newly created instance
+      tags:
+        - state
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateCreation'
+  '/states/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the state being fetched or manipulated
+    get:
+      summary: Retrieves a single state
+      tags:
+        - state
+      responses:
+        '200':
+          description: OK - returns this state
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/StateResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-states-id
+      description: Retrieves only this state with the same response as `/states`
+    patch:
+      summary: Update this state
+      operationId: patch-states-id
+      responses:
+        '200':
+          description: OK - the state is updated and the new state is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/StateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Updates a states properties
+      tags:
+        - state
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateUpdate'
+        description: Any property provided will be updated where possible
+    delete:
+      summary: Delete this state
+      operationId: delete-states-id
+      responses:
+        '200':
+          description: OK - the state is deleted and the ID is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Removes this state from the system. Any events currently with this state will be moved to 'Unknown'
+      tags:
+        - state
+  '/states/{id}/events':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the state
+    get:
+      summary: Retrieves all events with this state
+      tags:
+        - state
+        - event
+      responses:
+        '200':
+          description: OK - returns all events with this state
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EventResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-states-id-events
+      description: Returns an array of events which use this state
+  /topics:
+    get:
+      summary: Returns all topics
+      tags:
+        - topic
+      responses:
+        '200':
+          description: OK - all topics are returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TopicResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      operationId: get-topics
+      description: Returns all topics through which comments can be categorised
+    post:
+      summary: Creates a new topic
+      operationId: post-topics
+      responses:
+        '201':
+          description: Created - the topic is created and returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/TopicResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      description: Creates a new topic on the system
+      tags:
+        - topic
+  '/topics/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Returns a single topic
+      tags:
+        - topic
+      responses:
+        '200':
+          description: OK - the returned topic
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/TopicResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-topics-id
+      description: Returns a single topic as returned by `/topics/`
+    patch:
+      summary: Updates this topic
+      operationId: patch-topics-id
+      responses:
+        '200':
+          description: OK - the topic is updated and returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/TopicResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Updates this topic with new properties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicUpdate'
+      tags:
+        - topic
+    delete:
+      summary: Deletes this topic
+      operationId: delete-topics-id
+      responses:
+        '200':
+          description: OK - the topic is deleted and the ID is returned
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: 'Deletes this topic, any comments currently with this topic will have it unassigned'
+      tags:
+        - topic
