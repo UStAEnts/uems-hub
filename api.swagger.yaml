@@ -351,6 +351,34 @@ components:
             - description
             - color
             - icon
+    EventPropertyChangeResponse:
+      title: ActionResponse
+      type: object
+      x-examples:
+        example-1:
+          id: 8d8abd3a-da02-4e58-97e8-d3251127c9bf
+          occurred: 0
+          change: '{"version": 0, "change": "status", "prev": "7d4a49cb-c5ac-4cf9-87ed-d17d6cfb0501", "new": "dd48832e-ebd7-4a73-9775-29ee51ca4b14"}'
+          user:
+            id: 48eb7ea4-498a-45cc-bea2-e427925ded50
+            username: admin
+            name: Admin
+      properties:
+        id:
+          type: string
+          description: The ID of the change
+        occurred:
+          description: The unix timestamp at which the change occurred
+          type: number
+        change:
+          type: string
+          description: A description of the change that took place in JSON format. Change must be versioned for parsing reasons. Schema to be confirmed and documented in future
+        user:
+          $ref: '#/components/schemas/User'
+      required:
+        - id
+        - occurred
+        - change
 paths:
   /:
     get:
@@ -504,14 +532,21 @@ paths:
                   - type: object
                     properties:
                       result:
-                        $ref: '#/components/schemas/EventResponse'
+                        type: object
+                        properties:
+                          event:
+                            $ref: '#/components/schemas/EventResponse'
+                          changelog:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/EventPropertyChangeResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
           $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundIDResponse'
-      description: Fetches details of a singular event
+      description: Fetches details of a singular event including the changelog
       parameters: []
       tags:
         - event
