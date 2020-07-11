@@ -1,5 +1,6 @@
 from faker import Faker
 from pymongo import MongoClient
+import datetime
 
 fake = Faker('en')
 
@@ -26,10 +27,11 @@ def script_runs_within_container():
         return 'docker' in cgroup_file.read()
 
 def generate_event():
+    epoch = datetime.datetime.utcfromtimestamp(0)
     data = {
         'name': fake.word(),
-        'start_date': fake.past_datetime(),
-        'end_date': fake.future_datetime()
+        'start_date': (fake.past_datetime() - epoch).total_seconds(),
+        'end_date': (fake.future_datetime() - epoch).total_seconds()
     }
     return data
 
