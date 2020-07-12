@@ -51,11 +51,13 @@ def json_datetime(year=0, month=0, day=0, hour=0, minute=0):
         }
     )
 
+@pytest.mark.timeout(5)
 def test_query_event_name():
     content = send_get_query(params={'access_token': 1, 'name': 'The Bop'})
     assert (len(content) == 1)
     assert (content[0]['name'] == 'The Bop')
 
+@pytest.mark.timeout(5)
 def test_query_all():
     content = send_get_query(params={'access_token': 1})
     assert (len(content) == 2)
@@ -66,6 +68,7 @@ def test_query_all():
     else:
         pytest.fail("Unrecognised event name returned")
 
+@pytest.mark.timeout(5)
 def test_add_get_event():
     start_date = datetime.datetime(2020, 7, 1, 13, 30)
     end_date = datetime.datetime(2020, 7, 1, 17, 0)
@@ -88,6 +91,7 @@ def test_add_get_event():
     assert (res[0]['name'] == event_name)
     assert (res[0]['venue'] == venue)
 
+@pytest.mark.timeout(5)
 def test_get_modify_event_name():
     content = send_get_query(params={'access_token': 1, 'name': 'The Bop'})
     assert (len(content) == 1)
@@ -116,6 +120,7 @@ def test_get_modify_event_name():
     assert (dateutil.parser.parse(new_res[0]['end_date']) == end_date)
     assert (new_res[0]['venue'] == venue)
 
+@pytest.mark.timeout(5)
 def test_add_get_delete_event():
     event_name = 'TESTDELETEEVENT'
     send_add_event(params={
