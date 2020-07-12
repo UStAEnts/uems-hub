@@ -12,20 +12,23 @@ def send_get_events(name=None, start_before=None, start_after=None, end_before=N
     params = {
         'access_token': 1
     }
-    if name is not None:
+    if not name is None:
         params['name'] = name
 
-    if start_before is not None:
+    if not start_before is None:
         params['startbefore'] = start_before
 
-    if start_after is not None:
+    if not start_after is None:
         params['startafter'] = start_after
 
-    if end_before is not None:
+    if not end_before is None:
         params['endbefore'] = end_before
                     
-    if end_after is not None:
+    if not end_after is None:
         params['endafter'] = end_after
+
+    print("Params")
+    print(params)
 
     try:
         res = requests.get(EVENTS_GET_URL, params=params)
@@ -57,17 +60,6 @@ def send_get_events(name=None, start_before=None, start_after=None, end_before=N
 #         assert False
 #     assert (res.status_code == 200)
 #     return res.json()
-
-def json_datetime(year=0, month=0, day=0, hour=0, minute=0):
-    return json.dumps(
-        {
-            'year': year,
-            'month': month,
-            'day': day,
-            'hour': hour,
-            'minute': minute
-        }
-    )
 
 @pytest.mark.timeout(5)
 def test_query_event_name():
