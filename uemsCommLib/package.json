@@ -1,13 +1,21 @@
 {
   "name": "@uems/uemscommlib",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The common library used by backend elements of the uems system",
-  "main": ".eslintrc.js",
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "ajv": "^6.12.3"
+  },
+  "devDependencies": {
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.23",
+    "mocha": "^8.0.1"
+  },
   "scripts": {
     "test": "mocha"
   },
   "author": "Lan2u",
-  "license": "ISC"
+  "license": "ISC",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "prepublish": "tsc"
 }

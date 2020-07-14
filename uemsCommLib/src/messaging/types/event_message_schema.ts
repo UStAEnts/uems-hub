@@ -5,11 +5,6 @@ export enum MsgIntention {
 // A string is used because the work of parsing etc. of numbers is deferred to the backend microservices.
 export type UemsDateTime = String;
 
-// export type UemsDateTimeRange = {
-//     start?: UemsDateTime,
-//     end?: UemsDateTime
-// }
-
 export type CreateEventMsg = {
     msg_id: Number,
     status: Number,
