@@ -1,12 +1,7 @@
 const assert = require('assert');
 
 import 'mocha';
-import { MessageValidator } from '../messaging/MessageValidator';
-
-// A path to the .json file which describes valid message schema.
-const MESSAGE_SCHEMA_PATH: string = 'schema/event_schema.json';
-
-const fs = require('fs').promises;
+import { EventMsgValidator } from '../index';
 
 const VALID_CREATE_MSG = {
     msg_id: 1,
@@ -116,11 +111,10 @@ const INVALID_DELETE_MISSING_EVENTID_MSG = {
     msg_intention: 'UPDATE',
 };
 
-let validator: MessageValidator;
+let validator: EventMsgValidator;
 
 before(async () => {
-    const schema = JSON.parse((await fs.readFile(MESSAGE_SCHEMA_PATH)).toString());
-    validator = new MessageValidator(schema);
+    validator = await EventMsgValidator.setup();
 });
 
 describe('Valid Schema Test', () => {
