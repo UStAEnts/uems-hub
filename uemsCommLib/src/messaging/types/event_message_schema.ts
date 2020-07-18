@@ -2,8 +2,8 @@ export enum MsgIntention {
     CREATE = 'CREATE', READ = 'READ', UPDATE = 'UPDATE', DELETE = 'DELETE'
 }
 
-// A string is used because the work of parsing etc. of numbers is deferred to the backend microservices.
-export type UemsDateTime = string;
+// DateTimes are represented as seconds since epoch.
+export type UemsDateTime = Number;
 
 export type CreateEventMsg = {
     msg_id: Number,
