@@ -8,6 +8,10 @@ from datetime import timezone
 
 EVENTS_GET_URL = "http://gateway:15450/events"
 
+# The URL used for operations on a single event.
+SINGLE_EVENT_URL = "http://gateway:15450/events/{id}"
+
+
 def send_get_events(name=None, start_before=None, start_after=None, end_before=None, end_after=None):
     params = {
         'access_token': 1
@@ -53,13 +57,16 @@ def send_get_events(name=None, start_before=None, start_after=None, end_before=N
 #     assert (res.status_code == 200)
 #     return res.json()
 
-# def send_delete_query(params):
-#     try:
-#         res = requests.delete(EVENTS_BASE_URL, json=params)
-#     except RuntimeError:
-#         assert False
-#     assert (res.status_code == 200)
-#     return res.json()
+def send_delete_query(event_id):
+    params = {
+        'access_token': 1
+    }
+    try:
+        res = requests.delete(SINGLE_EVENT_URL.format(id=event_id), json=params)
+    except RuntimeError:
+        assert False
+    assert (res.status_code == 200)
+    return res.json()
 
 @pytest.mark.timeout(5)
 def test_query_event_name():
