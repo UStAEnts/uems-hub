@@ -3,22 +3,22 @@ export enum MsgIntention {
 }
 
 // DateTimes are represented as seconds since epoch.
-export type UemsDateTime = Number;
+export type UemsDateTime = number;
 
 export type CreateEventMsg = {
-    msg_id: Number,
-    status: Number,
+    msg_id: number,
+    status: number,
     msg_intention: MsgIntention.CREATE,
     event_name: string,
     event_start_date: UemsDateTime,
     event_end_date: UemsDateTime,
     venue_ids: string[],
-    predicted_attendance: Number
+    predicted_attendance: number
 };
 
 export type ReadEventMsg = {
-    msg_id: Number,
-    status: Number,
+    msg_id: number,
+    status: number,
     msg_intention: MsgIntention.READ,
     event_id?: string,
     event_name?: string,
@@ -27,24 +27,24 @@ export type ReadEventMsg = {
     event_end_date_range_begin?: UemsDateTime,
     event_end_date_range_end?: UemsDateTime,
     venue_ids?: string[],
-    attendance?: Number
+    attendance?: number
 };
 
 export type UpdateEventMsg = {
-    msg_id: Number,
-    status: Number,
+    msg_id: number,
+    status: number,
     msg_intention: MsgIntention.UPDATE,
     event_id: string,
     event_name?: string,
     event_start_date?: UemsDateTime,
     event_end_date?: UemsDateTime,
     venue_ids?: string[],
-    predicted_attendance?: Number
+    predicted_attendance?: number
 };
 
 export type DeleteEventMsg = {
-    msg_id: Number,
-    status: Number,
+    msg_id: number,
+    status: number,
     msg_intention: MsgIntention.DELETE,
     event_id: string,
 };

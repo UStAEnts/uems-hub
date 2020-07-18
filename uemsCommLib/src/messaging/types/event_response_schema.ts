@@ -11,22 +11,22 @@ export enum MsgStatus {
 export type InternalEvent = {
     event_id: string,
     event_name: string,
-    event_start_date: Number,
-    event_end_date: Number,
+    event_start_date: number,
+    event_end_date: number,
     venue_ids: string,
-    attendance: Number
+    attendance: number
 };
 
 export type ReadRequestResponseMsg = {
-    msg_id: Number,
-    status: Number,
+    msg_id: number,
+    status: number,
     msg_intention: MsgIntention,
     result: InternalEvent[]
 };
 
 export type RequestResponseMsg = {
-    msg_id: Number,
-    status: Number,
+    msg_id: number,
+    status: number,
     msg_intention: MsgIntention,
     result: string[] // The ids of the event(s) effected.
 };
