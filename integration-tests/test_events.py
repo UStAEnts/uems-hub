@@ -41,13 +41,19 @@ def send_get_events(name=None, start_before=None, start_after=None, end_before=N
     assert (res.status_code == 200)
     return res.json()
 
-# def send_add_event(params):
-#     try:
-#         res = requests.post(EVENTS_BASE_URL, json=params)
-#     except RuntimeError:
-#         assert False
-#     assert (res.status_code == 200)
-#     return res.json()
+def send_create_event(name, start_date, end_date):
+    params = {
+        'access_token': 1,
+        'name': name,
+        'startDate': start_date,
+        'endDate': end_date
+    }
+    try:
+        res = requests.post(EVENTS_GET_URL, json=params)
+    except RuntimeError:
+        assert False
+    assert (res.status_code == 201)
+    return res.json()
 
 # def send_update_query(params):
 #     try:
@@ -85,28 +91,20 @@ def test_query_all():
     else:
         pytest.fail("Unrecognised event name returned")
 
-# @pytest.mark.timeout(5)
-# def test_add_get_event():
-#     start_date = datetime.datetime(2020, 7, 1, 13, 30)
-#     end_date = datetime.datetime(2020, 7, 1, 17, 0)
+@pytest.mark.timeout(5)
+def test_add_get_event():
+    start_date = datetime.datetime(2020, 7, 1, 13, 30)
+    end_date = datetime.datetime(2020, 7, 1, 17, 0)
 
-#     venue = 'The Stage'
+    event_name = 'TestEvent'
 
-#     event_name = 'TestEvent'
+    send_create_event(name=event_name,
+        start_date=start_date.replace(tzinfo=timezone.utc).timestamp(),
+        end_date=end_date.replace(tzinfo=timezone.utc).timestamp())
 
-#     send_add_event(params={
-#         'access_token' : 1,
-#         'name': 'TestEvent',
-#         'start_date': start_date.replace(tzinfo=timezone.utc).timestamp(),
-#         'end_date': end_date.replace(tzinfo=timezone.utc).timestamp(),
-#         'venue': venue
-#         }
-#     )
-
-#     res = send_get_query(params={'access_token': 1, 'name': event_name, 'venue': venue})
-#     assert (len(res) == 1)
-#     assert (res[0]['name'] == event_name)
-#     assert (res[0]['venue'] == venue)
+    res = send_get_events(name=event_name)
+    assert (len(res) == 1)
+    assert (res[0]['name'] == event_name)
 
 # @pytest.mark.timeout(5)
 # def test_get_modify_event_name():
@@ -139,24 +137,23 @@ def test_query_all():
 
 # @pytest.mark.timeout(5)
 # def test_add_get_delete_event():
-#     event_name = 'TESTDELETEEVENT'
-#     send_add_event(params={
-#         'access_token' : 1,
-#         'name': event_name,
-#         'start_date': datetime.datetime(2020, 7, 1, 13, 30).replace(tzinfo=timezone.utc).timestamp(),
-#         'end_date': datetime.datetime(2020, 7, 1, 17, 0).replace(tzinfo=timezone.utc).timestamp(),
-#         'venue': 'The Stage'
-#         }
-#     )
+#     start_date = datetime.datetime(2021, 7, 1, 18, 30)
+#     end_date = datetime.datetime(2021, 7, 1, 21, 0)
 
-#     content = send_get_query(params={'access_token': 1, 'name': 'TESTDELETEEVENT'})
+#     event_name = 'TESTDELETEEVENT'
+
+#     send_create_event(name=event_name,
+#         start_date=start_date.replace(tzinfo=timezone.utc).timestamp(),
+#         end_date=end_date.replace(tzinfo=timezone.utc).timestamp())
+
+#     content = send_get_events(name=event_name)
 #     assert (len(content) == 1)
 #     assert (content[0]['name'] == event_name)
 
-#     id = content[0]['_id']
+#     id = content[0]['id']
 
-#     send_delete_query(params={'access_token': 1, 'event_id': id})
+#     send_delete_query(event_id=id)
 
-#     res = send_get_query(params={'access_token': 1, 'name': event_name})
+#     res = send_get_events(name=event_name)
 #     assert (len(res) == 0)
     
