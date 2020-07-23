@@ -279,6 +279,8 @@ components:
           type: number
         endDate:
           type: number
+        venue:
+          type: string
     EventCreation:
       title: EventCreation
       allOf:
@@ -288,6 +290,7 @@ components:
             - name
             - startDate
             - endDate
+            - venue
     EventResponse:
       title: EventResponse
       allOf:
@@ -296,6 +299,8 @@ components:
           properties:
             id:
               type: string
+            venue:
+              $ref: '#/components/schemas/VenueResponse'
           required:
             - id
     FileCreation:
