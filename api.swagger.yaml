@@ -21,6 +21,7 @@ tags:
   - name: state
   - name: system
   - name: topic
+  - name: venue
 components:
   responses:
     BadRequestResponse:
@@ -352,7 +353,6 @@ components:
             - color
             - icon
     EventPropertyChangeResponse:
-      title: ActionResponse
       type: object
       x-examples:
         example-1:
@@ -379,6 +379,47 @@ components:
         - id
         - occurred
         - change
+    EventResponseWithChangelogResponse:
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/EventResponse'
+        changelog:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventPropertyChangeResponse'
+
+    VenueUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        capacity:
+          type: number
+        color:
+          type: string
+    VenueCreation:
+      allOf:
+        - $ref: '#/components/schemas/VenueUpdate'
+        - type: object
+          required:
+            - name
+            - capacity
+    VenueResponse:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+            user:
+              $ref: '#/components/schemas/User'
+            date:
+              type: number
+          required:
+            - id
+            - user
+            - date
+        - $ref: '#/components/schemas/VenueCreation'
 paths:
   /:
     get:
@@ -463,6 +504,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -494,6 +539,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/EventResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -532,14 +582,12 @@ paths:
                   - type: object
                     properties:
                       result:
-                        type: object
-                        properties:
-                          event:
-                            $ref: '#/components/schemas/EventResponse'
-                          changelog:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/EventPropertyChangeResponse'
+                        $ref: '#/components/schemas/EventResponseWithChangelogResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -613,6 +661,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -661,6 +713,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/CommentResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -684,6 +741,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/CommentResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -775,6 +837,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -830,6 +896,11 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/FileResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -910,6 +981,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -959,6 +1034,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/SignupResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1068,6 +1148,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1107,6 +1191,11 @@ paths:
                     properties:
                       '':
                         $ref: '#/components/schemas/FileResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1130,6 +1219,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/FileResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1163,6 +1257,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/FileResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1285,6 +1384,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1334,6 +1437,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/CommentResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1357,6 +1465,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/CommentResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1493,6 +1606,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1531,6 +1648,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/EntsStateResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1554,6 +1676,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/EntsStateResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1632,6 +1759,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1670,6 +1801,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/StateResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1693,6 +1829,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/StateResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1806,6 +1947,10 @@ paths:
                 type: string
                 format: uri
               description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1838,6 +1983,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/TopicResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1861,6 +2011,11 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/TopicResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
         '400':
           $ref: '#/components/responses/BadRequestResponse'
         '401':
@@ -1892,3 +2047,194 @@ paths:
       description: 'Deletes this topic, any comments currently with this topic will have it unassigned'
       tags:
         - topic
+  /venues:
+    get:
+      tags:
+        - venue
+      operationId: get-venue
+      summary: Retrieves all venues
+      responses:
+        '200':
+          description: returns an array of venues
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/VenueResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      description: 'Gets the full list of venues stored in the system'
+    post:
+      tags:
+        - venue
+      operationId: post-venue
+      summary: Creates a new venue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VenueCreation'
+      responses:
+        '201':
+          description: The venue was created successfully and the newly created venue will be returned in the response body.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/VenueResponse'
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+              description: The location at which the new resource can be found
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+      description: Creates a new venue in the system with the specified properties
+  '/venues/{id}':
+    patch:
+      summary: Updates an venue
+      tags:
+        - venue
+      operationId: patch-venue-id
+      requestBody:
+        description: 'any property shown below can be updated, any value provided will be updated'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VenueUpdate'
+      responses:
+        '200':
+          description: The venue was updated successfully and the newly updated venue will be returned in the response body.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/VenueResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Updates the specified venue with the given information
+    delete:
+      summary: Deletes a venue
+      tags:
+        - venue
+      operationId: delete-venue-id
+      responses:
+        '204':
+          description: No Content - the venue was removed
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Deletes the venue with the given ID
+    get:
+      summary: Retrieves a single venue
+      operationId: get-venue-id
+      responses:
+        '200':
+          description: The properties of the venue that is specified by the ID given
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/VenueResponse'
+          headers:
+            Links:
+              schema:
+                type: string
+              description: A set of links pointing to associated resources as per rfc8288
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      description: Fetches details of a singular venue including the changelog
+      parameters: []
+      tags:
+        - venue
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the venue
+  '/venues/{id}/events':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: The ID of the venue
+    get:
+      summary: Retrieves all events with this venue
+      tags:
+        - venue
+        - event
+      responses:
+        '200':
+          description: OK - returns all events with this venue
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EventResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundIDResponse'
+      operationId: get-venues-id-events
+      description: Returns an array of events which use this venue
