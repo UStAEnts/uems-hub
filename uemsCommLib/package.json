@@ -8,12 +8,22 @@
   "devDependencies": {
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.23",
-    "mocha": "^8.0.1"
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "ts-mocha": "^7.0.0",
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "test": "mocha build/test"
   },
   "author": "Lan2u",
+  "contributors": [
+    "Lan2u",
+    {
+      "email": "vitineth@gmail.com",
+      "name": "Ryan Delaney"
+    }
+  ],
   "license": "ISC",
   "main": "build/index.js",
   "types": "build/index.d.ts",
