@@ -2,6 +2,8 @@ export * as EventMsg from './messaging/types/event_message_schema';
 export * as EventRes from './messaging/types/event_response_schema';
 import * as MessageValidator from './messaging/MessageValidator';
 
+export { VenueMessage, VenueResponse, VenueResponseValidator, VenueMessageValidator } from './venues/index';
+
 const fs = require('fs').promises;
 
 const EVENT_SCHEMA_PATH: string = './schema/event_schema.json';
