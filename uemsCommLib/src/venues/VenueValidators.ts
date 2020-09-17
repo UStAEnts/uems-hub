@@ -73,6 +73,10 @@ export namespace VenueValidators {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+            "id": {
+                "type": "string",
+                "description": "The ID of this venue",
+            },
             "name": {
                 "type": "string",
                 "description": "Name of the venue"
@@ -96,6 +100,7 @@ export namespace VenueValidators {
      * @public
      */
     export type VenueRepresentation = {
+        id: string,
         name: string,
         capacity: number,
         color?: string,
@@ -148,6 +153,10 @@ export namespace VenueValidators {
         "additionalProperties": false,
         "properties": {
             ...CORE_SCHEMA('READ'),
+            "id": {
+                "type": "string",
+                "description": "The ID of the venue to fetch",
+            },
             "name": {
                 "type": "string",
                 "description": "A name search query"
@@ -182,6 +191,7 @@ export namespace VenueValidators {
      * @public
      */
     export type VenueReadSchema = CoreSchema<'READ'> & {
+        id?: string,
         name?: string,
         capacity?: number,
         approximate_capacity?: number,
@@ -189,6 +199,7 @@ export namespace VenueValidators {
         minimum_capacity?: number,
         maximum_capacity?: number,
     };
+
 
     /**
      * JSON schema representing the deleting message for a venue.
@@ -356,6 +367,10 @@ export namespace VenueValidators {
             // The following checks only apply to READ messages
             if (has(msg, 'msg_intention') && msg['msg_intention'] !== 'READ') return true;
 
+            // If an id is specified you cannot specify any other filters
+            if (has(msg, 'id') && (has(msg, 'name') || has(msg, 'capacity') || has(msg, 'approximate_capacity') || has(msg, 'approximate_fuzziness') || has(msg, 'maximum_capacity') || has(msg, 'minimum_capacity'))) {
+                return false;
+            }
             // If a capacity is specified, you cannot specify other capacity measures
             if (has(msg, 'capacity') && (has(msg, 'approximate_capacity') || has(msg, 'approximate_fuzziness') || has(msg, 'maximum_capacity') || has(msg, 'minimum_capacity'))) {
                 return false;
