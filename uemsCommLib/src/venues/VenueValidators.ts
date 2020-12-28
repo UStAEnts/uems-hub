@@ -1,69 +1,14 @@
 import { MessageValidator } from "../messaging/MessageValidator";
 import { has } from "../utilities/ObjectUtilities";
+import { BaseSchema } from "../BaseSchema";
 
 export namespace VenueValidators {
 
-    /**
-     * Intentions that a message can be sent with to either query, create, update or read a value
-     * @private
-     */
-    type Intentions = "READ" | "CREATE" | "UPDATE" | "DELETE";
-
-    /**
-     * Function which generates score schema elements with msg_id, msg_intention (from parameters) and status. If with
-     * status is provided, the status value is defined as just a number, without it, the schema requires the status to
-     * be 0 as it is unset, as in the description
-     * @param intention the intention, or intentions, allowed by this schema
-     * @param withStatus if the status is allowed to be defined or must be 0
-     * @private
-     */
-    const CORE_SCHEMA = (intention: Intentions | Intentions[], withStatus: boolean = false) => ({
-        "msg_id": {
-            "type": "number",
-            "description": "An ID for this message which is unique within the system"
-        },
-        "msg_intention": {
-            "type": "string",
-            "enum": Array.isArray(intention) ? intention : [intention],
-            "description": "The purpose / intention of the message"
-        },
-        "status": {
-            "type": "number",
-            "description": "The status of the message, uses HTTP status codes, 0 value if unset",
-            ...(withStatus
-                    ? {}
-                    : {
-                        "const": 0,
-                    }
-            )
-        }
-    })
-
-    /**
-     * The set of required values from the {@link CORE_SCHEMA}.
-     * @private
-     */
-    const CORE_REQUIRED = ["msg_id", "msg_intention", "status"];
-
-    /**
-     * Defines the Typescript type from {@link CORE_SCHEMA} with a withStatus value of false. For withStatus being true
-     * see {@link CoreSchemaWithStatus}.
-     * @private
-     */
-    type CoreSchema<T extends Intentions> = {
-        msg_id: number,
-        msg_intention: T,
-        status: 0,
-    }
-
-    /**
-     * An extension to {@link CoreSchema} re-defining status as a number allowing it to be defined as any value.
-     * @private
-     */
-    type CoreSchemaWithStatus<T extends Intentions> = Omit<CoreSchema<T>, 'status'> & {
-        status: number,
-    }
-
+    import CORE_SCHEMA = BaseSchema.CORE_SCHEMA;
+    import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
+    import CoreSchema = BaseSchema.CoreSchema;
+    import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
+    import Intentions = BaseSchema.Intentions;
     /**
      * The JSON schema for an internal representation of venues containing name, capacity and color. Color is defined
      * as a HEX color code.
