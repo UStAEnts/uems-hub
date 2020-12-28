@@ -3,6 +3,7 @@ export * as EventRes from './messaging/types/event_response_schema';
 import * as MessageValidator from './messaging/MessageValidator';
 
 export { VenueMessage, VenueResponse, VenueResponseValidator, VenueMessageValidator } from './venues/index';
+export { EntStateMessage, EntStateResponse, EntStateResponseValidator, EntStateMessageValidator } from './ent/index';
 
 const fs = require('fs').promises;
 
@@ -32,7 +33,7 @@ export class EventMsgValidator extends MessageValidator.MessageValidator {
                         },
                         "msg_intention": {
                             "type": "string",
-                            "enum": [ "READ"],
+                            "enum": ["READ"],
                             "description": "The purpose / intention of the message"
                         },
                         "event_id": {
@@ -87,7 +88,7 @@ export class EventMsgValidator extends MessageValidator.MessageValidator {
                         },
                         "msg_intention": {
                             "type": "string",
-                            "enum": [ "CREATE" ],
+                            "enum": ["CREATE"],
                             "description": "The purpose / intention of the message"
                         },
                         "event_name": {
@@ -130,7 +131,7 @@ export class EventMsgValidator extends MessageValidator.MessageValidator {
                         },
                         "msg_intention": {
                             "type": "string",
-                            "enum": [ "UPDATE" ],
+                            "enum": ["UPDATE"],
                             "description": "The purpose / intention of the message"
                         },
                         "event_id": {
@@ -177,7 +178,7 @@ export class EventMsgValidator extends MessageValidator.MessageValidator {
                         },
                         "msg_intention": {
                             "type": "string",
-                            "enum": [ "DELETE" ],
+                            "enum": ["DELETE"],
                             "description": "The purpose / intention of the message"
                         },
                         "event_id": {
@@ -187,7 +188,7 @@ export class EventMsgValidator extends MessageValidator.MessageValidator {
                     },
                     "required": ["msg_id", "status", "msg_intention", "event_id"]
                 }
-            ]   
+            ]
         };
 
         return new EventMsgValidator(schema);
@@ -219,7 +220,7 @@ export class EventResponseValidator extends MessageValidator.MessageValidator {
                         },
                         "msg_intention": {
                             "type": "string",
-                            "enum": [ "READ", "CREATE", "UPDATE", "DELETE"],
+                            "enum": ["READ", "CREATE", "UPDATE", "DELETE"],
                             "description": "The purpose / intention of the request for which this is the result"
                         },
                         "result": {
