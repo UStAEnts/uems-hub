@@ -156,6 +156,7 @@ export namespace EntStateValidators {
         "additionalProperties": false,
         "minProperties": 2 + CORE_REQUIRED.length,
         "properties": {
+            ...CORE_SCHEMA('UPDATE'),
             "id": {
                 "type": "string",
                 "description": "The ID of the ent state to be updated",
