@@ -1,5 +1,5 @@
-export * as EventMsg from './messaging/types/event_message_schema';
-export * as EventRes from './messaging/types/event_response_schema';
+// export * as EventMsg from './messaging/types/event_message_schema';
+// export * as EventRes from './messaging/types/event_response_schema';
 import * as MessageValidator from './messaging/MessageValidator';
 
 export enum MsgStatus {
@@ -16,6 +16,8 @@ export { StateMessage, StateResponse, StateResponseValidator, StateMessageValida
 export { EquipmentMessage, EquipmentResponse, EquipmentResponseValidator, EquipmentMessageValidator } from './equipment/index';
 export { VenueReportMessage, VenueReportResponse, VenueReportResponseValidator, VenueReportMessageValidator } from './venuereport/index';
 export { CommentMessage, CommentResponse, CommentResponseValidator, CommentMessageValidator } from './comment/index';
+
+export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
 
 const fs = require('fs').promises;
 
