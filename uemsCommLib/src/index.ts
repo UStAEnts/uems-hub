@@ -4,6 +4,13 @@ import * as MessageValidator from './messaging/MessageValidator';
 
 export { VenueMessage, VenueResponse, VenueResponseValidator, VenueMessageValidator } from './venues/index';
 export { EntStateMessage, EntStateResponse, EntStateResponseValidator, EntStateMessageValidator } from './ent/index';
+export { UserMessage, UserResponse, UserResponseValidator, UserMessageValidator } from './user/index';
+
+export { FileMessage, FileResponse, FileResponseValidator, FileMessageValidator } from './file/index';
+export { StateMessage, StateResponse, StateResponseValidator, StateMessageValidator } from './state/index';
+export { EquipmentMessage, EquipmentResponse, EquipmentResponseValidator, EquipmentMessageValidator } from './equipment/index';
+export { VenueReportMessage, VenueReportResponse, VenueReportResponseValidator, VenueReportMessageValidator } from './venuereport/index';
+export { CommentMessage, CommentResponse, CommentResponseValidator, CommentMessageValidator } from './comment/index';
 
 const fs = require('fs').promises;
 
