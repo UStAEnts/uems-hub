@@ -1,6 +1,7 @@
 import { MessageValidator } from "../messaging/MessageValidator";
 import { has } from "../utilities/ObjectUtilities";
 import { BaseSchema } from "../BaseSchema";
+import { UserValidators } from "../user/UserValidators";
 
 export namespace VenueValidators {
 
@@ -9,12 +10,14 @@ export namespace VenueValidators {
     import CoreSchema = BaseSchema.CoreSchema;
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
     import Intentions = BaseSchema.Intentions;
+    import USER_REPRESENTATION = UserValidators.USER_REPRESENTATION;
+    import UserRepresentation = UserValidators.UserRepresentation;
     /**
      * The JSON schema for an internal representation of venues containing name, capacity and color. Color is defined
      * as a HEX color code.
      * @private
      */
-    const VENUE_REPRESENTATION = {
+    export const VENUE_REPRESENTATION = {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -34,6 +37,19 @@ export namespace VenueValidators {
                 "type": "string",
                 "pattern": "^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$",
                 "description": "The optional color for this venue",
+            },
+            "user": {
+                "anyOf": [
+                    {...USER_REPRESENTATION},
+                    {
+                        "type": "string",
+                        "description": "The user ID that needs to be resolved",
+                    }
+                ]
+            },
+            "date": {
+                "type": "number",
+                "description": "The date at which this venue was created",
             }
         },
         "required": ["name", "capacity"],
@@ -49,6 +65,7 @@ export namespace VenueValidators {
         name: string,
         capacity: number,
         color?: string,
+        user: UserRepresentation,
     };
 
     /**
@@ -72,9 +89,13 @@ export namespace VenueValidators {
                 "type": "string",
                 "pattern": "^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$",
                 "description": "The optional color for this venue",
+            },
+            "userid": {
+                "type": "string",
+                "description": "The user identifier",
             }
         },
-        "required": [...CORE_REQUIRED, "name", "capacity"],
+        "required": [...CORE_REQUIRED, "name", "capacity", "userid"],
     };
 
     /**
@@ -86,6 +107,7 @@ export namespace VenueValidators {
         name: string,
         capacity: number,
         color?: string,
+        userid: string,
     }
 
     /**

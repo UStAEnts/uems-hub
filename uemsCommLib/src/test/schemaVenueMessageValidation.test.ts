@@ -47,6 +47,7 @@ const VALID_CREATE: VenueCreateSchema = {
     color: "#000000",
     name: "Venue",
     status: 0,
+    userid: 'abc',
 };
 
 const VALID_DELETE: VenueDeleteSchema = {
