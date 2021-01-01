@@ -1,12 +1,12 @@
 const assert = require('assert');
 
 import 'mocha';
-import { EventResponseValidator } from '../index';
+import { EventResponseValidator, EventResponseValidatorDeprecated } from '../index';
 
-let validator: EventResponseValidator;
+let validator: EventResponseValidatorDeprecated;
 
 before(async () => {
-    validator = await EventResponseValidator.setup();
+    validator = await EventResponseValidatorDeprecated.setup();
 });
 
 describe('Valid Schema Test', () => {

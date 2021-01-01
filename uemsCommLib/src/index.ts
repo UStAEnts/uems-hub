@@ -17,7 +17,7 @@ const fs = require('fs').promises;
 const EVENT_SCHEMA_PATH: string = './schema/event_schema.json';
 const EVENT_RESPONSE_SCHEMA_PATH: string = './schema/event_response_schema.json';
 
-export class EventMsgValidator extends MessageValidator.MessageValidator {
+export class EventMsgValidatorDeprecated extends MessageValidator.MessageValidator {
     constructor(schema: Object) {
         super(schema);
     }
@@ -198,11 +198,11 @@ export class EventMsgValidator extends MessageValidator.MessageValidator {
             ]
         };
 
-        return new EventMsgValidator(schema);
+        return new EventMsgValidatorDeprecated(schema);
     }
 }
 
-export class EventResponseValidator extends MessageValidator.MessageValidator {
+export class EventResponseValidatorDeprecated extends MessageValidator.MessageValidator {
     constructor(schema: Object) {
         super(schema);
     }
@@ -269,6 +269,6 @@ export class EventResponseValidator extends MessageValidator.MessageValidator {
             ]
         };
 
-        return new EventResponseValidator(schema);
+        return new EventResponseValidatorDeprecated(schema);
     }
 }

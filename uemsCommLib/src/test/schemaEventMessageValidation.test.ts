@@ -1,7 +1,7 @@
 const assert = require('assert');
 
 import 'mocha';
-import { EventMsgValidator } from '../index';
+import { EventMsgValidatorDeprecated as EventMsgValidator } from '../index';
 
 const VALID_CREATE_MSG = {
     msg_id: 1,
