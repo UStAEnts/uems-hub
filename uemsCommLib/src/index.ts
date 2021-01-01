@@ -2,6 +2,11 @@ export * as EventMsg from './messaging/types/event_message_schema';
 export * as EventRes from './messaging/types/event_response_schema';
 import * as MessageValidator from './messaging/MessageValidator';
 
+export enum MsgStatus {
+    SUCCESS = 200,
+    FAIL = 405
+}
+
 export { VenueMessage, VenueResponse, VenueResponseValidator, VenueMessageValidator } from './venues/index';
 export { EntStateMessage, EntStateResponse, EntStateResponseValidator, EntStateMessageValidator } from './ent/index';
 export { UserMessage, UserResponse, UserResponseValidator, UserMessageValidator } from './user/index';

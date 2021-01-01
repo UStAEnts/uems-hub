@@ -2,10 +2,6 @@ export enum MsgIntention {
     CREATE = 'CREATE', READ = 'READ', UPDATE = 'UPDATE', DELETE = 'DELETE'
 }
 
-export enum MsgStatus {
-    SUCCESS = 200,
-    FAIL = 405
-}
 
 // Internal event representation in messages.
 export type InternalEvent = {
