@@ -15,6 +15,23 @@ export class MessageValidator {
     }
 
     public async validate(msg: any): Promise<boolean> {
-        return this.schemaValidator(msg);
+        try {
+            const result = await this.schemaValidator(msg);
+            if (result === true) return true;
+
+            if (process.env.NODE_ENV === 'dev') {
+                console.debug(result);
+            }
+
+            return false;
+        } catch (err) {
+            if (!(err instanceof Ajv.ValidationError)) throw err;
+
+            if (process.env.NODE_ENV === 'dev') {
+                console.debug(err);
+            }
+
+            return false;
+        }
     }
 }
