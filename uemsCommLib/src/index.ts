@@ -7,6 +7,13 @@ export enum MsgStatus {
     FAIL = 405
 }
 
+export const MessageIntention = {
+    CREATE: 'CREATE',
+    READ: 'READ',
+    UPDATE: 'UPDATE',
+    DELETE: 'DELETE',
+};
+
 export { VenueMessage, VenueResponse, VenueResponseValidator, VenueMessageValidator } from './venues/index';
 export { EntStateMessage, EntStateResponse, EntStateResponseValidator, EntStateMessageValidator } from './ent/index';
 export { UserMessage, UserResponse, UserResponseValidator, UserMessageValidator } from './user/index';
