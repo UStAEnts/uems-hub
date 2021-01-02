@@ -1,6 +1,7 @@
 // export * as EventMsg from './messaging/types/event_message_schema';
 // export * as EventRes from './messaging/types/event_response_schema';
 import * as MessageValidator from './messaging/MessageValidator';
+import {has as hasFunc} from './utilities/ObjectUtilities';
 
 export enum MsgStatus {
     SUCCESS = 200,
@@ -25,6 +26,10 @@ export { VenueReportMessage, VenueReportResponse, VenueReportResponseValidator, 
 export { CommentMessage, CommentResponse, CommentResponseValidator, CommentMessageValidator } from './comment/index';
 
 export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
+
+export namespace ObjectUtilities {
+    export const has = hasFunc;
+}
 
 const fs = require('fs').promises;
 
