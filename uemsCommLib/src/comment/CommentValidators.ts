@@ -72,17 +72,23 @@ export namespace CommentValidators {
 	  }
 	}
 
-	export type CommentRepresentation = {
+	export type ShallowCommentRepresentation = {
 		id: string,
 		assetType: string,
 		assetID: string,
-		poster: (UserRepresentation|string),
+		poster: string,
 		posted: number,
 		category?: string,
 		requiresAttention?: boolean,
 		attendedDate?: number,
-		attendedBy?: (UserRepresentation|string),
+		attendedBy?: string,
+	}
+
+	export type CommentRepresentation = Omit<ShallowCommentRepresentation, 'poster' | 'attendedBy'> & {
+		poster: UserRepresentation,
+		attendedBy?: UserRepresentation,
 	};
+
 	export const COMMENT_CREATE_SCHEMA = {
 	  "type": "object",
 	  "additionalProperties": false,

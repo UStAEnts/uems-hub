@@ -66,16 +66,21 @@ export namespace FileValidators {
         }
     }
 
-    export type FileRepresentation = {
+    export type ShallowFileRepresentation = {
         id: string,
         name: string,
         filename: string,
         size: number,
         mime: string,
-        owner: (UserRepresentation | string),
+        owner: string,
         type: string,
         date: number,
+    }
+
+    export type FileRepresentation = Omit<ShallowFileRepresentation, 'owner'> & {
+        owner: UserRepresentation,
     };
+
     export const FILE_CREATE_SCHEMA = {
         "type": "object",
         "additionalProperties": false,

@@ -77,16 +77,23 @@ export namespace VenueReportValidators {
         }
     }
 
-    export type VenueReportRepresentation = {
+    export type ShallowVenueReportRepresentation = {
         id: string,
-        equipment: (EquipmentRepresentation | string),
+        equipment: string,
         report: string,
-        reporter: (UserRepresentation | string),
+        reporter: string,
         date: number,
         state: string,
         resolvedDate?: number,
-        resolver?: (UserRepresentation | string),
+        resolver?: string,
+    }
+
+    export type VenueReportRepresentation = Omit<ShallowVenueReportRepresentation, 'equipment' | 'reporter' | 'resolver'> & {
+        equipment: EquipmentRepresentation,
+        reporter: UserRepresentation,
+        resolver?: UserRepresentation,
     };
+
     export const VENUEREPORT_CREATE_SCHEMA = {
         "type": "object",
         "additionalProperties": false,

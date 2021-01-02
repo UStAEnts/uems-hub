@@ -91,7 +91,7 @@ export namespace EquipmentValidators {
 	  }
 	}
 
-	export type EquipmentRepresentation = {
+	export type ShallowEquipmentRepresentation = {
 		id: string,
 		assetID?: string,
 		name: string,
@@ -99,12 +99,18 @@ export namespace EquipmentValidators {
 		model: string,
 		miscIdentifier?: string,
 		amount: number,
-		location: (VenueRepresentation|string),
+		location: string,
 		locationSpecifier?: string,
-		manager: (UserRepresentation|string),
+		manager: string,
 		date: number,
 		category: string,
+	}
+
+	export type EquipmentRepresentation = Omit<ShallowEquipmentRepresentation, 'location' | 'manager'> & {
+		location: (VenueRepresentation|string),
+		manager: (UserRepresentation|string),
 	};
+
 	export const EQUIPMENT_CREATE_SCHEMA = {
 	  "type": "object",
 	  "additionalProperties": false,

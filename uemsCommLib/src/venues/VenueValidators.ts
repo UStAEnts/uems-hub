@@ -55,16 +55,20 @@ export namespace VenueValidators {
         "required": ["name", "capacity"],
     };
 
+    export type ShallowVenueRepresentation = {
+        id: string,
+        name: string,
+        capacity: number,
+        color?: string,
+        user: string,
+    }
+
     /**
      * A Typescript type to represent {@link VENUE_REPRESENTATION}. This does not have support for format checking on
      * color so does not exactly match the JSON schema.
      * @public
      */
-    export type VenueRepresentation = {
-        id: string,
-        name: string,
-        capacity: number,
-        color?: string,
+    export type VenueRepresentation = Omit<ShallowVenueRepresentation, 'user'> & {
         user: UserRepresentation,
     };
 
