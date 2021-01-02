@@ -23,7 +23,8 @@ export namespace VenueMessage {
  * types for specific responses in the format required for direct re-exports
  */
 export namespace VenueResponse {
-    export type InternalVenue = VenueValidators.VenueRepresentation;
+    export type ShallowInternalVenue = VenueValidators.ShallowVenueRepresentation;
+	export type InternalVenue = VenueValidators.VenueRepresentation;
     export type VenueReadResponseMessage = Omit<VenueValidators.VenueResponseSchema, 'result'> & {
         result: VenueValidators.VenueRepresentation[],
     }

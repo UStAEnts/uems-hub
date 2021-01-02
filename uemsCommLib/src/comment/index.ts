@@ -20,7 +20,8 @@ export namespace CommentMessage {
 * exported types with their correct result types for accuracy.
 */
 export namespace CommentResponse {
-    export type InternalComment = CommentValidators.CommentRepresentation;
+    export type ShallowInternalComment = CommentValidators.ShallowCommentRepresentation;
+	export type InternalComment = CommentValidators.CommentRepresentation;
     export type CommentReadResponseMessage = Omit<CommentValidators.CommentResponseSchema, 'result'> & {
         result: CommentValidators.CommentRepresentation[],
     };

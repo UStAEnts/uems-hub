@@ -20,7 +20,8 @@ export namespace EventMessage {
 * exported types with their correct result types for accuracy.
 */
 export namespace EventResponse {
-    export type InternalEvent = EventValidators.EventRepresentation;
+    export type ShallowInternalEvent = EventValidators.ShallowEventRepresentation;
+	export type InternalEvent = EventValidators.EventRepresentation;
     export type EventReadResponseMessage = Omit<EventValidators.EventResponseSchema, 'result'> & {
         result: EventValidators.EventRepresentation[],
     };

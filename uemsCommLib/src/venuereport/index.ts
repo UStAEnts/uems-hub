@@ -20,7 +20,8 @@ export namespace VenueReportMessage {
  * exported types with their correct result types for accuracy.
  */
 export namespace VenueReportResponse {
-    export type InternalVenueReport = VenueReportValidators.VenueReportRepresentation;
+    export type ShallowInternalVenueReport = VenueReportValidators.ShallowVenueReportRepresentation;
+	export type InternalVenueReport = VenueReportValidators.VenueReportRepresentation;
     export type VenueReportReadResponseMessage = Omit<VenueReportValidators.VenueReportResponseSchema, 'result'> & {
         result: VenueReportValidators.VenueReportRepresentation[],
     };

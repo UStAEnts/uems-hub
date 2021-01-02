@@ -20,7 +20,8 @@ export namespace EquipmentMessage {
  * exported types with their correct result types for accuracy.
  */
 export namespace EquipmentResponse {
-    export type InternalEquipment = EquipmentValidators.EquipmentRepresentation;
+    export type ShallowInternalEquipment = EquipmentValidators.ShallowEquipmentRepresentation;
+	export type InternalEquipment = EquipmentValidators.EquipmentRepresentation;
     export type EquipmentReadResponseMessage = Omit<EquipmentValidators.EquipmentResponseSchema, 'result'> & {
         result: EquipmentValidators.EquipmentRepresentation[],
     };

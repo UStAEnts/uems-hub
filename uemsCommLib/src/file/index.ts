@@ -20,7 +20,8 @@ export namespace FileMessage {
  * exported types with their correct result types for accuracy.
  */
 export namespace FileResponse {
-    export type InternalFile = FileValidators.FileRepresentation;
+    export type ShallowInternalFile = FileValidators.ShallowFileRepresentation;
+	export type InternalFile = FileValidators.FileRepresentation;
     export type FileReadResponseMessage = Omit<FileValidators.FileResponseSchema, 'result'> & {
         result: FileValidators.FileRepresentation[],
     };
