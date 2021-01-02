@@ -14,7 +14,7 @@ export namespace EntStateValidators {
      * hex colour code with optional hash character
      * @private
      */
-    const ENT_STATE_REPRESENTATION = {
+    export const ENT_STATE_REPRESENTATION = {
         "type": "object",
         "additionalProperties": false,
         "properties": {
