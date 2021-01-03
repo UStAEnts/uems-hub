@@ -236,12 +236,18 @@ export namespace FileValidators {
                 },
                 "description": "The array of matched or manipulated responses",
             },
+            "uploadURI": {
+                "type": "string",
+                "description": "optional upload URI on create responses",
+            }
         },
     };
 
     export type FileResponseSchema = CoreSchemaWithStatus<Intentions> & {
         result: string[] | FileRepresentation[],
+        uploadURI?: string,
     };
+
     export type FileMessage = FileCreateSchema | FileUpdateSchema | FileDeleteSchema | FileReadSchema;
 
     const FILE_MESSAGE_SCHEMA = {
@@ -298,6 +304,26 @@ export namespace FileValidators {
             return new FileResponseValidator();
         }
 
+        async validate(msg: any): Promise<boolean> {
+            if(!await super.validate(msg)){
+                return false;
+            }
+
+            // If validation has passed we want to make sure that the upload URI is valid
+            if(typeof(msg.uploadURI) === 'undefined'){
+                if(msg.msg_intention === 'CREATE'){
+                    // uploadURI not provided on a create message
+                    return false;
+                }
+            }else{
+                if(msg.msg_intention !== 'CREATE'){
+                    // uploadURI provided on a non-create message
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
     /**
