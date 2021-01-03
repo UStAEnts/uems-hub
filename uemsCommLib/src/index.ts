@@ -24,6 +24,7 @@ export { StateMessage, StateResponse, StateResponseValidator, StateMessageValida
 export { EquipmentMessage, EquipmentResponse, EquipmentResponseValidator, EquipmentMessageValidator } from './equipment/index';
 export { VenueReportMessage, VenueReportResponse, VenueReportResponseValidator, VenueReportMessageValidator } from './venuereport/index';
 export { CommentMessage, CommentResponse, CommentResponseValidator, CommentMessageValidator } from './comment/index';
+export { TopicMessage, TopicResponse, TopicResponseValidator, TopicMessageValidator } from './topic/index';
 
 export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
 
