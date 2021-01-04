@@ -62,6 +62,10 @@ export namespace FileValidators {
             "date": {
                 "type": "number",
                 "description": ""
+            },
+            "downloadURL": {
+                "type": "string",
+                "description": ""
             }
         }
     }
@@ -75,6 +79,7 @@ export namespace FileValidators {
         owner: string,
         type: string,
         date: number,
+        downloadURL: string,
     }
 
     export type FileRepresentation = Omit<ShallowFileRepresentation, 'owner'> & {

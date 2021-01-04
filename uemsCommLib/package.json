@@ -1,6 +1,6 @@
 {
   "name": "@uems/uemscommlib",
-  "version": "0.1.0-beta.19",
+  "version": "0.1.0-beta.21",
   "description": "The common library used by backend elements of the uems system",
   "dependencies": {
     "ajv": "^6.12.3"
@@ -15,7 +15,8 @@
   },
   "scripts": {
     "test": "mocha build/test",
-    "build": "tsc --listEmittedFiles"
+    "build": "tsc --listEmittedFiles",
+    "prepublish": "tsc"
   },
   "author": "Lan2u",
   "contributors": [
