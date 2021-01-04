@@ -20,7 +20,8 @@ export namespace CommentValidators {
 	    "assetType",
 	    "assetID",
 	    "poster",
-	    "posted"
+	    "posted",
+        "body",
 	  ],
 	  "properties": {
 	    "id": {
@@ -35,6 +36,10 @@ export namespace CommentValidators {
 	      "type": "string",
 	      "description": ""
 	    },
+        "body": {
+          "type": "string",
+          "description": "",
+        },
 	    "poster": {
 	      "oneOf": [
 	        {...USER_REPRESENTATION},
@@ -82,6 +87,7 @@ export namespace CommentValidators {
 		requiresAttention?: boolean,
 		attendedDate?: number,
 		attendedBy?: string,
+        body: string,
 	}
 
 	export type CommentRepresentation = Omit<ShallowCommentRepresentation, 'poster' | 'attendedBy'> & {
@@ -119,7 +125,11 @@ export namespace CommentValidators {
 	    "requiresAttention": {
 	      "type": "boolean",
 	      "description": ""
-	    }
+	    },
+        "body": {
+	      "type": "string",
+          "description": "",
+        },
 	  }
 	}
 
@@ -129,6 +139,7 @@ export namespace CommentValidators {
 		posterID: string,
 		category?: string,
 		requiresAttention?: boolean,
+        body: string,
 	};
 	export const COMMENT_READ_SCHEMA = {
 	  "type": "object",
@@ -169,7 +180,11 @@ export namespace CommentValidators {
 	    "attended": {
 	      "type": "boolean",
 	      "description": ""
-	    }
+	    },
+	    "body": {
+	      "type": "string",
+          "description": "",
+        }
 	  }
 	}
 
@@ -182,6 +197,7 @@ export namespace CommentValidators {
 		category?: string,
 		requiresAttention?: boolean,
 		attended?: boolean,
+        body?: string,
 	};
 	export const COMMENT_DELETE_SCHEMA = {
 	  "type": "object",
@@ -216,14 +232,6 @@ export namespace CommentValidators {
 	      "type": "string",
 	      "description": ""
 	    },
-	    "assetType": {
-	      "type": "string",
-	      "description": ""
-	    },
-	    "assetID": {
-	      "type": "string",
-	      "description": ""
-	    },
 	    "category": {
 	      "type": "string",
 	      "description": ""
@@ -232,20 +240,23 @@ export namespace CommentValidators {
 	      "type": "boolean",
 	      "description": ""
 	    },
-	    "attended": {
-	      "type": "boolean",
+	    "attendedBy": {
+	      "type": "string",
 	      "description": ""
-	    }
+	    },
+        "body": {
+	        "type": "string",
+            "description": "",
+        },
 	  }
 	}
 
 	export type CommentUpdateSchema = CoreSchema<'UPDATE'> & {
 		id: string,
-		assetType?: string,
-		assetID?: string,
 		category?: string,
 		requiresAttention?: boolean,
-		attended?: boolean,
+		attendedBy?: string,
+        body?: string,
 	};
 	const COMMENT_RESPONSE_OBJECT_SCHEMA = {
 	    "additionalProperties": false,
