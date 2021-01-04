@@ -20,7 +20,8 @@ export class MessageValidator {
             if (result === true) return true;
 
             if (process.env.NODE_ENV === 'dev') {
-                console.debug(result);
+                console.warn('ajv validation failed');
+                console.warn(this.schemaValidator.errors);
             }
 
             return false;
