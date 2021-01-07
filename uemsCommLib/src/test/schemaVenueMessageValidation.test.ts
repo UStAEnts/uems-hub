@@ -48,6 +48,7 @@ const VALID_CREATE: VenueCreateSchema = {
     name: "Venue",
     status: 0,
     userid: 'abc',
+    userID: 'anonymous'
 };
 
 const VALID_DELETE: VenueDeleteSchema = {
@@ -55,6 +56,7 @@ const VALID_DELETE: VenueDeleteSchema = {
     msg_intention: "DELETE",
     msg_id: 0,
     id: "abc",
+    userID: 'anonymous'
 };
 
 const VALID_UPDATE: VenueUpdateSchema = {
@@ -65,6 +67,7 @@ const VALID_UPDATE: VenueUpdateSchema = {
     capacity: 25,
     color: "#0f00f0",
     name: "New Name",
+    userID: 'anonymous'
 }
 
 const INVALID_COMPLETE_READ: VenueReadSchema = {
@@ -77,6 +80,7 @@ const INVALID_COMPLETE_READ: VenueReadSchema = {
     maximum_capacity: 90,
     minimum_capacity: 10,
     name: "Something",
+    userID: 'anonymous'
 }
 
 const CORE_VALUES: {status: number, msg_intention: "READ", msg_id: number} = {
@@ -89,6 +93,7 @@ const VALID_RESPONSE: VenueResponseSchema = {
     ...CORE_VALUES,
     status: 100,
     result: ["abc"],
+    userID: 'anonymous'
 }
 
 let validator: MessageValidator;

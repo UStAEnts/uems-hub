@@ -51,6 +51,7 @@ export namespace BaseSchema {
         msg_id: number,
         msg_intention: T,
         status: 0,
+        userID: 'anonymous' | string,
     }
 
     /**
