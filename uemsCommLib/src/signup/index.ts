@@ -20,6 +20,7 @@ export namespace SignupMessage {
 * exported types with their correct result types for accuracy.
 */
 export namespace SignupResponse {
+    export type ShallowInternalSignup = SignupValidators.ShallowSignupRepresentation;
     export type InternalSignup = SignupValidators.SignupRepresentation;
     export type SignupReadResponseMessage = Omit<SignupValidators.SignupResponseSchema, 'result'> & {
         result: SignupValidators.SignupRepresentation[],
