@@ -95,7 +95,7 @@ export namespace EventValidators {
     }
 
     export type EventRepresentation = Omit<ShallowEventRepresentation, 'ents' | 'state' | 'venues'> & {
-        venues: (VenueRepresentation | string)[],
+        venues: VenueRepresentation[],
         ents?: EntStateRepresentation,
         state?: StateRepresentation,
     };

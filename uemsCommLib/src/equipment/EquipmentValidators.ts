@@ -107,8 +107,8 @@ export namespace EquipmentValidators {
 	}
 
 	export type EquipmentRepresentation = Omit<ShallowEquipmentRepresentation, 'location' | 'manager'> & {
-		location: (VenueRepresentation|string),
-		manager: (UserRepresentation|string),
+		location: VenueRepresentation,
+		manager: UserRepresentation,
 	};
 
 	export const EQUIPMENT_CREATE_SCHEMA = {
