@@ -249,7 +249,7 @@ export namespace FileValidators {
     };
 
     export type FileResponseSchema = CoreSchemaWithStatus<Intentions> & {
-        result: string[] | FileRepresentation[],
+        result: string[] | FileRepresentation[] | ShallowFileRepresentation[],
         uploadURI?: string,
     };
 

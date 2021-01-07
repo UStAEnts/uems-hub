@@ -28,6 +28,9 @@ export namespace VenueResponse {
     export type VenueReadResponseMessage = Omit<VenueValidators.VenueResponseSchema, 'result'> & {
         result: VenueValidators.VenueRepresentation[],
     }
+    export type VenueServiceReadResponseMessage = Omit<VenueValidators.VenueResponseSchema, 'result'> & {
+        result: VenueValidators.ShallowVenueRepresentation[],
+    }
     export type VenueResponseMessage = Omit<VenueValidators.VenueResponseSchema, 'result'> & {
         result: string[],
     }

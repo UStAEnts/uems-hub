@@ -272,7 +272,7 @@ export namespace VenueValidators {
      * @public
      */
     export type VenueResponseSchema = CoreSchemaWithStatus<Intentions> & {
-        result: string[] | VenueRepresentation[],
+        result: string[] | VenueRepresentation[] | ShallowVenueRepresentation[],
     }
 
     /**

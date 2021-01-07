@@ -25,6 +25,9 @@ export namespace FileResponse {
     export type FileReadResponseMessage = Omit<FileValidators.FileResponseSchema, 'result'> & {
         result: FileValidators.FileRepresentation[],
     };
+    export type FileServiceReadResponseMessage = Omit<FileValidators.FileResponseSchema, 'result'> & {
+        result: FileValidators.ShallowFileRepresentation[],
+    }
     export type FileResponseMessage = Omit<FileValidators.FileResponseSchema, 'result'> & {
         result: string[],
     };

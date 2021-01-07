@@ -25,6 +25,9 @@ export namespace EventResponse {
     export type EventReadResponseMessage = Omit<EventValidators.EventResponseSchema, 'result'> & {
         result: EventValidators.EventRepresentation[],
     };
+    export type EventServiceReadResponseMessage = Omit<EventValidators.EventResponseSchema, 'result'> & {
+        result: EventValidators.ShallowEventRepresentation[],
+    }
     export type EventResponseMessage = Omit<EventValidators.EventResponseSchema, 'result'> & {
         result: string[],
     };

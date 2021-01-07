@@ -290,7 +290,7 @@ export namespace VenueReportValidators {
     };
 
     export type VenueReportResponseSchema = CoreSchemaWithStatus<Intentions> & {
-        result: string[] | VenueReportRepresentation[],
+        result: string[] | VenueReportRepresentation[] | ShallowVenueReportRepresentation[],
     };
     export type VenueReportMessage =
         VenueReportCreateSchema

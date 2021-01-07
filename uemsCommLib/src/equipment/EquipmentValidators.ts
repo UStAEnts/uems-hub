@@ -356,7 +356,7 @@ export namespace EquipmentValidators {
 	};
 
 	export type EquipmentResponseSchema = CoreSchemaWithStatus<Intentions> & {
-	    result: string[] | EquipmentRepresentation[],
+	    result: string[] | EquipmentRepresentation[] | ShallowEquipmentRepresentation[],
 	};
 	export type EquipmentMessage = EquipmentCreateSchema | EquipmentUpdateSchema | EquipmentDeleteSchema | EquipmentReadSchema;
 

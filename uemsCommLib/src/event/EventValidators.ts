@@ -370,7 +370,7 @@ export namespace EventValidators {
     };
 
     export type EventResponseSchema = CoreSchemaWithStatus<Intentions> & {
-        result: string[] | EventRepresentation[],
+        result: string[] | EventRepresentation[] | ShallowEventRepresentation[],
     };
     export type EventMessage = EventCreateSchema | EventUpdateSchema | EventDeleteSchema | EventReadSchema;
 

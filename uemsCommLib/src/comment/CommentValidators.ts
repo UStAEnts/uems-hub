@@ -277,7 +277,7 @@ export namespace CommentValidators {
 	};
 
 	export type CommentResponseSchema = CoreSchemaWithStatus<Intentions> & {
-	    result: string[] | CommentRepresentation[],
+	    result: string[] | ShallowCommentRepresentation[] | CommentRepresentation[],
 	};
 	export type CommentMessage = CommentCreateSchema | CommentUpdateSchema | CommentDeleteSchema | CommentReadSchema;
 

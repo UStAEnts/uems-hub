@@ -25,6 +25,9 @@ export namespace CommentResponse {
     export type CommentReadResponseMessage = Omit<CommentValidators.CommentResponseSchema, 'result'> & {
         result: CommentValidators.CommentRepresentation[],
     };
+    export type CommentServiceReadResponseMessage = Omit<CommentValidators.CommentResponseSchema, 'result'> & {
+        result: CommentValidators.ShallowCommentRepresentation[],
+    }
     export type CommentResponseMessage = Omit<CommentValidators.CommentResponseSchema, 'result'> & {
         result: string[],
     };

@@ -25,6 +25,9 @@ export namespace EquipmentResponse {
     export type EquipmentReadResponseMessage = Omit<EquipmentValidators.EquipmentResponseSchema, 'result'> & {
         result: EquipmentValidators.EquipmentRepresentation[],
     };
+    export type EquipmentServiceReadResponseMessage = Omit<EquipmentValidators.EquipmentResponseSchema, 'result'> & {
+        result: EquipmentValidators.ShallowEquipmentRepresentation[],
+    }
     export type EquipmentResponseMessage = Omit<EquipmentValidators.EquipmentResponseSchema, 'result'> & {
         result: string[],
     };
