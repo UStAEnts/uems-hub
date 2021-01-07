@@ -25,7 +25,7 @@ export { EquipmentMessage, EquipmentResponse, EquipmentResponseValidator, Equipm
 export { VenueReportMessage, VenueReportResponse, VenueReportResponseValidator, VenueReportMessageValidator } from './venuereport/index';
 export { CommentMessage, CommentResponse, CommentResponseValidator, CommentMessageValidator } from './comment/index';
 export { TopicMessage, TopicResponse, TopicResponseValidator, TopicMessageValidator } from './topic/index';
-
+export { SignupMessage, SignupResponse, SignupResponseValidator, SignupMessageValidator } from './signup/index';
 export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
 
 export namespace ObjectUtilities {
