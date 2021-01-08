@@ -7,11 +7,20 @@ import { FileBindingValidators } from "./FileBindingValidators";
 * Re-exports of types and functions in {@link FileBindingValidators} relating to FileBinding messages
 */
 export namespace FileBindingMessage {
-    export type CreateFileBindingMessage = FileBindingValidators.FileBindingCreateSchema;
-    export type UpdateFileBindingMessage = FileBindingValidators.FileBindingUpdateSchema;
-    export type DeleteFileBindingMessage = FileBindingValidators.FileBindingDeleteSchema;
-    export type ReadFileBindingMessage = FileBindingValidators.FileBindingReadSchema;
+    export type QueryByFileMessage = FileBindingValidators.QueryByFileMessage;
+    export type QueryByEventMessage = FileBindingValidators.QueryByEventMessage;
+
+    export type BindEventsToFileMessage = FileBindingValidators.BindEventsToFileMessage;
+    export type BindFilesToEventMessage = FileBindingValidators.BindFilesToEventMessage;
+
+    export type UnbindEventsFromFileMessage = FileBindingValidators.UnbindEventsFromFileMessage;
+    export type UnbindFilesFromEventMessage = FileBindingValidators.UnbindFilesFromEventMessage;
+
+    export type SetEventsForFileMessage = FileBindingValidators.SetEventsForFileMessage;
+    export type SetFilesForEventMessage = FileBindingValidators.SetFilesForEventMessage;
+
     export type FileBindingMessage = FileBindingValidators.FileBindingMessage;
+
     export const messageToJSON = FileBindingValidators.messageToJSON;
 }
 
@@ -20,17 +29,22 @@ export namespace FileBindingMessage {
 * exported types with their correct result types for accuracy.
 */
 export namespace FileBindingResponse {
-    export type ShallowInternalFileBinding = FileBindingValidators.ShallowFileBindingRepresentation;
-    export type InternalFileBinding = FileBindingValidators.FileBindingRepresentation;
-    export type FileBindingReadResponseMessage = Omit<FileBindingValidators.FileBindingResponseSchema, 'result'> & {
-        result: FileBindingValidators.FileBindingRepresentation[],
-    };
-    export type FileBindingServiceReadResponseMessage = Omit<FileBindingValidators.FileBindingResponseSchema, 'result'> & {
-        result: FileBindingValidators.ShallowFileBindingRepresentation[],
-    };
-    export type FileBindingResponseMessage = Omit<FileBindingValidators.FileBindingResponseSchema, 'result'> & {
-        result: string[],
-    };
+    export type QueryByFileResponse = FileBindingValidators.QueryByFileResponse;
+    export type ShallowQueryByFileResponse = FileBindingValidators.ShallowQueryByFileResponse;
+
+    export type QueryByEventResponse = FileBindingValidators.QueryByEventResponse;
+    export type ShallowQueryByEventResponse = FileBindingValidators.ShallowQueryByEventResponse;
+
+    export type BindEventsToFileResponse = FileBindingValidators.BindEventsToFileResponse;
+    export type BindFilesToEventResponse = FileBindingValidators.BindFilesToEventResponse;
+
+    export type UnbindEventsFromFileResponse = FileBindingValidators.UnbindEventsFromFileResponse;
+    export type UnbindFilesFromEventResponse = FileBindingValidators.UnbindFilesFromEventResponse;
+
+    export type SetEventsForFileResponse = FileBindingValidators.SetEventsForFileResponse;
+    export type SetFilesForEventResponse = FileBindingValidators.SetFilesForEventResponse;
+
+    export type FileBindingResponse = FileBindingValidators.FileBindingResponseSchema;
 }
 
 export const FileBindingMessageValidator = FileBindingValidators.FileBindingMessageValidator;
