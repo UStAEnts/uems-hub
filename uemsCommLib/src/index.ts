@@ -27,6 +27,7 @@ export { CommentMessage, CommentResponse, CommentResponseValidator, CommentMessa
 export { TopicMessage, TopicResponse, TopicResponseValidator, TopicMessageValidator } from './topic/index';
 export { SignupMessage, SignupResponse, SignupResponseValidator, SignupMessageValidator } from './signup/index';
 export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
+export { FileBindingMessage, FileBindingResponse, FileBindingResponseValidator, FileBindingMessageValidator } from './filebinding/index';
 
 export namespace ObjectUtilities {
     export const has = hasFunc;
