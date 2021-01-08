@@ -161,7 +161,9 @@ export namespace FileBindingValidators {
             },
             "eventIDs": {
                 "type": "array",
-                "items": "string",
+                "items": {
+                    "type": "string",
+                },
             }
         }
     }
@@ -195,7 +197,9 @@ export namespace FileBindingValidators {
             },
             "fileIDs": {
                 "type": "array",
-                "items": "string",
+                "items": {
+                    "type": "string",
+                },
                 "description": "The additional file IDs to bind to the event",
             }
         }
@@ -231,7 +235,9 @@ export namespace FileBindingValidators {
             },
             "eventIDs": {
                 "type": "array",
-                "items": "string",
+                "items": {
+                    "type": "string",
+                },
                 "description": "The events to remove from this file",
             }
         }
@@ -266,7 +272,9 @@ export namespace FileBindingValidators {
             },
             "fileIDs": {
                 "type": "array",
-                "items": "string",
+                "items": {
+                    "type": "string",
+                },
                 "description": "The file ids which should be removed from this event"
             }
         }
@@ -302,7 +310,9 @@ export namespace FileBindingValidators {
             },
             "eventIDs": {
                 "type": "array",
-                "items": "string",
+                "items": {
+                    "type": "string",
+                },
                 "description": "The only events to be attached to this file",
             }
         }
@@ -337,7 +347,9 @@ export namespace FileBindingValidators {
             },
             "fileIDs": {
                 "type": "array",
-                "items": "string",
+                "items": {
+                    "type": "string",
+                },
                 "description": "The only file ids which should be present on this event"
             }
         }
