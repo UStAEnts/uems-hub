@@ -25,7 +25,7 @@ export namespace FileBindingValidators {
             "result",
         ],
         "properties": {
-            ...CORE_SCHEMA(x),
+            ...CORE_SCHEMA(x, true),
             "result": {
                 "type": "boolean",
                 "description": "Indicating if the operation were successful"
