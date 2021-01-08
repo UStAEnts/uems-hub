@@ -33,6 +33,10 @@ export namespace BaseSchema {
                         "const": 0,
                     }
             )
+        },
+        "userID": {
+            "type": "string",
+            "description": "The user ID of the user currently making this request or anonymous if there is no user",
         }
     })
 
@@ -40,7 +44,7 @@ export namespace BaseSchema {
      * The set of required values from the {@link CORE_SCHEMA}.
      * @private
      */
-    export const CORE_REQUIRED = ["msg_id", "msg_intention", "status"];
+    export const CORE_REQUIRED = ["msg_id", "msg_intention", "status", "userID"];
 
     /**
      * Defines the Typescript type from {@link CORE_SCHEMA} with a withStatus value of false. For withStatus being true
