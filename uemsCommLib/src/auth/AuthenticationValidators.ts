@@ -12,6 +12,26 @@ export namespace AuthenticationValidators {
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
     export const AUTHENTICATE_MESSAGE = {}
 
+    export const INVALIDATE_TOKEN_MESSAGE = {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+            ...CORE_REQUIRED,
+            "token",
+        ],
+        "properties": {
+            ...CORE_SCHEMA('READ'),
+            "token": {
+                "type": "string",
+                "description": "The token which should be rejected"
+            },
+        }
+    }
+
+    export type InvalidateTokenMessage = {
+        token: string,
+    }
+
     export type AuthenticateMessage = {
         identifierBundle: string,
         timestamp: string,
@@ -76,12 +96,13 @@ export namespace AuthenticationValidators {
     }
 
     export type AuthenticationResponseSchema = SuccessfulAuthenticateResponse | UnsuccessfulAuthenticateResponse;
-    export type AuthenticationMessage = AuthenticateMessage;
+    export type AuthenticationMessage = AuthenticateMessage | InvalidateTokenMessage;
 
     const AUTHENTICATION_MESSAGE_SCHEMA = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "anyOf": [
             AUTHENTICATE_MESSAGE,
+            INVALIDATE_TOKEN_MESSAGE
         ],
     };
 

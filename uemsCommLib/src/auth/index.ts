@@ -1,7 +1,9 @@
 import { AuthenticationValidators } from "./AuthenticationValidators";
 
 export namespace AuthenticationMessage {
+    export type InvalidateTokenMessage = AuthenticationValidators.InvalidateTokenMessage;
     export type AuthenticateMessage = AuthenticationValidators.AuthenticateMessage;
+    export type AuthenticationMessage = AuthenticationValidators.AuthenticationMessage;
     export const messageToJSON = AuthenticationValidators.messageToJSON;
 }
 
