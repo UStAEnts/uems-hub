@@ -28,6 +28,7 @@ export { TopicMessage, TopicResponse, TopicResponseValidator, TopicMessageValida
 export { SignupMessage, SignupResponse, SignupResponseValidator, SignupMessageValidator } from './signup/index';
 export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
 export { FileBindingMessage, FileBindingResponse, FileBindingResponseValidator, FileBindingMessageValidator } from './filebinding/index';
+export { AuthenticationMessage, AuthenticationResponse, AuthenticationResponseValidator, AuthenticationMessageValidator } from './auth/index';
 
 export namespace ObjectUtilities {
     export const has = hasFunc;
