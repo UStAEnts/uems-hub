@@ -19,7 +19,7 @@ export class MessageValidator {
             const result = await this.schemaValidator(msg);
             if (result === true) return true;
 
-            if (process.env.NODE_ENV === 'dev') {
+            if (process.env.UEMS_AJV_VERBOSE && process.env.UEMS_AJV_VERBOSE === 'on') {
                 console.warn('ajv validation failed');
                 console.warn(this.schemaValidator.errors);
             }
@@ -28,7 +28,7 @@ export class MessageValidator {
         } catch (err) {
             if (!(err instanceof Ajv.ValidationError)) throw err;
 
-            if (process.env.NODE_ENV === 'dev') {
+            if (process.env.UEMS_AJV_VERBOSE && process.env.UEMS_AJV_VERBOSE === 'on') {
                 console.debug(err);
             }
 
