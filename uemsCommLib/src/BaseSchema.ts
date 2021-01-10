@@ -4,7 +4,7 @@ export namespace BaseSchema {
      * Intentions that a message can be sent with to either query, create, update or read a value
      * @private
      */
-    export type Intentions = "READ" | "CREATE" | "UPDATE" | "DELETE";
+    export type Intentions = "READ" | "CREATE" | "UPDATE" | "DELETE" | "ASSERT";
 
     /**
      * Function which generates score schema elements with msg_id, msg_intention (from parameters) and status. If with

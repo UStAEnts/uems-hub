@@ -94,6 +94,24 @@ export namespace UserValidators {
         hash: string,
     }
 
+    // Identical to create but with the assert keyword
+    const USER_ASSERT_SCHEMA = {
+        ...USER_CREATE_SCHEMA,
+        "properties": {
+            ...USER_CREATE_SCHEMA.properties,
+            ...CORE_SCHEMA('ASSERT'),
+        },
+    };
+
+    export type UserAssertSchema = CoreSchema<'ASSERT'> & {
+        id: string,
+        name: string,
+        username: string,
+        profile?: string,
+        email: string,
+        hash: string,
+    };
+
     const USER_READ_SCHEMA = {
         "additionalProperties": false,
         "required": [...CORE_REQUIRED],
@@ -224,7 +242,7 @@ export namespace UserValidators {
         result: string[] | UserRepresentation[],
     };
 
-    export type UserMessage = UserCreateSchema | UserUpdateSchema | UserDeleteSchema | UserReadSchema;
+    export type UserMessage = UserCreateSchema | UserUpdateSchema | UserDeleteSchema | UserReadSchema | UserAssertSchema;
 
     const USER_MESSAGE_SCHEMA = {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -233,6 +251,7 @@ export namespace UserValidators {
             USER_UPDATE_SCHEMA,
             USER_READ_SCHEMA,
             USER_DELETE_SCHEMA,
+            USER_ASSERT_SCHEMA,
         ],
     };
 

@@ -7,6 +7,7 @@ import { UserValidators } from "./UserValidators";
  * Re-exports of types and functions in {@link UserValidators} relating to ent state messages
  */
 export namespace UserMessage {
+    export type AssertUserMessage = UserValidators.UserAssertSchema;
     export type CreateUserMessage = UserValidators.UserCreateSchema;
     export type UpdateUserMessage = UserValidators.UserUpdateSchema;
     export type DeleteUserMessage = UserValidators.UserDeleteSchema;
