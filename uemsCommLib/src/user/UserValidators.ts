@@ -56,6 +56,10 @@ export namespace UserValidators {
         "additionalProperties": false,
         "properties": {
             ...CORE_SCHEMA('CREATE'),
+            "id": {
+                "type": "string",
+                "description": "A unique identifier for this user, unique to the system",
+            },
             "name": {
                 "type": "string",
                 "description": "The real name of the user",
@@ -78,10 +82,11 @@ export namespace UserValidators {
                 "description": "The hashed password of this user, for direct storage in the database"
             },
         },
-        "required": [...CORE_REQUIRED, "name", "username", "email", "hash"],
+        "required": [...CORE_REQUIRED, "name", "username", "email", "hash", "id"],
     };
 
     export type UserCreateSchema = CoreSchema<'CREATE'> & {
+        id: string,
         name: string,
         username: string,
         profile?: string,
