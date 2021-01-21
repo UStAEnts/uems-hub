@@ -10,3 +10,18 @@
 [submodule "uems-gateway"]
 	path = uems-gateway
 	url = https://github.com/ents-crew/uems-gateway.git
+[submodule "uems-files-hermes"]
+	path = uems-files-hermes
+	url = https://github.com/ents-crew/uems-files-hermes.git
+[submodule "uems-equipment-hephaestus"]
+	path = uems-equipment-hephaestus
+	url = https://github.com/ents-crew/uems-equipment-hephaestus.git
+[submodule "uems-venues-tartarus"]
+	path = uems-venues-tartarus
+	url = https://github.com/ents-crew/uems-venues-tartarus
+[submodule "uems-state-athena"]
+	path = uems-state-athena
+	url = https://github.com/ents-crew/uems-state-athena
+[submodule "uems-user-hera"]
+	path = uems-user-hera
+	url = https://github.com/ents-crew/uems-user-hera
