@@ -1,0 +1,33 @@
+{
+  "name": "@uems/uemscommlib",
+  "version": "0.1.0-beta.36",
+  "description": "The common library used by backend elements of the uems system",
+  "dependencies": {
+    "ajv": "^6.12.3"
+  },
+  "devDependencies": {
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.23",
+    "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
+    "ts-mocha": "^7.0.0",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "test": "mocha build/test",
+    "build": "tsc --listEmittedFiles",
+    "prepublish": "tsc"
+  },
+  "author": "Lan2u",
+  "contributors": [
+    "Lan2u",
+    {
+      "email": "vitineth@gmail.com",
+      "name": "Ryan Delaney"
+    }
+  ],
+  "license": "ISC",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "prepublish": "tsc"
+}

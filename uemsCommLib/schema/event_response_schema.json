@@ -1,0 +1,59 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "anyOf": [
+        {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "msg_id": {
+                    "type": "number",
+                    "description": "An ID for this message which is unique within the system"
+                },
+                "status": {
+                    "type": "number",
+                    "description": "The status of the response, uses HTTP status codes, 0 value if unset",
+                    "default": 0
+                },
+                "msg_intention": {
+                    "type": "string",
+                    "enum": [ "READ", "CREATE", "UPDATE", "DELETE"],
+                    "description": "The purpose / intention of the request for which this is the result"
+                },
+                "result": {
+                    "type": "array",
+                    "items": {
+                        "event_id": {
+                            "type": "string",
+                            "description": "The unique ID of the event"
+                        },
+                        "event_name": {
+                            "type": "string",
+                            "description": "The new human-readable non-unique name of the event"
+                        },
+                        "event_start_date": {
+                            "type": "number",
+                            "description": "The event start_date to use for querying events (as a UTC timestamp in seconds since epoch)"
+                        },
+                        "event_end_date": {
+                            "type": "number",
+                            "description": "The event end_date to use for querying events (as a UTC timestamp in seconds since epoch)"
+                        },
+                        "venue_ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "The unique venue IDs to search for events in, default to all"
+                            }
+                        },
+                        "attendance": {
+                            "type": "integer",
+                            "description": "The attendance of the event"
+                        }
+                    },
+                    "required": ["event_id"]
+                }
+            },
+            "required": ["msg_id", "status", "msg_intention", "result"]
+        }
+    ]
+}
