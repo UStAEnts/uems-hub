@@ -1,7 +1,7 @@
 // export * as EventMsg from './messaging/types/event_message_schema';
 // export * as EventRes from './messaging/types/event_response_schema';
 import * as MessageValidator from './messaging/MessageValidator';
-import {has as hasFunc} from './utilities/ObjectUtilities';
+import { has as hasFunc } from './utilities/ObjectUtilities';
 
 export enum MsgStatus {
     SUCCESS = 200,
@@ -29,6 +29,12 @@ export { SignupMessage, SignupResponse, SignupResponseValidator, SignupMessageVa
 export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
 export { FileBindingMessage, FileBindingResponse, FileBindingResponseValidator, FileBindingMessageValidator } from './filebinding/index';
 export { AuthenticationMessage, AuthenticationResponse, AuthenticationResponseValidator, AuthenticationMessageValidator } from './auth/index';
+
+export { MessageValidator } from './messaging/MessageValidator';
+export { has } from './utilities/ObjectUtilities';
+
+export * from './BaseSchema'
+
 
 export namespace ObjectUtilities {
     export const has = hasFunc;
