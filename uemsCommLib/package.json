@@ -1,6 +1,6 @@
 {
   "name": "@uems/uemscommlib",
-  "version": "0.1.0-beta.36",
+  "version": "0.1.0-beta.38",
   "description": "The common library used by backend elements of the uems system",
   "dependencies": {
     "ajv": "^6.12.3"
@@ -26,6 +26,7 @@
       "name": "Ryan Delaney"
     }
   ],
+  "files": ["build/**"],
   "license": "ISC",
   "main": "build/index.js",
   "types": "build/index.d.ts",
