@@ -1,24 +1,32 @@
 [submodule "uems-event-micro-dionysus"]
 	path = uems-event-micro-dionysus
 	url = https://github.com/ents-crew/uems-event-micro-dionysus.git
+	branch = master
 [submodule "uems-frontend-themis"]
 	path = uems-frontend-themis
 	url = https://github.com/ents-crew/uems-frontend-themis.git
+	branch = master
 [submodule "uems-gateway"]
 	path = uems-gateway
 	url = https://github.com/ents-crew/uems-gateway.git
+	branch = master
 [submodule "uems-files-hermes"]
 	path = uems-files-hermes
 	url = https://github.com/ents-crew/uems-files-hermes.git
+	branch = main
 [submodule "uems-equipment-hephaestus"]
 	path = uems-equipment-hephaestus
 	url = https://github.com/ents-crew/uems-equipment-hephaestus.git
+	branch = main
 [submodule "uems-venues-tartarus"]
 	path = uems-venues-tartarus
 	url = https://github.com/ents-crew/uems-venues-tartarus.git
+	branch = master
 [submodule "uems-state-athena"]
 	path = uems-state-athena
 	url = https://github.com/ents-crew/uems-state-athena.git
+	branch = main
 [submodule "uems-user-hera"]
 	path = uems-user-hera
 	url = https://github.com/ents-crew/uems-user-hera.git
+	branch = main
