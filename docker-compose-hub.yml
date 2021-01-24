@@ -1,0 +1,206 @@
+version: '2.8'
+networks:
+  uems-dev:
+services:
+  # This system uses one shared mongo db instance which all services connect to
+  # Healthcheck uses the build in mongodb command line. Server is only exposed
+  # internally on the docker network because there is no need for it to be
+  # accessed publically
+  mongo:
+    image: mongo
+    restart: always
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - uems-dev
+    expose:
+      - "27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+  
+  # Mongo express is used for development purposes only and provides a debugging method for
+  # checking mongodb values and making any adjustments. If this ents up being annoying
+  # you can add an exposed port to the mongo entry above.
+  mongo-express: 
+    image: mongo-express
+    restart: always
+    networks:
+      - uems-dev
+    ports:
+      - 8081:8081
+    environment: 
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+  
+  # Seeing needs to run before anything else because it populates the monog db databases. It
+  # relies on the mongodb database being setup properly.
+  mongo-seeding:
+    build: ./docker-setup/mongo-seeding
+    depends_on: 
+      - mongo
+    networks:
+      - uems-dev
+  
+  # Rabbit mq is the message broker that distributes messages between all systems
+  # It exposes two ports publically and internally. One is for the AMQLib interface
+  # which the client communicate on (5672) and one is for the management interface
+  # which is used to inspect the channels and make any configuration changes (15672)
+  rabbit-uems:
+    # container_name: rabbit-uems
+    build: ./docker-setup/rabbit-mq-docker
+    expose:
+      - "5672"
+      - "15672"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - uems-dev
+    healthcheck:
+      test: ["CMD", "/bin/sh", "-c", "rabbitmq-diagnostics -q ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  
+  micro-dionysus:
+    build: ./uems-event-micro-dionysus
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15550"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  
+  gateway:
+    build: 
+      context: ./
+      dockerfile: ./docker-setup/composite-gateway.Dockerfile
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:15450/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    expose:
+      - "15450"
+    links:
+      - "keycloak:uems.local.host"
+  
+  equipment-hephaestus:
+    build: ./uems-equipment-hephaestus
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+  
+  files-hermes:
+    build: ./uems-files-hermes
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    expose:
+      - "1432"
+  
+  state-athena:
+    build: ./uems-state-athena
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+  
+  venues-tartarus:
+    build: ./uems-venues-tartarus
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+  
+  user-hera:
+    build: ./uems-user-hera
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+  
+  # Keycloak manages authentication. This copies in the realm configuration required to run this properly
+  # as a volume mount. For now the username and password to the admin interface is just admin:admin (yay
+  # for security). 
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.1
+    networks:
+      - uems-dev
+    volumes:
+      - "./docker-setup/keycloak/realm-export-uems-debug.json:/tmp/realm.json"
+    environment: 
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/realm.json
+    ports:
+      - 8080
+
+  # Haproxy allows us to have a single set of ports expose the file server, gateway and keycloak all
+  # within one configuration. This is mostly used to map the file server under the same port as the
+  # gateway server but keycloak is also exposed through this. This also serves the additional purpose
+  # that the entire system won't be available publically until all the services are started and healthy
+  # if required
+  haproxy:
+    networks:
+      - uems-dev
+    depends_on: 
+      rabbit-uems:
+        condition: service_healthy
+      venues-tartarus:
+        condition: service_started
+      state-athena:
+        condition: service_started
+      files-hermes:
+        condition: service_started
+      equipment-hephaestus:
+        condition: service_started
+      user-hera:
+        condition: service_started
+      gateway:
+        condition: service_started
+      micro-dionysus:
+        condition: service_started
+      keycloak:
+        condition: service_started
+    image: eeacms/haproxy
+    volumes:
+      - "./docker-setup/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+    ports: 
+      - "8999:8999"
+      - "8080:8080"
