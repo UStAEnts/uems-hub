@@ -363,3 +363,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,vagrant,node,react,jetbrains,webstorm
 **/build
+docker-setup/keycloak/kc-gzip-cache/
