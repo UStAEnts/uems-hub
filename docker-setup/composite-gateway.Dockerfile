@@ -4,7 +4,7 @@ RUN apk add --update python
 RUN apk add --no-cache make gcc g++ python
 
 EXPOSE 15450
-CMD ["npm", "run", "start:old"]
+CMD ["npm", "run", "start"]
 ENV NODE_ENV=dev
 
 # Copy in the frontend, move into it and build it
