@@ -1,127 +1,1855 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
-  title: UEMS Gatway
-  description: API gateway for access to the UEMS System
+  title: Gateway
+  version: '1.0'
+  description: 'The gateway of the UEMS platform, used by the frontend web API'
   contact:
-    email: ents@st-andrews.ac.uk
     name: St Andrews Students Association Ents Crew
+    email: convenor@entscrew.net
     url: 'https://entscrew.net'
-  version: 0.0.1-alpha
 servers:
-  - url: 'https://gateway.uems.entscrew.net/api/v0'
-tags:
-  - name: event
-    description: 'Access to event instances being hosted within, in association with the Union or that the Union should be aware of'
-  - name: user
-    description: Acces to details and operations against users of the system
-  - name: comment
-  - name: file
-  - name: signup
-  - name: ents
-  - name: state
-  - name: system
-  - name: topic
-components:
-  responses:
-    BadRequestResponse:
-      description: 'the request was invalid, the response will describe the issue in the response'
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/FailedAPIResponse'
-    UnauthorizedResponse:
-      description: user is not authenticated. response will contain the uri at which the user can authenticate
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/FailedAPIResponse'
-              - type: object
+  - url: 'http://localhost:3000'
+paths:
+  /ents:
+    get:
+      summary: Retrieve ents states
+      tags:
+        - ents
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EntStateRepresentation'
+              examples: {}
+      operationId: get-ents
+      description: Retrieves all valid ents states currently loaded on the system
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name or a substring of the name to search with
+        - schema:
+            type: string
+          in: query
+          name: icon
+          description: The exact icon to search with
+        - schema:
+            type: string
+            pattern: '^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$'
+          in: query
+          name: color
+          description: 'A 7 character hex colour code, this has to variance'
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: 'The unique ent ID if fetching one result. Use /ent/:id if you know the result exists'
+    post:
+      summary: Creates a new ent state
+      operationId: post-ents
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Inserts a new ent state into the system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                icon:
+                  type: string
+                color:
+                  type: string
+                  pattern: '^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$'
+              required:
+                - name
+                - icon
+                - color
+      tags:
+        - ents
+  '/ents/{entID}':
+    parameters:
+      - schema:
+          type: string
+        name: entID
+        in: path
+        required: true
+        description: The unique identifier for the ent state
+    get:
+      summary: Retrieves a single ent state
+      tags:
+        - ents
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/EntStateRepresentation'
+      operationId: get-ents-entID
+      description: Fetches a single valid ent state
+      parameters: []
+    delete:
+      summary: Removes an ent state
+      operationId: delete-ents-entID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Removes the ent state identified by this ID
+      tags:
+        - ents
+    patch:
+      summary: Updates properties of an ent state
+      operationId: patch-ents-entID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Updates properties of an ent state
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                icon:
+                  type: string
+                color:
+                  type: string
+                  pattern: '^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$'
+      tags:
+        - ents
+  /equipment:
+    get:
+      summary: Fetches all equipment entries
+      tags:
+        - equipment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EquipmentRepresentation'
+      operationId: get-equipment
+      description: Retrieves all pieces of equipment registered on the system with their populated attributes
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: 'the unique id of the equipment if fetching one result. Also use /equipment/:id'
+        - schema:
+            type: string
+          in: query
+          name: assetID
+          description: 'The asset identifier to search with, this must be an exact match'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name or a substring of it to search with
+        - schema:
+            type: string
+          in: query
+          name: manufacturer
+          description: The manufacturer to search with
+        - schema:
+            type: string
+          in: query
+          name: model
+          description: The desired model of the equipment
+        - schema:
+            type: string
+          in: query
+          name: miscIdentifier
+          description: Searches by the misc identifier associated with the equipment
+        - schema:
+            type: number
+          in: query
+          name: amount
+          description: 'The amount of equipment required in the results, this has no leniency'
+        - schema:
+            type: string
+          in: query
+          name: locationID
+          description: The system ID for the venue in which this equipment is placed
+        - schema:
+            type: string
+          in: query
+          name: locationSpecifier
+          description: The specification of where in the venue the equipment is located. This must be an exact match
+        - schema:
+            type: string
+          in: query
+          name: managerID
+          description: The system user id of the user who manages this piece of equipment
+        - schema:
+            type: number
+          in: query
+          name: date
+          description: The data at which this equipment was created
+        - schema:
+            type: string
+          in: query
+          name: category
+          description: 'The category of this equipment, must be an exact match'
+    post:
+      summary: Inserts a new piece of equipment
+      operationId: post-equipment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EquipmentRepresentation'
+      description: Create a new piece of equipment in the system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                manufacturer:
+                  type: string
+                model:
+                  type: string
+                amount:
+                  type: number
+                locationID:
+                  type: string
+                category:
+                  type: string
+                assetID:
+                  type: string
+                miscIdentifier:
+                  type: string
+                locationSpecifier:
+                  type: string
+              required:
+                - name
+                - manufacturer
+                - model
+                - amount
+                - locationID
+                - category
+      tags:
+        - equipment
+  '/equipment/{equipmentID}':
+    parameters:
+      - schema:
+          type: string
+        name: equipmentID
+        in: path
+        required: true
+        description: The unique equipment entry
+    get:
+      summary: Retrieves a single equipment element
+      tags:
+        - equipment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/EquipmentRepresentation'
+      operationId: get-equipment-equipmentID
+      description: Fetches a single equipment element
+    delete:
+      summary: Deletes an existing equipment entry
+      operationId: delete-equipment-equipmentID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Removes the equipment associated with this ID
+      tags:
+        - equipment
+    patch:
+      summary: Update properties of a piece of equipment
+      operationId: patch-equipment-equipmentID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetID:
+                  type: string
+                name:
+                  type: string
+                manufacturer:
+                  type: string
+                model:
+                  type: string
+                miscIdentifier:
+                  type: string
+                amount:
+                  type: number
+                locationID:
+                  type: string
+                locationSpecifier:
+                  type: string
+                managerID:
+                  type: string
+                category:
+                  type: string
+      description: Updates properties on a piece of equipment
+      tags:
+        - equipment
+  /events:
+    get:
+      summary: Retrieves events
+      tags:
+        - event
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EventRepresentation'
+      operationId: get-events
+      description: Fetches events by a given query
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name or a substring of the name
+        - schema:
+            type: number
+          in: query
+          name: start
+          description: The start date as unix timestamp
+        - schema:
+            type: number
+          in: query
+          name: end
+          description: The end date as unix timestamp
+        - schema:
+            type: number
+          in: query
+          name: attendance
+          description: The exact attendance figure required
+        - schema:
+            type: array
+          in: query
+          name: venueIDs
+          description: 'The array of venues required, modifiable via venueCriteria'
+        - schema:
+            type: string
+            enum:
+              - all
+              - any
+          in: query
+          name: venueCriteria
+          description: 'If all then all venues must be preset, if any then any of the venues match. Should be a comma separated list of venue IDs'
+        - schema:
+            type: string
+          in: query
+          name: entsID
+          description: The ID of an ent state that must be present
+        - schema:
+            type: string
+          in: query
+          name: stateID
+          description: The ID of a state that must be present
+        - schema:
+            type: number
+          in: query
+          name: startafter
+          description: 'The beginning of the start date range, as a unit timestamp'
+        - schema:
+            type: number
+          in: query
+          name: startbefore
+          description: 'The end of the start date range, as a unit timestamp'
+        - schema:
+            type: number
+          in: query
+          name: endafter
+          description: 'The beginning of the end date range, as a unit timestamp'
+        - schema:
+            type: number
+          in: query
+          name: endbefore
+          description: 'The end of the end date range, as a unit timestamp'
+        - schema:
+            type: number
+          in: query
+          name: attendanceGreater
+          description: The lowest attendance figure that is required
+        - schema:
+            type: number
+          in: query
+          name: attendanceLess
+          description: The greatest attendance figure permitted
+    post:
+      summary: Creates a new event
+      operationId: post-events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Creates a new event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                venue:
+                  type: string
+                start:
+                  type: number
+                end:
+                  type: number
+                attendance:
+                  type: number
+                state:
+                  type: string
+                ents:
+                  type: string
+              required:
+                - name
+                - venue
+                - start
+                - end
+                - attendance
+      tags:
+        - event
+  '/events/{eventID}':
+    parameters:
+      - schema:
+          type: string
+        name: eventID
+        in: path
+        required: true
+        description: The unique event ID
+    get:
+      summary: Fetches a single event instance
+      tags:
+        - event
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
                 properties:
-                  authenticationEndpoint:
+                  status:
                     type: string
-    NotFoundIDResponse:
-      description: 'One of the IDs in the request path was not found, the resource likely does not exist'
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/FailedAPIResponse'
-    ForbiddenResponse:
-      description: You do not have the necessary permisssions to perform this action
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/FailedAPIResponse'
+                    enum:
+                      - OK
+                      - FAIL
+                  event:
+                    $ref: '#/components/schemas/EventRepresentation'
+                  changelog:
+                    type: array
+                    items: {}
+                required:
+                  - status
+                  - event
+                  - changelog
+      operationId: get-events-eventID
+      description: Returns the event with its changelog
+    patch:
+      summary: Updates an event
+      operationId: patch-events-eventID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: 'Updates an event and will save its modification in the changelog returned by GET /events/{eventID}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                start:
+                  type: number
+                end:
+                  type: number
+                attendance:
+                  type: number
+                addVenues:
+                  type: array
+                  items:
+                    type: string
+                removeVenues:
+                  type: array
+                  items:
+                    type: string
+                ents:
+                  type: string
+                state:
+                  type: string
+        description: ''
+      tags:
+        - event
+    delete:
+      summary: Deletes an event instance
+      operationId: delete-events-eventID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Removes an event instance but will preserve an events changelog as an audit measure
+      tags:
+        - event
+  '/events/{eventID}/comments':
+    parameters:
+      - schema:
+          type: string
+        name: eventID
+        in: path
+        required: true
+    get:
+      summary: Retrieves comments on an event
+      tags:
+        - event
+        - comment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CommentRepresentation'
+      operationId: get-events-eventID-comments
+      description: Returns all comments written for this event
+    post:
+      summary: Creates a new comment
+      operationId: post-events-eventID-comments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Creates a new comment on an event. Currently events cannot be ammended once produced
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                category:
+                  type: string
+                requiresAttention:
+                  type: boolean
+                body:
+                  type: string
+              required:
+                - body
+      tags:
+        - event
+        - comment
+  '/states/{stateID}/events':
+    get:
+      summary: Fetches all the events for the given state
+      tags:
+        - event
+        - state
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EventRepresentation'
+      operationId: get-states-stateID-events
+      description: Fetches all the events which are defined for a given state
+    parameters:
+      - schema:
+          type: string
+        name: stateID
+        in: path
+        required: true
+        description: The unique state identifier
+  '/venues/{venueID}/events':
+    parameters:
+      - schema:
+          type: string
+        name: venueID
+        in: path
+        required: true
+        description: The unique venue identifier
+    get:
+      summary: Retrieves all events occuring the given venue
+      tags:
+        - venue
+        - event
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EventRepresentation'
+      operationId: get-venues-venueID-events
+      description: Retrieves all events occuring the given venue
+  /files:
+    get:
+      summary: Fetches all files matching a query
+      tags:
+        - file
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FileRepresentation'
+      operationId: get-files
+      description: Fetches all files matching a query. If the query is omitted it will return all files entered on the system
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: The unique ID of this file
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name of a substring of the name of the file
+        - schema:
+            type: string
+          in: query
+          name: filename
+          description: The raw filename or a substring of the filename of the uploaded file
+        - schema:
+            type: number
+          in: query
+          name: size
+          description: 'The size of the file, in bytes'
+        - schema:
+            type: string
+          in: query
+          name: type
+          description: The type of file uploaded
+        - schema:
+            type: number
+          in: query
+          name: date
+          description: 'The date of the file upload, expressed as a unix timestamp'
+        - schema:
+            type: string
+          in: query
+          name: userid
+          description: The identifier of the user who uploaded the file
+    post:
+      summary: Creates a new file on the system
+      operationId: post-files
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: This endpoint creates a new file meta-data entry on the server. This does not actually upload a file. This response will contain an uploadURI in the response where the file should actually be uploaded. The file should be sent as a multipart form data POST request to the uploadURI which encodes the file in the 'data' parameter.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                filename:
+                  type: string
+                size:
+                  type: number
+                type:
+                  type: string
+              required:
+                - name
+                - filename
+                - size
+                - type
+      tags:
+        - file
+  '/files/{fileID}':
+    parameters:
+      - schema:
+          type: string
+        name: fileID
+        in: path
+        required: true
+        description: The unique file ID
+    get:
+      summary: Fetches a single file entry
+      tags:
+        - file
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/FileRepresentation'
+      operationId: get-files-fileID
+      description: Returns a single file entry containing its download URL as well
+    patch:
+      summary: Updates properties of a single file
+      operationId: patch-files-fileID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Updates details of a single file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type:
+                  type: string
+      tags:
+        - file
+    delete:
+      summary: Removes a file entry
+      operationId: delete-files-fileID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: 'This endpoint deletes the file meta-data entry and will optionally delete the file uploaded, depending on the servers retention policy for files. '
+      tags:
+        - file
+  '/files/{fileID}/events':
+    parameters:
+      - schema:
+          type: string
+        name: fileID
+        in: path
+        required: true
+        description: The unique file ID
+    get:
+      summary: Retrieves all files associated with the file
+      tags:
+        - file
+        - event
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EventRepresentation'
+      operationId: get-files-fileID-events
+      description: Returns all files that are associated with this file identifier
+  '/events/{eventID}/files':
+    parameters:
+      - schema:
+          type: string
+        name: eventID
+        in: path
+        required: true
+        description: The unique event identifier
+    get:
+      summary: Fetches all files associated with one event
+      tags:
+        - file
+        - event
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FileRepresentation'
+      operationId: get-events-eventID-files
+      description: Fetches all files associated with one event
+    post:
+      summary: Attaches a file to an event
+      operationId: post-events-eventID-files
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: This endpoint binds an existing file to an existing event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                fileID:
+                  type: string
+              required:
+                - fileID
+      tags:
+        - file
+        - event
+  '/events/{eventID}/files/{fileID}':
+    parameters:
+      - schema:
+          type: string
+        name: eventID
+        in: path
+        required: true
+        description: The event ID
+      - schema:
+          type: string
+        name: fileID
+        in: path
+        required: true
+        description: The file ID
+    delete:
+      summary: Deletes a single file binding
+      operationId: delete-events-eventID-files-fileID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Unbinds an event from a file. This does not impact either entity
+      tags:
+        - event
+        - file
+  '/events/{eventID}/signups':
+    parameters:
+      - schema:
+          type: string
+        name: eventID
+        in: path
+        required: true
+        description: The unique identifier for this event
+    get:
+      summary: Retrieves all signups present on an event
+      tags:
+        - event
+        - signup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      '':
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SignupRepresentation'
+      operationId: get-events-eventID-signups
+      description: Retrieves the list of users currents signed up to this event and their role on the event
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: The ID of the signup to fetch
+        - schema:
+            type: number
+          in: query
+          name: date
+          description: 'The date at which the signup was placed, as a unix timestamp'
+        - schema:
+            type: string
+          in: query
+          name: userid
+          description: The ID of the user signed up to query
+        - schema:
+            type: number
+          in: query
+          name: dateRangeBegin
+          description: The start range of the signup date
+        - schema:
+            type: number
+          in: query
+          name: dateRangeEnd
+          description: The end of the range of signup dates
+        - schema:
+            type: string
+          in: query
+          name: role
+          description: The role for which to fetch all signed up users
+    post:
+      summary: Signs a user up to the event
+      operationId: post-events-eventID-signups
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: This will add the user issuing the request as a member of the event with the given role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                role:
+                  type: string
+              required:
+                - role
+      tags:
+        - event
+        - signup
+  '/events/{eventID}/signups/{signupID}':
+    parameters:
+      - schema:
+          type: string
+        name: eventID
+        in: path
+        required: true
+        description: The unique ID of the event on which this signup exists
+      - schema:
+          type: string
+        name: signupID
+        in: path
+        required: true
+        description: The unique identifier of the signup on this event
+    get:
+      summary: Returns details of a single signup on an event
+      tags:
+        - event
+        - signup
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/SignupRepresentation'
+      operationId: get-events-eventID-signups-signupID
+      description: Returns the properties of a single signup
+    patch:
+      summary: Update the role of a signup
+      operationId: patch-events-eventID-signups-signupID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: 'Updates the role of the signup present on the server, this is the only modifiable property because signups are formed of events, users and roles. '
+      tags:
+        - event
+        - signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+    delete:
+      summary: Removes this users signup from the event
+      operationId: delete-events-eventID-signups-signupID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: This will delete the signup from the server
+      tags:
+        - event
+        - signup
+  /states:
+    get:
+      summary: Retrieves all states currently on the server
+      tags:
+        - state
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StateRepresentation'
+      operationId: get-states
+      description: All valid states will
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: 'The name, or a substring of it, to query'
+        - schema:
+            type: string
+          in: query
+          name: icon
+          description: The icon used to identify this state
+        - schema:
+            type: string
+          in: query
+          name: color
+          description: 'The colour used to identify the states, expressed as a hex colour code, with a #'
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: The unique ID to return a single result
+    post:
+      summary: Creates a new event state
+      operationId: post-states
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Inserts a new event state into the server
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                icon:
+                  type: string
+                color:
+                  type: string
+              required:
+                - name
+                - icon
+                - color
+      tags:
+        - state
+  '/states/{stateID}':
+    parameters:
+      - schema:
+          type: string
+        name: stateID
+        in: path
+        required: true
+        description: The unique identifier for this state
+    get:
+      summary: Retrieves properties about a single state
+      tags:
+        - state
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/StateRepresentation'
+      operationId: get-states-stateID
+      description: Returns the details of a single state
+    patch:
+      summary: Updates a single state
+      operationId: patch-states-stateID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Updates properties of an existing state
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                icon:
+                  type: string
+                color:
+                  type: string
+      tags:
+        - state
+    delete:
+      summary: Removes an existing state
+      operationId: delete-states-stateID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Deletes an existing state from the system
+      tags:
+        - state
+  /topics:
+    get:
+      summary: Queries existing topics
+      tags:
+        - topic
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TopicRepresentation'
+      operationId: get-topics
+      description: Fetches all topics matching the given query
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: 'The name, or a substring of it, to query'
+        - schema:
+            type: string
+          in: query
+          name: icon
+          description: The icon associated with topics to query
+        - schema:
+            type: string
+          in: query
+          name: color
+          description: The color code to search by as a 7 character hex colour code. This match is exact
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: 'The id to fetch if requesting one resource, recommended to use /topics/:id if you know it exists'
+        - schema:
+            type: string
+          in: query
+          name: description
+          description: 'The description, or a substring of it to query by'
+    post:
+      summary: Inserts a new topic
+      operationId: post-topics
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Creates a new topic and returns the ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                icon:
+                  type: string
+                color:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - icon
+                - color
+                - description
+      tags:
+        - topic
+  '/topics/{topicID}':
+    parameters:
+      - schema:
+          type: string
+        name: topicID
+        in: path
+        required: true
+        description: The unique topic identifier
+    get:
+      summary: Fetches a single topic
+      tags:
+        - topic
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/TopicRepresentation'
+      operationId: get-topics-topicID
+      description: Retrieves a single topic from the server
+    delete:
+      summary: Removes a topic
+      operationId: delete-topics-topicID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Deletes a topic from the system
+      tags:
+        - topic
+    patch:
+      summary: Updates a topic
+      operationId: patch-topics-topicID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Updates the properties of a topic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                color:
+                  type: string
+                icon:
+                  type: string
+                description:
+                  type: string
+      tags:
+        - topic
+  /user:
+    get:
+      summary: Fetches all users on the server
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/UserRepresentation'
+      operationId: get-user
+      description: 'Retrieves all users on the server, optionally with emails and hashes'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: id
+          description: 'The id of the user if fetching a single result, recommended to use /user/:id'
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The real name of the user to fetch
+        - schema:
+            type: string
+          in: query
+          name: username
+          description: The username of the user to fetch
+        - schema:
+            type: string
+          in: query
+          name: email
+          description: The email address of the user to search by
+        - schema:
+            type: string
+          in: query
+          name: includeEmail
+          description: If emails should be included in the user results
+        - schema:
+            type: string
+          in: query
+          name: includeHash
+          description: If hashes should be included in the user results
+    post:
+      summary: Creates a new user instance
+      operationId: post-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: 'Inserts a new complete user into the system. This only creates user metadata, this does not interact with the authentication server. This route is deprecated as users are asserted on login and missing user information will be created. While this route still exists it will be removed in future releases.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                hash:
+                  type: string
+                  description: 'Currently not used, leave blank for now. Authentication is handled by the authentication server and hashes are stored elsewhere'
+                profile:
+                  type: string
+              required:
+                - name
+                - username
+                - email
+                - hash
+      deprecated: true
+      tags:
+        - user
+  '/user/{userID}':
+    parameters:
+      - schema:
+          type: string
+        name: userID
+        in: path
+        required: true
+        description: 'The unique user id, this is their server ID not username or any other identifier'
+    get:
+      summary: Fetches a single user instance
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/UserRepresentation'
+      operationId: get-user-userID
+      description: Returns a single user if the ID matches
+    delete:
+      summary: Removes a user
+      operationId: delete-user-userID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: 'Deletes user metadata from the server. This is currently deprecated as users should not be managed directly through the gateway. This should be handled via the authentication server but this route is still available. Currently this is the only confirmed way to delete user metadata but this will not prevent users from logging and the user metadata will be recreated with a new identifier on next login. '
+      deprecated: true
+      tags:
+        - user
+    patch:
+      summary: Updates user metadata
+      operationId: patch-user-userID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: 'Updates user metadata. This route is currently deprecated as user metadata is overwritten periodically by the keycloak server. While route is still available it will be removed in future releases. '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                hash:
+                  type: string
+                profile:
+                  type: string
+      deprecated: true
+      tags:
+        - user
+  /venues:
+    get:
+      summary: Fetches all venue matching a query
+      tags:
+        - venue
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/VenueRepresentation'
+      operationId: get-venues
+      description: All venues matching the given query will be returned. When the query is empty all values will be returned
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: name
+          description: The name or a substring of the name to query by
+        - schema:
+            type: number
+          in: query
+          name: capacity
+          description: The exact capacity of the venue to search
+        - schema:
+            type: number
+          in: query
+          name: approximate_capacity
+          description: 'An approximate capacity to search by, values will be around this point with the accuracy being adjusted through the approximate_fuzziness result'
+        - schema:
+            type: number
+          in: query
+          name: approximate_fuzziness
+          description: How much leniency should be provided either side of approximate_capacity
+        - schema:
+            type: number
+          in: query
+          name: minimum_capacity
+          description: The minimum capacity allowed to be returned in the request
+        - schema:
+            type: number
+          in: query
+          name: maximum_capacity
+          description: The maximum capacity allowed in the response
+    post:
+      summary: Create a new venue
+      operationId: post-venues
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: This inserts a new venue entry in the system and returns its ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                name:
+                  type: string
+                capacity:
+                  type: number
+                color:
+                  type: string
+              required:
+                - name
+                - capacity
+                - color
+      tags:
+        - venue
+  '/venues/{venueID}':
+    parameters:
+      - schema:
+          type: string
+        name: venueID
+        in: path
+        required: true
+        description: The unique venue identifier
+    get:
+      summary: Fetches venue by ID
+      tags:
+        - venue
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Result'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/VenueRepresentation'
+      operationId: get-venues-venueID
+      description: Fetches a single venue by ID
+    patch:
+      summary: Updates a venue
+      operationId: patch-venues-venueID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Updates properties of a venue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                capacity:
+                  type: number
+                color:
+                  type: string
+      tags:
+        - venue
+    delete:
+      summary: Removes a venue
+      operationId: delete-venues-venueID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IDArrayResult'
+      description: Deletes a venue from the system
+      tags:
+        - venue
+  /status:
+    get:
+      summary: Gets the current status of the gateway
+      tags:
+        - system
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                example: OK 0.0.1
+                pattern: 'OK [0-9]+\.[0-9]+\.[0-9]+'
+      operationId: get-status
+      description: 'Returns the current status of the system. In the current version this will only return OK, optionally followed by the version of the gateway if the properties have been loaded. Otherwise the version will be listed as 0.0.1'
+  /whoami:
+    get:
+      summary: Returns the current user on the system
+      tags:
+        - system
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  profile:
+                    type: string
+                  username:
+                    type: string
+                required:
+                  - name
+                  - profile
+                  - username
+      operationId: get-whoami
+      description: This returns the properties of the currently authenticated user
+components:
   schemas:
-    EventQuery:
-      description: represents a query against all the available events in the system
+    CommentRepresentation:
       type: object
+      title: CommentRepresentation
+      x-tags:
+        - comment
+      additionalProperties: false
       properties:
+        id:
+          type: string
+        assetType:
+          type: string
+        assetID:
+          type: string
+        poster:
+          $ref: '#/components/schemas/UserRepresentation'
+        posted:
+          type: number
+        category:
+          type: string
+        requiresAttention:
+          type: boolean
+        attendedDate:
+          type: number
+        attendedBy:
+          $ref: '#/components/schemas/UserRepresentation'
+        body:
+          type: string
+      required:
+        - id
+        - assetType
+        - assetID
+        - poster
+        - posted
+        - body
+    StateRepresentation:
+      type: object
+      title: StateRepresentation
+      additionalProperties: false
+      properties:
+        id:
+          type: string
         name:
           type: string
-          description: A substring of the event name to be queried in the system
-        startBefore:
-          type: number
-          format: unix
-          description: the timestamp before which the event must begin
-        startAfter:
-          type: number
-          format: unix
-          description: the timestamp after which the event must begin
-        endBefore:
-          type: number
-          format: unix
-          description: the timestamp before which the event must end
-        endAfter:
-          type: number
-          format: unix
-          description: the timestamp after which the event must end
-    SuccessfulAPIResponse:
-      type: object
-      required:
-        - status
-        - result
-      properties:
-        status:
+        color:
           type: string
-          format: enum
-          default: OK
-        result: {}
-    FailedAPIResponse:
-      type: object
-      required:
-        - status
-        - error
-      properties:
-        status:
-          type: string
-          format: enum
-          default: FAIL
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-    CommentUpdate:
-      title: CommentUpdate
-      type: object
-      properties:
-        content:
-          type: string
-        topic:
+          pattern: '^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$'
+        icon:
           type: string
       required:
-        - content
-    User:
-      title: User
+        - id
+        - name
+        - color
+        - icon
+    EntStateRepresentation:
       type: object
-      description: Represents the basic properties of a User
+      title: EntStateRepresentation
+      additionalProperties: false
       properties:
+        id:
+          type: string
+        name:
+          type: string
+        color:
+          type: string
+          pattern: '^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$'
+        icon:
+          type: string
+      required:
+        - id
+        - name
+        - color
+        - icon
+    TopicRepresentation:
+      type: object
+      title: TopicRepresentation
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+          pattern: '^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$'
+        icon:
+          type: string
+      required:
+        - id
+        - name
+        - description
+        - color
+        - icon
+    UserRepresentation:
+      type: object
+      title: UserRepresentation
+      additionalProperties: false
+      properties:
+        id:
+          type: string
         name:
           type: string
         username:
@@ -129,1766 +1857,225 @@ components:
         profile:
           type: string
           format: uri
-        id:
+        email:
+          type: string
+          format: email
+        hash:
           type: string
       required:
+        - id
         - name
         - username
-        - id
-    CommentResponse:
-      title: CommentResponse
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: string
-            posted:
-              type: number
-            poster:
-              $ref: '#/components/schemas/User'
-            topic:
-              $ref: '#/components/schemas/TopicResponse'
-          required:
-            - id
-            - posted
-            - poster
-        - $ref: '#/components/schemas/CommentUpdate'
-      description: A response comment including an ID
-    SignupUpdate:
-      title: SignupUpdate
+    EquipmentRepresentation:
       type: object
-      properties:
-        name:
-          type: string
-        role:
-          type: string
-    SignupResponse:
-      title: SignupResponse
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: string
-            user:
-              $ref: '#/components/schemas/User'
-            date:
-              type: number
-          required:
-            - id
-            - user
-            - date
-            - name
-            - role
-        - $ref: '#/components/schemas/SignupCreation'
-    FileUpdate:
-      title: FileUpdate
-      type: object
-      properties:
-        name:
-          type: string
-        private:
-          type: boolean
-    FileResponse:
-      title: FileResponse
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: string
-            filename:
-              type: string
-            created:
-              type: number
-            author:
-              $ref: '#/components/schemas/User'
-            size:
-              type: number
-            downloadURL:
-              type: string
-          required:
-            - id
-            - filename
-            - created
-            - author
-            - size
-            - downloadURL
-            - private
-        - $ref: '#/components/schemas/FileCreation'
-    EntsStateUpdate:
-      title: EntsStateUpdate
-      type: object
-      properties:
-        name:
-          type: string
-        color:
-          type: string
-        icon:
-          type: string
-    EntsStateResponse:
-      title: EntsStateResponse
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: string
-          required:
-            - id
-            - name
-            - color
-            - icon
-        - $ref: '#/components/schemas/EntsStateCreation'
-    StateUpdate:
-      title: StateUpdate
-      type: object
-      properties:
-        name:
-          type: string
-        icon:
-          type: string
-        color:
-          type: string
-    StateResponse:
-      title: StateResponse
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: string
-          required:
-            - id
-            - icon
-            - color
-        - $ref: '#/components/schemas/StateCreation'
-    EntsStateCreation:
-      title: EntsStateCreation
-      allOf:
-        - $ref: '#/components/schemas/EntsStateUpdate'
-        - type: object
-          required:
-            - name
-            - color
-            - icon
-    EventUpdate:
-      title: EventUpdate
-      type: object
-      properties:
-        name:
-          type: string
-        startDate:
-          type: number
-        endDate:
-          type: number
-    EventCreation:
-      title: EventCreation
-      allOf:
-        - $ref: '#/components/schemas/EventUpdate'
-        - type: object
-          required:
-            - name
-            - startDate
-            - endDate
-    EventResponse:
-      title: EventResponse
-      allOf:
-        - $ref: '#/components/schemas/EventCreation'
-        - type: object
-          properties:
-            id:
-              type: string
-          required:
-            - id
-    FileCreation:
-      title: FileCreation
-      allOf:
-        - $ref: '#/components/schemas/FileUpdate'
-        - type: object
-          required:
-            - name
-    SignupCreation:
-      title: SignupCreation
-      allOf:
-        - $ref: '#/components/schemas/SignupUpdate'
-        - type: object
-          properties:
-            userID:
-              type: string
-    StateCreation:
-      title: StateCreation
-      allOf:
-        - $ref: '#/components/schemas/StateUpdate'
-        - type: object
-          required:
-            - name
-    TopicUpdate:
-      title: TopicUpdate
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        color:
-          type: string
-        icon:
-          type: string
-    TopicCreation:
-      title: TopicCreation
-      allOf:
-        - $ref: '#/components/schemas/TopicUpdate'
-        - type: object
-          required:
-            - name
-    TopicResponse:
-      title: TopicResponse
-      allOf:
-        - $ref: '#/components/schemas/TopicCreation'
-        - type: object
-          properties:
-            id:
-              type: string
-          required:
-            - id
-            - description
-            - color
-            - icon
-    EventPropertyChangeResponse:
-      title: ActionResponse
-      type: object
-      x-examples:
-        example-1:
-          id: 8d8abd3a-da02-4e58-97e8-d3251127c9bf
-          occurred: 0
-          change: '{"version": 0, "change": "status", "prev": "7d4a49cb-c5ac-4cf9-87ed-d17d6cfb0501", "new": "dd48832e-ebd7-4a73-9775-29ee51ca4b14"}'
-          user:
-            id: 48eb7ea4-498a-45cc-bea2-e427925ded50
-            username: admin
-            name: Admin
+      title: EquipmentRepresentation
+      additionalProperties: false
       properties:
         id:
           type: string
-          description: The ID of the change
-        occurred:
-          description: The unix timestamp at which the change occurred
-          type: number
-        change:
+        assetID:
           type: string
-          description: A description of the change that took place in JSON format. Change must be versioned for parsing reasons. Schema to be confirmed and documented in future
-        user:
-          $ref: '#/components/schemas/User'
+        name:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        miscIdentifier:
+          type: string
+        amount:
+          type: number
+        location:
+          $ref: '#/components/schemas/VenueRepresentation'
+        locationSpecifier:
+          type: string
+        manager:
+          $ref: '#/components/schemas/UserRepresentation'
+        date:
+          type: number
+        category:
+          type: string
       required:
         - id
-        - occurred
-        - change
-paths:
-  /:
-    get:
-      operationId: baseQuery
-      summary: Lists the properties about this system at the time of the request
-      responses:
-        '200':
-          description: The gateway system is active and the API version is displayed
-          content:
-            application/json:
-              example:
-                value:
-                  version: 0.0.1
-                  identifier: gateway
-      description: Returns the APIs version
-      tags:
-        - system
-  /events:
-    get:
-      tags:
-        - event
-      operationId: getEvent
-      summary: Retrieves the event
-      parameters:
-        - name: query
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/EventQuery'
-          description: |
-            The filter to be applied to the events returned by this query. if omitted it will return all events contained in the system.
-            startBefore, startAfter, endBefore and endAfter are all unix timestamps used to filter when the event will be happening.
-            All parameters are optional. If not specified, they will not be applied as a filter.
-            See the EventQuery schema for details on each property
-      responses:
-        '200':
-          description: returns an array of
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/EventResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      description: 'Gets the full list of events stored in the system, filtered by the optional get parameter queries'
-    post:
-      tags:
-        - event
-      operationId: createEvent
-      summary: Creates an event
-      requestBody:
-        description: Follows the event schema but you are forbidden from providing an ID value as this will be generated automatically by the backend system
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EventCreation'
-      responses:
-        '201':
-          description: The event was created successfully and the newly created event will be returned in the response body.
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/EventResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      description: Creates a new event in the system with the specified properties
-  '/events/{id}':
-    patch:
-      summary: Updates an event
-      tags:
-        - event
-      operationId: updateEvent
-      requestBody:
-        description: 'any property excluding the ID of the event can be updated, any value provided will be updated'
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EventUpdate'
-      responses:
-        '200':
-          description: The event was updated successfully and the newly updated event will be returned in the response body.
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/EventResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Updates the specified event with the given information
-    delete:
-      summary: Deletes an event
-      tags:
-        - event
-      operationId: deleteEvent
-      responses:
-        '204':
-          description: No Content - the event was removed
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Deletes the event with the given ID
-    get:
-      summary: Retrieves a single event
-      operationId: get-events-id
-      responses:
-        '200':
-          description: The properties of the event that is specified by the ID given
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: object
-                        properties:
-                          event:
-                            $ref: '#/components/schemas/EventResponse'
-                          changelog:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/EventPropertyChangeResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Fetches details of a singular event including the changelog
-      parameters: []
-      tags:
-        - event
-    parameters:
-      - schema:
+        - name
+        - manufacturer
+        - model
+        - amount
+        - location
+        - manager
+        - date
+        - category
+    VenueRepresentation:
+      type: object
+      title: VenueRepresentation
+      additionalProperties: false
+      properties:
+        id:
           type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the event
-  '/events/{id}/comments':
-    parameters:
-      - schema:
+        name:
           type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the event
-    get:
-      summary: Fetches all comments on an event
-      tags:
-        - event
-        - comment
-      responses:
-        '200':
-          description: OK - returns all comments linked to the given event
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/CommentResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-events-id-comments
-      description: Retrieves all comments related to the event with the specified ID
-    post:
-      summary: Creates a new comment on an event
-      operationId: post-events-id-comments
-      responses:
-        '201':
-          description: OK - new comment is created and returned with its ID
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/CommentResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Creates a new comment on the given event
-      tags:
-        - comment
-        - event
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentUpdate'
-  '/events/{id}/comments/{comment}':
-    parameters:
-      - schema:
+        capacity:
+          type: number
+        color:
           type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the event on which this comment exists
-      - schema:
-          type: string
-        name: comment
-        in: path
-        required: true
-        description: The ID of the comment being manipulated
-    get:
-      summary: Retrieves a single comment on an event
-      tags:
-        - event
-        - comment
-      responses:
-        '200':
-          description: OK - The single comment response
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/CommentResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-events-id-comments-comment
-      description: Retrieves a single comment on this event
-    patch:
-      summary: Edits a given comment on a given event
-      operationId: patch-events-id-comments-comment
-      responses:
-        '200':
-          description: OK - the comment has been updated and returns the newly updated comment instance
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/CommentResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Updates the given comment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentUpdate'
-        description: 'All properties are optional, any value provided will be updated'
-      tags:
-        - event
-        - comment
-    delete:
-      summary: Deletes the comment from the event
-      operationId: delete-events-id-comments-comment
-      responses:
-        '204':
-          description: No Content - the comment was removed successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Removes the specified comment from the event
-      tags:
-        - event
-        - comment
-      parameters: []
-  '/events/{id}/files':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the event
-    get:
-      summary: Gets the list of files for this event
-      tags:
-        - event
-        - file
-      responses:
-        '200':
-          description: OK - the full list of files linked with this event is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/FileResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-events-id-files
-      description: Retrieves the entire list of files associated with this event
-    post:
-      summary: Links a new file to this event
-      operationId: post-events-id-files
-      responses:
-        '201':
-          description: OK - the file is linked and the new file link returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/FileResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Links a new file to the event specified
-      tags:
-        - event
-        - file
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                fileID:
-                  type: string
-              required:
-                - fileID
-  '/events/{id}/files/{file}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the event
-      - schema:
-          type: string
-        name: file
-        in: path
-        required: true
-        description: The file being fetched or manipulated
-    get:
-      summary: Retrieves a single file from an event
-      tags:
-        - event
-        - file
-      responses:
-        '200':
-          description: OK - returns the properties of the file specified
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/FileResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-events-id-files-file
-      description: Retrieves a single file properties that is linked with an event
-    delete:
-      summary: Unlinks a file from an event
-      operationId: delete-events-id-files-file
-      responses:
-        '204':
-          description: OK - the file was unlinked successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      tags:
-        - event
-        - file
-      description: Deletes a file link to an event
-  '/events/{id}/signups':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the event
-    get:
-      summary: Retrieves the full list of signups for this event
-      tags:
-        - event
-        - signup
-      responses:
-        '200':
-          description: OK - the signups were fetched successfully and returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/SignupResponse'
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-events-id-signups
-      description: Retrieves all signups on this event
-    post:
-      summary: Adds a new signup to this event
-      operationId: post-events-id-signups
-      responses:
-        '201':
-          description: OK - the signup was created successfully and returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/SignupResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      tags:
-        - event
-        - signup
-      description: Creates a new signup on this event
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignupCreation'
-        description: ''
-  '/events/{id}/signups/{signup}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the event
-      - schema:
-          type: string
-        name: signup
-        in: path
-        required: true
-        description: The signup being fetched or manipulated
-    get:
-      summary: Retrieves properties about a given signup
-      tags:
-        - event
-        - signup
-      responses:
-        '200':
-          description: OK - the file properties
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/SignupResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-events-id-signups-signup
-      description: Gets a single signup from the ID
-    patch:
-      summary: Updates a signup on this event
-      operationId: patch-events-id-signups-signup
-      responses:
-        '200':
-          description: OK - the signup was updated successfully and the response will contain the newly updated signup
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/SignupResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      tags:
-        - event
-        - signup
-      description: Updates the specified signup properties
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignupUpdate'
-        description: Any property provided will be updated where possible
-    delete:
-      summary: Deletes a signup on this event
-      operationId: delete-events-id-signups-signup
-      responses:
-        '204':
-          description: OK - the signup was deleted successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      tags:
-        - event
-        - signup
-      description: Deletes the specified signup from the event
-  /files:
-    get:
-      summary: Retrieves all files on the server
-      tags:
-        - file
-      responses:
-        '200':
-          description: OK - all files on the server are returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/FileResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      operationId: get-files
-      description: Retrieves all files on the server even completely unlinked files. This does not include the events they are linked to
-    post:
-      summary: ''
-      operationId: post-files
-      responses:
-        '201':
-          description: Created - the file metadata is created and the URI at which to upload the file itself is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        allOf:
-                          - $ref: '#/components/schemas/FileResponse'
-                          - type: object
-                            properties:
-                              uploadURI:
-                                type: string
-                                format: uri
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      description: Uploads file metadata to the server without file content. This will allow you to then 'PUT' data to the file endpoint with the ID returned
-      tags:
-        - file
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileCreation'
-        description: File metadata to create
-  '/files/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the file being fetched or manipulated
-    get:
-      summary: Retrieves this files properties
-      tags:
-        - file
-      responses:
-        '200':
-          description: OK - the properties of the file requested
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      '':
-                        $ref: '#/components/schemas/FileResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-files-id
-      description: Returns the properties about this file as returned by /files
-    put:
-      summary: Uploads the file content to this metadata entry
-      operationId: put-files-id
-      responses:
-        '200':
-          description: OK - the file is uploaded and linked to the metadata. The updated file metadata is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/FileResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: 'Attaches the uploaded file to the metadata held at this endpoint. This URI can only be used once with this method for the initial upload. File contents cannot be replaced, they will have to be deleted and reuploaded. '
-      tags:
-        - file
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties: {}
-        description: Multipart data containing the file to be linked with this metadata entry
-    patch:
-      summary: Updates the file properties
-      operationId: patch-files-id
-      responses:
-        '200':
-          description: OK - the file metadata is updated successfully and the updated metadata is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/FileResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Updates the metadata associated with this file
-      tags:
-        - file
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileUpdate'
-        description: Any property provided will be updated where possible
-    delete:
-      summary: Deletes this file
-      operationId: delete-files-id
-      responses:
-        '204':
-          description: OK - the file metadata and file itself is deleted
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: 'Deletes the given file. If this file is associated with any events, it will just be removed. '
-      tags:
-        - file
-  '/files/{id}/events':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Retrieve events associated with this file
-      tags:
-        - file
-        - event
-      responses:
-        '200':
-          description: OK - returns the list of events associated with this file
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/EventResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-files-id-events
-      description: 'Returns the list of events that use this file in their entry. Events cannot be manipulated this way so it is only GET - to modify the event entries use `/events/{id}/files/{file}`. '
-  '/files/{id}/comments':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the file
-    get:
-      summary: Retrieve all comments on this file
-      tags:
-        - file
-        - comment
-      responses:
-        '200':
-          description: OK - returns the list of all comments on this file
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/CommentResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-files-id-comments
-      description: Returns a list of comments associated with this file
-    post:
-      summary: Adds a new comment to this file
-      operationId: post-files-id-comments
-      responses:
-        '201':
-          description: Created - the new comment is created and it is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/CommentResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Creates a new comment on this file
-      tags:
-        - file
-        - comment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentUpdate'
-        description: ''
-  '/files/{id}/comments/{comment}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the file
-      - schema:
-          type: string
-        name: comment
-        in: path
-        required: true
-        description: The ID of the comment being fetched or manipulated
-    get:
-      summary: Retrieves only this comment
-      tags:
-        - file
-        - comment
-      responses:
-        '200':
-          description: OK - the comment is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/CommentResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-files-id-comments-comment
-      description: 'Retrieves this comment as returned by `/file/{id}/comments`'
-    patch:
-      summary: Update this comment
-      operationId: patch-files-id-comments-comment
-      responses:
-        '200':
-          description: OK - the comment is updated successfully and the new comment is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/CommentResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Edits this comment to update the body
-      tags:
-        - file
-        - comment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentUpdate'
-        description: Any property provided will be updated where possible
-    delete:
-      summary: Delete this comment
-      operationId: delete-files-id-comments-comment
-      responses:
-        '204':
-          description: OK - the comment is deleted
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Deletes this comment from this file
-      tags:
-        - file
-        - comment
-  /users:
-    get:
-      summary: Retrieves all registered users
-      tags:
+          pattern: '^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$'
+        user:
+          $ref: '#/components/schemas/UserRepresentation'
+      required:
+        - id
+        - name
+        - capacity
         - user
-      responses:
-        '200':
-          description: OK - returns the list of all users registered on the system
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/User'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      operationId: get-users
-      description: Retrieves all users currently registered on this system
-  '/users/{id}':
-    parameters:
-      - schema:
+    FileRepresentation:
+      type: object
+      title: FileRepresentation
+      additionalProperties: false
+      properties:
+        id:
           type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Retrieves this user
-      tags:
+        name:
+          type: string
+        filename:
+          type: string
+        size:
+          type: number
+        mime:
+          type: string
+        owner:
+          $ref: '#/components/schemas/UserRepresentation'
+        type:
+          type: string
+        date:
+          type: number
+        downloadURL:
+          type: string
+      required:
+        - id
+        - name
+        - filename
+        - size
+        - mime
+        - owner
+        - type
+        - date
+        - downloadURL
+    SignupRepresentation:
+      title: SignupRepresentation
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserRepresentation'
+        event:
+          $ref: '#/components/schemas/EventRepresentation'
+        role:
+          type: string
+        date:
+          type: number
+      required:
+        - id
         - user
-      responses:
-        '200':
-          description: OK - the details of the user is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/User'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-users-id
-      description: Retrieves this user as returned by `/users`
-  /ents:
-    get:
-      summary: Gets the full list of ents states
-      tags:
-        - ents
-      responses:
-        '200':
-          description: OK - returns all ents statuses on the server
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/EntsStateResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      operationId: get-ents
-      description: Retrives the full list of ents states on the server
-    post:
-      summary: Creates a new ents state
-      operationId: post-ents
-      responses:
-        '201':
-          description: Created - the ents state is created and returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/EntsStateResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      tags:
-        - ents
-      description: Creates a new ents state and returns the newly created state
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EntsStateCreation'
-  '/ents/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the ents state being fetched or manipulated
-    get:
-      summary: Retrieves a single ents state
-      tags:
-        - ents
-      responses:
-        '200':
-          description: OK - returns the ents state
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/EntsStateResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-ents-id
-      description: Retrieves a single ents state and returns its properties as listed in the /ents endpoint
-    patch:
-      summary: Updates a single ents state
-      operationId: patch-ents-id
-      responses:
-        '200':
-          description: OK - the ents state is updated and returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/EntsStateResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Updates this ents state which will be reflected across the rest of the system
-      tags:
-        - ents
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EntsStateUpdate'
-        description: Any value provided will be updated where possible
-    delete:
-      summary: Deletes this ents state
-      operationId: delete-ents-id
-      responses:
-        '204':
-          description: OK - the ents state is deleted
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Deletes this ents state. Any events currently holding this state will have it updated to 'unknown'
-      tags:
-        - ents
-  /states:
-    get:
-      summary: Retrieves all available ents states
-      tags:
-        - state
-      responses:
-        '200':
-          description: OK - returns all statuses on the server
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/StateResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      operationId: get-states
-      description: Returns all available states as an array
-    post:
-      summary: Creates a new event state
-      operationId: post-states
-      responses:
-        '201':
-          description: Created - the new state is created and returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/StateResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      description: Creates a new event state which will return a newly created instance
-      tags:
-        - state
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StateCreation'
-  '/states/{id}':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the state being fetched or manipulated
-    get:
-      summary: Retrieves a single state
-      tags:
-        - state
-      responses:
-        '200':
-          description: OK - returns this state
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/StateResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-states-id
-      description: Retrieves only this state with the same response as `/states`
-    patch:
-      summary: Update this state
-      operationId: patch-states-id
-      responses:
-        '200':
-          description: OK - the state is updated and the new state is returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/StateResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Updates a states properties
-      tags:
-        - state
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StateUpdate'
-        description: Any property provided will be updated where possible
-    delete:
-      summary: Delete this state
-      operationId: delete-states-id
-      responses:
-        '204':
-          description: OK - the state is deleted
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Removes this state from the system. Any events currently with this state will be moved to 'Unknown'
-      tags:
-        - state
-  '/states/{id}/events':
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-        description: The ID of the state
-    get:
-      summary: Retrieves all events with this state
-      tags:
-        - state
         - event
-      responses:
-        '200':
-          description: OK - returns all events with this state
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/EventResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-states-id-events
-      description: Returns an array of events which use this state
-  /topics:
-    get:
-      summary: Returns all topics
-      tags:
-        - topic
-      responses:
-        '200':
-          description: OK - all topics are returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/TopicResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      operationId: get-topics
-      description: Returns all topics through which comments can be categorised
-    post:
-      summary: Creates a new topic
-      operationId: post-topics
-      responses:
-        '201':
-          description: Created - the topic is created and returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/TopicResponse'
-          headers:
-            Location:
-              schema:
-                type: string
-                format: uri
-              description: The location at which the new resource can be found
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-      description: Creates a new topic on the system
-      tags:
-        - topic
-  '/topics/{id}':
-    parameters:
-      - schema:
+        - role
+        - date
+    EventRepresentation:
+      type: object
+      title: EventRepresentation
+      additionalProperties: false
+      properties:
+        id:
           type: string
-        name: id
-        in: path
-        required: true
-    get:
-      summary: Returns a single topic
-      tags:
-        - topic
-      responses:
-        '200':
-          description: OK - the returned topic
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/TopicResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      operationId: get-topics-id
-      description: Returns a single topic as returned by `/topics/`
-    patch:
-      summary: Updates this topic
-      operationId: patch-topics-id
-      responses:
-        '200':
-          description: OK - the topic is updated and returned
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessfulAPIResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/TopicResponse'
-        '400':
-          $ref: '#/components/responses/BadRequestResponse'
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: Updates this topic with new properties
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TopicUpdate'
-      tags:
-        - topic
-    delete:
-      summary: Deletes this topic
-      operationId: delete-topics-id
-      responses:
-        '204':
-          description: OK - the topic is deleted
-        '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundIDResponse'
-      description: 'Deletes this topic, any comments currently with this topic will have it unassigned'
-      tags:
-        - topic
+        name:
+          type: string
+        start:
+          type: number
+        end:
+          type: number
+        venues:
+          type: array
+          items:
+            $ref: '#/components/schemas/VenueRepresentation'
+        attendance:
+          type: number
+        ents:
+          $ref: '#/components/schemas/EntStateRepresentation'
+        state:
+          $ref: '#/components/schemas/StateRepresentation'
+      required:
+        - id
+        - name
+        - start
+        - end
+        - venues
+        - attendance
+    VenueReportRepresentation:
+      type: object
+      title: VenueReportRepresentation
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        equipment:
+          $ref: '#/components/schemas/EquipmentRepresentation'
+        report:
+          type: string
+        reporter:
+          $ref: '#/components/schemas/UserRepresentation'
+        date:
+          type: number
+        state:
+          type: string
+        resolvedDate:
+          type: number
+        resolver:
+          $ref: '#/components/schemas/UserRepresentation'
+      required:
+        - id
+        - equipment
+        - report
+        - reporter
+        - date
+        - state
+    Result:
+      title: Result
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - OK
+            - FAILED
+        result: {}
+      required:
+        - status
+    IDArrayResult:
+      title: IDArrayResult
+      allOf:
+        - $ref: '#/components/schemas/Result'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                type: string
+          required:
+            - result
+  securitySchemes:
+    uems:
+      type: openIdConnect
+      openIdConnectUrl: 'https://auth.uems.xiomi.org/realms/uems/protocol/openid-connect/auth'
+      description: 'Authentication is provided by keycloak. The URL shown is currently provisional based on whether this system works. When self hosting this is available at :8080 hosting'
+tags:
+  - name: ents
+  - name: equipment
+  - name: event
+  - name: comment
+  - name: file
+  - name: signup
+  - name: state
+  - name: topic
+  - name: user
+  - name: venue
+  - name: system
+
