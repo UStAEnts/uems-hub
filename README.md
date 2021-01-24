@@ -21,25 +21,9 @@ $ git submodule update --remote
 
 # If the submodule folders (e.g. uems-evnet-micro-dionysus) are blank then run
 $ git submodule update --init
-
-# Build endpoint, follow any specific compilation instructions in the git repository if relevant
-$ cd endpoint
-$ npm i -D
-$ npm run build
 ```
 
 ### RabbitMQ
-
-RabbitMQ is provided as a Docker image
-
-```bash
-$ cd rabbit-mq-docker
-# Build a docker image from the provided Dockerfile and name it `rabbit-uems-image`
-# This pulls in the existing configuration file with users, exchanges and queues already setup
-$ docker build -t rabbit-uems-image .
-# Then run the docker image once this is one, this will attach you to the process (-it) and forwards the ports as shown. You can then access the admin interface on http://localhost:15672
-$ docker run -it --name "rabbit-uems" -p 5672:5672 -p 15672:15672 rabbit-uems-image
-```
 
 #### User Details
 
@@ -54,21 +38,8 @@ $ docker run -it --name "rabbit-uems" -p 5672:5672 -p 15672:15672 rabbit-uems-im
 
 ## Working on Windows
 
-This project will rely heavily on Docker to deploy microservices. However, docker is not supported at all on Windows 10 Home. If you are wanting to develop on Windows, you will either need a working WSL2 installation and then follow along as if you are on linux, or you will need to run it in another way. I recommend running Vagrant and as such a Vagrantfile is provided in the root of the project. Details on how to setup Vagrant can be found [here](https://www.vagrantup.com/docs/installation). You need some form of virtualisation software available so they recommend installing VirtualBox because it's free.
-
-Then to setup this project do:
-
-```cmd
-> vagrant up
-> vagrant ssh
-$ cd /uems
-```
-
-And this should magically setup an ubuntu virtual machine and ssh you into it, navigating to the project folder, at which point you should be able to run the project as described above.
+Either use WSL2 or something similar. The Vagrantfile has been removed as it was out of date so you can either set it up yourself or there will be a new one coming soon-ish when I go back to running on windows.
 
 ## Testing
 
-Integration tests can be run (on linux) by running:
-```
-sh test.sh
-```
+Integration tests are currently in the process of being rewritten following the major system overhaul so for the time being they are unavailable
