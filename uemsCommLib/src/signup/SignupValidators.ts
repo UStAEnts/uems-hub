@@ -77,13 +77,12 @@ export namespace SignupValidators {
 	  "additionalProperties": false,
 	  "required": [
 	    ...CORE_REQUIRED,
-	    "userid",
 	    "eventID",
 	    "role"
 	  ],
 	  "properties": {
 	    ...CORE_SCHEMA('CREATE'),
-	    "userid": {
+	    "signupUser": {
 	      "type": "string",
 	      "description": ""
 	    },
@@ -99,7 +98,7 @@ export namespace SignupValidators {
 	}
 
 	export type SignupCreateSchema = CoreSchema<'CREATE'> & {
-		userid: string,
+		signupUser?: string,
 		eventID: string,
 		role: string,
 	};
@@ -115,7 +114,7 @@ export namespace SignupValidators {
 	      "type": "string",
 	      "description": ""
 	    },
-	    "userid": {
+	    "signupUser": {
 	      "type": "string",
 	      "description": ""
 	    },
@@ -144,7 +143,7 @@ export namespace SignupValidators {
 
 	export type SignupReadSchema = CoreSchema<'READ'> & {
 		id?: string,
-		userid?: string,
+		signupUser?: string,
 		eventID?: string,
 		role?: string,
 		date?: number,
