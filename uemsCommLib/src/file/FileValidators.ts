@@ -95,7 +95,6 @@ export namespace FileValidators {
             "filename",
             "size",
             "type",
-            "userid"
         ],
         "properties": {
             ...CORE_SCHEMA('CREATE'),
@@ -115,10 +114,6 @@ export namespace FileValidators {
                 "type": "string",
                 "description": ""
             },
-            "userid": {
-                "type": "string",
-                "description": ""
-            }
         }
     }
 
@@ -127,7 +122,6 @@ export namespace FileValidators {
         filename: string,
         size: number,
         type: string,
-        userid: string,
     };
     export const FILE_READ_SCHEMA = {
         "type": "object",
