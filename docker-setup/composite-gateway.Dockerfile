@@ -1,7 +1,7 @@
-FROM node:current-alpine
+FROM node:14-alpine
 # Configure this image to have python, required for building frontend
-RUN apk add --update python
-RUN apk add --no-cache make gcc g++ python
+RUN apk add --update python2
+RUN apk add --no-cache make gcc g++
 
 EXPOSE 15450
 CMD ["npm", "run", "start"]

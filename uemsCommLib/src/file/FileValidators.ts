@@ -23,7 +23,8 @@ export namespace FileValidators {
             "mime",
             "owner",
             "type",
-            "date"
+            "date",
+            "checksum",
         ],
         "properties": {
             "id": {
@@ -66,6 +67,10 @@ export namespace FileValidators {
             "downloadURL": {
                 "type": "string",
                 "description": ""
+            },
+            "checksum": {
+                "type": "string",
+                "description": "The checksum of the file used to detect duplicates",
             }
         }
     }
@@ -80,6 +85,7 @@ export namespace FileValidators {
         type: string,
         date: number,
         downloadURL: string,
+        checksum: string,
     }
 
     export type FileRepresentation = Omit<ShallowFileRepresentation, 'owner'> & {
@@ -95,7 +101,6 @@ export namespace FileValidators {
             "filename",
             "size",
             "type",
-            "userid"
         ],
         "properties": {
             ...CORE_SCHEMA('CREATE'),
@@ -115,10 +120,6 @@ export namespace FileValidators {
                 "type": "string",
                 "description": ""
             },
-            "userid": {
-                "type": "string",
-                "description": ""
-            }
         }
     }
 
@@ -127,7 +128,6 @@ export namespace FileValidators {
         filename: string,
         size: number,
         type: string,
-        userid: string,
     };
     export const FILE_READ_SCHEMA = {
         "type": "object",

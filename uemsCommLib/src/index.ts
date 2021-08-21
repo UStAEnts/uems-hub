@@ -29,6 +29,7 @@ export { SignupMessage, SignupResponse, SignupResponseValidator, SignupMessageVa
 export { EventMessage, EventResponse, EventResponseValidator, EventMessageValidator } from './event/index';
 export { FileBindingMessage, FileBindingResponse, FileBindingResponseValidator, FileBindingMessageValidator } from './filebinding/index';
 export { AuthenticationMessage, AuthenticationResponse, AuthenticationResponseValidator, AuthenticationMessageValidator } from './auth/index';
+export { DiscoveryMessage, DiscoveryResponse, DiscoveryResponseValidator, DiscoveryMessageValidator } from './discovery/index';
 
 export { MessageValidator } from './messaging/MessageValidator';
 export { has } from './utilities/ObjectUtilities';
