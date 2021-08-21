@@ -1,15 +1,15 @@
 [submodule "uems-event-micro-dionysus"]
 	path = uems-event-micro-dionysus
 	url = https://github.com/ents-crew/uems-event-micro-dionysus.git
-	branch = master
+	branch = main
 [submodule "uems-frontend-themis"]
 	path = uems-frontend-themis
 	url = https://github.com/ents-crew/uems-frontend-themis.git
-	branch = master
+	branch = main
 [submodule "uems-gateway"]
 	path = uems-gateway
 	url = https://github.com/ents-crew/uems-gateway.git
-	branch = master
+	branch = main
 [submodule "uems-files-hermes"]
 	path = uems-files-hermes
 	url = https://github.com/ents-crew/uems-files-hermes.git
@@ -21,7 +21,7 @@
 [submodule "uems-venues-tartarus"]
 	path = uems-venues-tartarus
 	url = https://github.com/ents-crew/uems-venues-tartarus.git
-	branch = master
+	branch = main
 [submodule "uems-state-athena"]
 	path = uems-state-athena
 	url = https://github.com/ents-crew/uems-state-athena.git
