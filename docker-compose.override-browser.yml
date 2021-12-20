@@ -1,0 +1,9 @@
+version: '2.8'
+services:
+  mongo:
+    ports:
+      - '27017:27017'
+  rabbit-uems:
+    ports:
+      - '5672:5672'
+      - '15672:15672'
