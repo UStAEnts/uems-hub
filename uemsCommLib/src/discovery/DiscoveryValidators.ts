@@ -12,6 +12,8 @@ export namespace DiscoveryValidators{
     import CORE_SCHEMA = BaseSchema.CORE_SCHEMA;
     import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
     import CoreSchema = BaseSchema.CoreSchema;
+    import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
+    
     export const DISCOVERY_REQUEST = {
         "type": "object",
         "additionalProperties": true,
@@ -91,7 +93,7 @@ export namespace DiscoveryValidators{
             ...CORE_REQUIRED,
         ],
         "properties": {
-            ...CORE_SCHEMA('READ'),
+            ...CORE_SCHEMA('READ', true),
             "restrict": {
                 "type": "number",
                 "description": "The number of records that restrict the deletion of the provided asset",
@@ -103,7 +105,7 @@ export namespace DiscoveryValidators{
         },
     }
 
-    export type DiscoveryReply = CoreSchema<'READ'> & {
+    export type DiscoveryReply = CoreSchemaWithStatus<'READ'> & {
         restrict: number,
         modify: number,
     }
@@ -118,7 +120,7 @@ export namespace DiscoveryValidators{
             ...CORE_REQUIRED,
         ],
         "properties": {
-            ...CORE_SCHEMA('DELETE'),
+            ...CORE_SCHEMA('DELETE', true),
             "restrict": {
                 "type": "number",
                 "description": "The number of records that restricted the deletion of the provided asset",
@@ -134,7 +136,7 @@ export namespace DiscoveryValidators{
         },
     }
 
-    export type DeleteReply = CoreSchema<'DELETE'> & {
+    export type DeleteReply = CoreSchemaWithStatus<'DELETE'> & {
         restrict: number,
         modified: number,
         successful: boolean,
