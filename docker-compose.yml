@@ -18,6 +18,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 40s
+    ports:
+      - '27017:27017'
   mongo-express:
     image: mongo-express
     restart: always
@@ -28,7 +30,7 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_MONGODB_URL: 'mongodb://root:example@mongo:27017/'
   mongo-seeding:
     build: ./docker-setup/mongo-seeding
     depends_on:
