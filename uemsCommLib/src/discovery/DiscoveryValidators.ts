@@ -63,7 +63,7 @@ export namespace DiscoveryValidators{
             ...DISCOVERY_REQUEST.properties,
             "execute": {
                 "type": "boolean",
-                "const": "true",
+                "const": true,
                 "description": "Marks that this is a delete request "
             }
         },
