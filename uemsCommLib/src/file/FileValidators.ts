@@ -164,6 +164,11 @@ export namespace FileValidators {
             "userid": {
                 "type": "string",
                 "description": ""
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the query should only return data created by the user identified by userID. If " +
+                    "anonymous it will return nothing"
             }
         }
     }
@@ -176,6 +181,7 @@ export namespace FileValidators {
         type?: string,
         date?: number,
         userid?: string,
+        localOnly?: boolean,
     };
     export const FILE_DELETE_SCHEMA = {
         "type": "object",

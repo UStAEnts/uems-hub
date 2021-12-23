@@ -236,6 +236,11 @@ export namespace EventValidators {
                     "type": "string",
                     "description": ""
                 }
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the query should only return data created by the user identified by userID. If " +
+                    "anonymous it will return nothing"
             }
         }
     }
@@ -257,6 +262,7 @@ export namespace EventValidators {
         attendanceRangeEnd?: number,
         allVenues?: string[],
         anyVenues?: string[],
+        localOnly?: boolean,
     };
     export const EVENT_DELETE_SCHEMA = {
         "type": "object",
@@ -270,6 +276,11 @@ export namespace EventValidators {
             "id": {
                 "type": "string",
                 "description": ""
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the delete should only affect data created by the user identified by userID. If " +
+                    "anonymous it will perform nothing"
             }
         }
     }
@@ -335,6 +346,11 @@ export namespace EventValidators {
             "stateID": {
                 "type": "string",
                 "description": ""
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only affect data created by the user identified by userID. If " +
+                    "anonymous it will perform nothing"
             }
         }
     }
@@ -350,6 +366,7 @@ export namespace EventValidators {
         removeVenues?: string[],
         entsID?: string,
         stateID?: string,
+        localOnly?: boolean,
     };
     const EVENT_RESPONSE_OBJECT_SCHEMA = {
         "additionalProperties": false,
