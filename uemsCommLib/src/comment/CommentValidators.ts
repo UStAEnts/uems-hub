@@ -53,7 +53,7 @@ export namespace CommentValidators {
 	      "type": "number",
 	      "description": ""
 	    },
-	    "category": {
+	    "topic": {
 	      "type": "string",
 	      "description": ""
 	    },
@@ -83,7 +83,7 @@ export namespace CommentValidators {
 		assetID: string,
 		poster: string,
 		posted: number,
-		category?: string,
+		topic?: string,
 		requiresAttention?: boolean,
 		attendedDate?: number,
 		attendedBy?: string,
@@ -118,7 +118,7 @@ export namespace CommentValidators {
 	      "type": "string",
 	      "description": ""
 	    },
-	    "category": {
+	    "topic": {
 	      "type": "string",
 	      "description": ""
 	    },
@@ -137,7 +137,7 @@ export namespace CommentValidators {
 		assetType: string,
 		assetID: string,
 		posterID: string,
-		category?: string,
+		topic?: string,
 		requiresAttention?: boolean,
         body: string,
 	};
@@ -169,7 +169,7 @@ export namespace CommentValidators {
 	      "type": "number",
 	      "description": ""
 	    },
-	    "category": {
+	    "topic": {
 	      "type": "string",
 	      "description": ""
 	    },
@@ -194,7 +194,7 @@ export namespace CommentValidators {
 		assetID?: string,
 		posterID?: string,
 		posted?: number,
-		category?: string,
+		topic?: string,
 		requiresAttention?: boolean,
 		attended?: boolean,
         body?: string,
@@ -232,7 +232,7 @@ export namespace CommentValidators {
 	      "type": "string",
 	      "description": ""
 	    },
-	    "category": {
+	    "topic": {
 	      "type": "string",
 	      "description": ""
 	    },
@@ -253,7 +253,7 @@ export namespace CommentValidators {
 
 	export type CommentUpdateSchema = CoreSchema<'UPDATE'> & {
 		id: string,
-		category?: string,
+		topic?: string,
 		requiresAttention?: boolean,
 		attendedBy?: string,
         body?: string,
