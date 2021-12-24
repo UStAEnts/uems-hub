@@ -3,6 +3,7 @@ import { MessageValidator } from "../messaging/MessageValidator";
 import { VenueValidators } from "../venues/VenueValidators";
 import { EntStateValidators } from "../ent/EntStateValidators";
 import { StateValidators } from "../state/StateValidators";
+import {UserValidators} from "../user/UserValidators";
 
 export namespace EventValidators {
 
@@ -17,6 +18,8 @@ export namespace EventValidators {
     import STATE_REPRESENTATION = StateValidators.STATE_REPRESENTATION;
     import EntStateRepresentation = EntStateValidators.EntStateRepresentation;
     import StateRepresentation = StateValidators.StateRepresentation;
+    import USER_REPRESENTATION = UserValidators.USER_REPRESENTATION;
+    import UserRepresentation = UserValidators.UserRepresentation;
 
     export const EVENT_REPRESENTATION = {
         "type": "object",
@@ -80,6 +83,15 @@ export namespace EventValidators {
                     }
                 ]
             },
+            "author": {
+                "oneOf": [
+                    {...USER_REPRESENTATION},
+                    {
+                        "type": "string",
+                        "description": "",
+                    }
+                ]
+            }
         }
     }
 
@@ -92,12 +104,14 @@ export namespace EventValidators {
         attendance: number,
         ents?: string,
         state?: string,
+        author: string,
     }
 
     export type EventRepresentation = Omit<ShallowEventRepresentation, 'ents' | 'state' | 'venues'> & {
         venues: VenueRepresentation[],
         ents?: EntStateRepresentation,
         state?: StateRepresentation,
+        author: UserRepresentation,
     };
 
     export const EVENT_CREATE_SCHEMA = {
