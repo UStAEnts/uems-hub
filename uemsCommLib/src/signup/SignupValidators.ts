@@ -162,12 +162,18 @@ export namespace SignupValidators {
 	    "id": {
 	      "type": "string",
 	      "description": ""
-	    }
+	    },
+		  "localOnly": {
+			  "type": "boolean",
+			  "description": "If the delete should only affect data created by the user identified by userID. If " +
+				  "anonymous it will perform nothing"
+		  }
 	  }
 	}
 
 	export type SignupDeleteSchema = CoreSchema<'DELETE'> & {
 		id: string,
+		localOnly?: boolean,
 	};
 	export const SIGNUP_UPDATE_SCHEMA = {
 	  "type": "object",
@@ -186,13 +192,19 @@ export namespace SignupValidators {
 	    "role": {
 	      "type": "string",
 	      "description": ""
-	    }
+	    },
+		  "localOnly": {
+			  "type": "boolean",
+			  "description": "If the delete should only affect data created by the user identified by userID. If " +
+				  "anonymous it will perform nothing"
+		  }
 	  }
 	}
 
 	export type SignupUpdateSchema = CoreSchema<'UPDATE'> & {
 		id: string,
 		role?: string,
+		localOnly?: boolean,
 	};
 	const SIGNUP_RESPONSE_OBJECT_SCHEMA = {
 	    "additionalProperties": false,

@@ -130,6 +130,11 @@ export namespace CommentValidators {
 	      "type": "string",
           "description": "",
         },
+		  "localAssetOnly": {
+			  "type": "boolean",
+			  "description": "If the query should only create a comment on data created by the user identified by " +
+				  "userID. If anonymous it will do nothing. This refers to the asset, not the comments"
+		  }
 	  }
 	}
 
@@ -140,6 +145,7 @@ export namespace CommentValidators {
 		topic?: string,
 		requiresAttention?: boolean,
         body: string,
+		localAssetOnly?: boolean,
 	};
 	export const COMMENT_READ_SCHEMA = {
 	  "type": "object",
@@ -184,7 +190,12 @@ export namespace CommentValidators {
 	    "body": {
 	      "type": "string",
           "description": "",
-        }
+        },
+		  "localAssetOnly": {
+			  "type": "boolean",
+			  "description": "If the query should only return data created by the user identified by userID. If " +
+				  "anonymous it will do nothing. This refers to the asset, not the comments"
+		  }
 	  }
 	}
 
@@ -198,6 +209,7 @@ export namespace CommentValidators {
 		requiresAttention?: boolean,
 		attended?: boolean,
         body?: string,
+		localAssetOnly?: boolean,
 	};
 	export const COMMENT_DELETE_SCHEMA = {
 	  "type": "object",
@@ -211,12 +223,18 @@ export namespace CommentValidators {
 	    "id": {
 	      "type": "string",
 	      "description": ""
-	    }
+	    },
+		  "localOnly": {
+			  "type": "boolean",
+			  "description": "If the delete should only affect data created by the user identified by userID. If " +
+				  "anonymous it will perform nothing"
+		  }
 	  }
 	}
 
 	export type CommentDeleteSchema = CoreSchema<'DELETE'> & {
 		id: string,
+		localOnly?: boolean,
 	};
 	export const COMMENT_UPDATE_SCHEMA = {
 	  "type": "object",
@@ -248,6 +266,11 @@ export namespace CommentValidators {
 	        "type": "string",
             "description": "",
         },
+		"localOnly": {
+			"type": "boolean",
+			"description": "If the update should only modify data created by the user identified by userID. If " +
+				"anonymous it will do nothing"
+		}
 	  }
 	}
 
@@ -257,6 +280,7 @@ export namespace CommentValidators {
 		requiresAttention?: boolean,
 		attendedBy?: string,
         body?: string,
+		localOnly?: boolean,
 	};
 	const COMMENT_RESPONSE_OBJECT_SCHEMA = {
 	    "additionalProperties": false,

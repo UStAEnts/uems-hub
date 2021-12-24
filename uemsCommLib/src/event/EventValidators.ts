@@ -3,6 +3,7 @@ import { MessageValidator } from "../messaging/MessageValidator";
 import { VenueValidators } from "../venues/VenueValidators";
 import { EntStateValidators } from "../ent/EntStateValidators";
 import { StateValidators } from "../state/StateValidators";
+import {UserValidators} from "../user/UserValidators";
 
 export namespace EventValidators {
 
@@ -17,6 +18,8 @@ export namespace EventValidators {
     import STATE_REPRESENTATION = StateValidators.STATE_REPRESENTATION;
     import EntStateRepresentation = EntStateValidators.EntStateRepresentation;
     import StateRepresentation = StateValidators.StateRepresentation;
+    import USER_REPRESENTATION = UserValidators.USER_REPRESENTATION;
+    import UserRepresentation = UserValidators.UserRepresentation;
 
     export const EVENT_REPRESENTATION = {
         "type": "object",
@@ -80,6 +83,15 @@ export namespace EventValidators {
                     }
                 ]
             },
+            "author": {
+                "oneOf": [
+                    {...USER_REPRESENTATION},
+                    {
+                        "type": "string",
+                        "description": "",
+                    }
+                ]
+            }
         }
     }
 
@@ -92,12 +104,14 @@ export namespace EventValidators {
         attendance: number,
         ents?: string,
         state?: string,
+        author: string,
     }
 
-    export type EventRepresentation = Omit<ShallowEventRepresentation, 'ents' | 'state' | 'venues'> & {
+    export type EventRepresentation = Omit<ShallowEventRepresentation, 'ents' | 'state' | 'venues' | 'author'> & {
         venues: VenueRepresentation[],
         ents?: EntStateRepresentation,
         state?: StateRepresentation,
+        author: UserRepresentation,
     };
 
     export const EVENT_CREATE_SCHEMA = {
@@ -236,6 +250,11 @@ export namespace EventValidators {
                     "type": "string",
                     "description": ""
                 }
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the query should only return data created by the user identified by userID. If " +
+                    "anonymous it will return nothing"
             }
         }
     }
@@ -257,6 +276,7 @@ export namespace EventValidators {
         attendanceRangeEnd?: number,
         allVenues?: string[],
         anyVenues?: string[],
+        localOnly?: boolean,
     };
     export const EVENT_DELETE_SCHEMA = {
         "type": "object",
@@ -270,6 +290,11 @@ export namespace EventValidators {
             "id": {
                 "type": "string",
                 "description": ""
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the delete should only affect data created by the user identified by userID. If " +
+                    "anonymous it will perform nothing"
             }
         }
     }
@@ -335,6 +360,11 @@ export namespace EventValidators {
             "stateID": {
                 "type": "string",
                 "description": ""
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only affect data created by the user identified by userID. If " +
+                    "anonymous it will perform nothing"
             }
         }
     }
@@ -350,6 +380,7 @@ export namespace EventValidators {
         removeVenues?: string[],
         entsID?: string,
         stateID?: string,
+        localOnly?: boolean,
     };
     const EVENT_RESPONSE_OBJECT_SCHEMA = {
         "additionalProperties": false,

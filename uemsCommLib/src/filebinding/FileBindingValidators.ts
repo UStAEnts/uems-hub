@@ -48,6 +48,11 @@ export namespace FileBindingValidators {
             "fileID": {
                 "type": "string",
                 "description": "The file ID for which to retrieve all events",
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the query should only return data created by the user identified by userID. If " +
+                    "anonymous it will return nothing"
             }
         }
     }
@@ -78,6 +83,7 @@ export namespace FileBindingValidators {
 
     export type QueryByFileMessage = CoreSchema<'READ'> & {
         fileID: string,
+        localOnly?: boolean,
     }
 
     export type QueryByFileResponse = CoreSchemaWithStatus<'READ'> & {
@@ -102,6 +108,11 @@ export namespace FileBindingValidators {
             "eventID": {
                 "type": "string",
                 "description": "The event ID for which to fetch files",
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the query should only return data created by the user identified by userID. If " +
+                    "anonymous it will return nothing"
             }
         }
     }
@@ -132,6 +143,7 @@ export namespace FileBindingValidators {
 
     export type QueryByEventMessage = CoreSchema<'READ'> & {
         eventID: string,
+        localOnly?: boolean,
     }
 
     export type QueryByEventResponse = CoreSchemaWithStatus<'READ'> & {
@@ -164,6 +176,11 @@ export namespace FileBindingValidators {
                 "items": {
                     "type": "string",
                 },
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only modify data created by the user identified by userID. If " +
+                    "anonymous it will do nothing"
             }
         }
     }
@@ -173,6 +190,7 @@ export namespace FileBindingValidators {
     export type BindEventsToFileMessage = CoreSchema<'CREATE'> & {
         fileID: string,
         eventIDs: string[],
+        localOnly?: boolean,
     }
 
     export type BindEventsToFileResponse = CoreSchemaWithStatus<'CREATE'> & {
@@ -201,6 +219,11 @@ export namespace FileBindingValidators {
                     "type": "string",
                 },
                 "description": "The additional file IDs to bind to the event",
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only modify data created by the user identified by userID. If " +
+                    "anonymous it will do nothing"
             }
         }
     }
@@ -210,6 +233,7 @@ export namespace FileBindingValidators {
     export type BindFilesToEventMessage = CoreSchema<'CREATE'> & {
         eventID: string,
         fileIDs: string[],
+        localOnly?: boolean,
     }
 
     export type BindFilesToEventResponse = CoreSchemaWithStatus<'CREATE'> & {
@@ -239,6 +263,11 @@ export namespace FileBindingValidators {
                     "type": "string",
                 },
                 "description": "The events to remove from this file",
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only modify data created by the user identified by userID. If " +
+                    "anonymous it will do nothing"
             }
         }
     }
@@ -248,6 +277,7 @@ export namespace FileBindingValidators {
     export type UnbindEventsFromFileMessage = CoreSchema<'DELETE'> & {
         fileID: string,
         eventIDs: string[],
+        localOnly?: boolean,
     }
 
     export type UnbindEventsFromFileResponse = CoreSchemaWithStatus<'DELETE'> & {
@@ -276,6 +306,11 @@ export namespace FileBindingValidators {
                     "type": "string",
                 },
                 "description": "The file ids which should be removed from this event"
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only modify data created by the user identified by userID. If " +
+                    "anonymous it will do nothing"
             }
         }
     }
@@ -285,6 +320,7 @@ export namespace FileBindingValidators {
     export type UnbindFilesFromEventMessage = CoreSchema<'DELETE'> & {
         eventID: string,
         fileIDs: string[],
+        localOnly?: boolean,
     }
 
     export type UnbindFilesFromEventResponse = CoreSchemaWithStatus<'DELETE'> & {
@@ -314,6 +350,11 @@ export namespace FileBindingValidators {
                     "type": "string",
                 },
                 "description": "The only events to be attached to this file",
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only modify data created by the user identified by userID. If " +
+                    "anonymous it will do nothing"
             }
         }
     }
@@ -323,6 +364,7 @@ export namespace FileBindingValidators {
     export type SetEventsForFileMessage = CoreSchema<'UPDATE'> & {
         fileID: string,
         eventIDs: string[],
+        localOnly?: boolean,
     }
 
     export type SetEventsForFileResponse = CoreSchemaWithStatus<'UPDATE'> & {
@@ -351,6 +393,11 @@ export namespace FileBindingValidators {
                     "type": "string",
                 },
                 "description": "The only file ids which should be present on this event"
+            },
+            "localOnly": {
+                "type": "boolean",
+                "description": "If the update should only modify data created by the user identified by userID. If " +
+                    "anonymous it will do nothing"
             }
         }
     }
@@ -360,6 +407,7 @@ export namespace FileBindingValidators {
     export type SetFilesForEventMessage = CoreSchema<'UPDATE'> & {
         eventID: string,
         fileIDs: string[],
+        localOnly?: boolean,
     }
 
     export type SetFilesForEventResponse = CoreSchemaWithStatus<'UPDATE'> & {

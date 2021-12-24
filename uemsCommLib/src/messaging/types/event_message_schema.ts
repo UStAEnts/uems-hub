@@ -27,7 +27,8 @@ export type ReadEventMsg = {
     event_end_date_range_begin?: UemsDateTime,
     event_end_date_range_end?: UemsDateTime,
     venue_ids?: string[],
-    attendance?: number
+    attendance?: number,
+    localOnly? : boolean,
 };
 
 export type UpdateEventMsg = {
@@ -39,7 +40,8 @@ export type UpdateEventMsg = {
     event_start_date?: UemsDateTime,
     event_end_date?: UemsDateTime,
     venue_ids?: string[],
-    predicted_attendance?: number
+    predicted_attendance?: number,
+    localOnly?: boolean,
 };
 
 export type DeleteEventMsg = {
