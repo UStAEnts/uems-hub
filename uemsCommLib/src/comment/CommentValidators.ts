@@ -130,6 +130,11 @@ export namespace CommentValidators {
 	      "type": "string",
           "description": "",
         },
+		  "localAssetOnly": {
+			  "type": "boolean",
+			  "description": "If the query should only create a comment on data created by the user identified by " +
+				  "userID. If anonymous it will do nothing. This refers to the asset, not the comments"
+		  }
 	  }
 	}
 
@@ -140,6 +145,7 @@ export namespace CommentValidators {
 		topic?: string,
 		requiresAttention?: boolean,
         body: string,
+		localAssetOnly?: boolean,
 	};
 	export const COMMENT_READ_SCHEMA = {
 	  "type": "object",
