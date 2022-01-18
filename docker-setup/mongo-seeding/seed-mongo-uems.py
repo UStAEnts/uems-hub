@@ -105,12 +105,12 @@ class EventDetailsSeeder:
                 'username': fake.user_name()
             }]
 
-        uids += ['auth0|5ffa3483c18deb006850f0c6']
+        uids += ['b795317b-d0f3-4b62-b0e3-2383ae225433']
         elements += [{
             'email': 'vitineth@gmail.com',
             'hash': '',
             'name': 'Ryan Delaney',
-            'uid': 'auth0|5ffa3483c18deb006850f0c6',
+            'uid': 'b795317b-d0f3-4b62-b0e3-2383ae225433',
             'username': 'vitineth'
         }]
 
@@ -139,7 +139,7 @@ class EventDetailsSeeder:
         # Skipped for now until I can create files in the docker container
         pass
 
-    def seed_events(self, venue_ids, state_ids, ents_ids):
+    def seed_events(self, venue_ids, state_ids, ents_ids, user_ids):
         db = self.client.events
         details = db.details
 
@@ -156,7 +156,8 @@ class EventDetailsSeeder:
                 'name': fake.word(),
                 'start': (s - datetime.datetime.utcfromtimestamp(0)).total_seconds(),
                 'state': fake.random_element(state_ids),
-                'venues': fake.random_choices(venue_ids)
+                'venues': fake.random_choices(venue_ids),
+                'author': fake.random_element(user_ids)
             }]
 
         return [str(x) for x in details.insert_many(elements).inserted_ids]
@@ -202,7 +203,7 @@ class EventDetailsSeeder:
         topics = self.seed_topic_states()
         users = self.seed_users()
         venues = self.seed_venues(users)
-        events = self.seed_events(venues, states, ents)
+        events = self.seed_events(venues, states, ents, users)
         comments = self.seed_event_comments(events, topics, users)
         signups = self.seed_signups(events, users)
         print('Done')

@@ -44,6 +44,11 @@ export namespace DiscoveryValidators{
                 "type": "string",
                 "description": "The ID of the asset being requested for deletion",
             },
+            "localAssetOnly": {
+                "type": "boolean",
+                "description": "If the query should only reference data created by the user identified by userID. If " +
+                    "anonymous it will do nothing"
+            },
             ...CORE_SCHEMA('READ'),
         },
         "not": {
@@ -75,6 +80,7 @@ export namespace DiscoveryValidators{
         assetType: 'equipment' | 'event' | 'signup' | 'event.comment' | 'file' | 'file.binding'
         | 'ent' | 'topic' | 'state' | 'user' | 'venue',
         assetID: string,
+        localAssetOnly?: boolean,
     } & Record<Sub<string, 'execute'>, any>;
 
     export type DeleteRequest = CoreSchema<'READ'> & {
@@ -82,6 +88,7 @@ export namespace DiscoveryValidators{
             | 'ent' | 'topic' | 'state' | 'user' | 'venue',
         assetID: string,
         execute: true,
+        localAssetOnly?: boolean,
     } & Record<string, any>;
 
     export const DISCOVERY_REPLY = {
