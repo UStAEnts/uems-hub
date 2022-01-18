@@ -1,6 +1,7 @@
 import { BaseSchema } from "../BaseSchema";
 import { MessageValidator } from "../messaging/MessageValidator";
 import { UserValidators } from "../user/UserValidators";
+import {TopicValidators} from "../topic/TopicValidators";
 
 export namespace CommentValidators {
 
@@ -11,6 +12,8 @@ export namespace CommentValidators {
     import Intentions = BaseSchema.Intentions;
 	import USER_REPRESENTATION = UserValidators.USER_REPRESENTATION;
 	import UserRepresentation = UserValidators.UserRepresentation;
+	import TopicRepresentation = TopicValidators.TopicRepresentation;
+	import TOPIC_REPRESENTATION = TopicValidators.TOPIC_REPRESENTATION;
 
 	export const COMMENT_REPRESENTATION = {
 	  "type": "object",
@@ -54,8 +57,13 @@ export namespace CommentValidators {
 	      "description": ""
 	    },
 	    "topic": {
-	      "type": "string",
-	      "description": ""
+			"oneOf": [
+				{...TOPIC_REPRESENTATION},
+				{
+					"type": "string",
+					"description": ""
+				}
+			]
 	    },
 	    "requiresAttention": {
 	      "type": "boolean",
@@ -90,9 +98,10 @@ export namespace CommentValidators {
         body: string,
 	}
 
-	export type CommentRepresentation = Omit<ShallowCommentRepresentation, 'poster' | 'attendedBy'> & {
+	export type CommentRepresentation = Omit<ShallowCommentRepresentation, 'poster' | 'attendedBy' | 'topic'> & {
 		poster: UserRepresentation,
 		attendedBy?: UserRepresentation,
+		topic?: TopicRepresentation,
 	};
 
 	export const COMMENT_CREATE_SCHEMA = {
