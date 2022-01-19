@@ -255,6 +255,13 @@ export namespace EventValidators {
                 "type": "boolean",
                 "description": "If the query should only return data created by the user identified by userID. If " +
                     "anonymous it will return nothing"
+            },
+            "stateIn": {
+                "typ": "array",
+                "items": {
+                    "type": "string",
+                    "description": "Returns all events which have a state matching those in this array",
+                }
             }
         }
     }
@@ -277,6 +284,7 @@ export namespace EventValidators {
         allVenues?: string[],
         anyVenues?: string[],
         localOnly?: boolean,
+        stateIn?: string[],
     };
     export const EVENT_DELETE_SCHEMA = {
         "type": "object",
