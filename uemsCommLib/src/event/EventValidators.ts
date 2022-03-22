@@ -229,6 +229,19 @@ export namespace EventValidators {
                 "type": "number",
                 "description": ""
             },
+            "coincidesWith": {
+                "type": "object",
+                "required": ["start", "end"],
+                "additionalProperties": false,
+                "properties": {
+                    "start": {
+                        "type": "number",
+                    },
+                    "end": {
+                        "type": "number",
+                    }
+                }
+            },
             "attendanceRangeBegin": {
                 "type": "number",
                 "description": ""
@@ -279,6 +292,10 @@ export namespace EventValidators {
         startRangeEnd?: number,
         endRangeBegin?: number,
         endRangeEnd?: number,
+        coincidesWith?: {
+            start: number,
+            end: number,
+        },
         attendanceRangeBegin?: number,
         attendanceRangeEnd?: number,
         allVenues?: string[],
