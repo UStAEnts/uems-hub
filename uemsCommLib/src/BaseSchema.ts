@@ -37,6 +37,10 @@ export namespace BaseSchema {
         "userID": {
             "type": "string",
             "description": "The user ID of the user currently making this request or anonymous if there is no user",
+        },
+        "requestID": {
+            "type": "string",
+            "description": "The request which originated this request to be used for correlational debugging"
         }
     })
 
@@ -56,6 +60,7 @@ export namespace BaseSchema {
         msg_intention: T,
         status: 0,
         userID: 'anonymous' | string,
+        requestID?: string,
     }
 
     /**
