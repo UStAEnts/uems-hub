@@ -91,6 +91,10 @@ export namespace EventValidators {
                         "description": "",
                     }
                 ]
+            },
+            "reserved": {
+                "type": "boolean",
+                "description": "Whether this event has reserved the time slot in which it is booked"
             }
         }
     }
@@ -105,6 +109,7 @@ export namespace EventValidators {
         ents?: string,
         state?: string,
         author: string,
+        reserved?: boolean,
     }
 
     export type EventRepresentation = Omit<ShallowEventRepresentation, 'ents' | 'state' | 'venues' | 'author'> & {
@@ -157,6 +162,10 @@ export namespace EventValidators {
             "stateID": {
                 "type": "string",
                 "description": ""
+            },
+            "reserved": {
+                "type": "boolean",
+                "description": "Whether this event has reserved the time slot in which it is booked"
             }
         }
     }
@@ -169,6 +178,7 @@ export namespace EventValidators {
         venueIDs: string[],
         entsID?: string,
         stateID?: string,
+        reserved?: boolean,
     };
     export const EVENT_READ_SCHEMA = {
         "type": "object",
@@ -229,6 +239,19 @@ export namespace EventValidators {
                 "type": "number",
                 "description": ""
             },
+            "coincidesWith": {
+                "type": "object",
+                "required": ["start", "end"],
+                "additionalProperties": false,
+                "properties": {
+                    "start": {
+                        "type": "number",
+                    },
+                    "end": {
+                        "type": "number",
+                    }
+                }
+            },
             "attendanceRangeBegin": {
                 "type": "number",
                 "description": ""
@@ -255,6 +278,17 @@ export namespace EventValidators {
                 "type": "boolean",
                 "description": "If the query should only return data created by the user identified by userID. If " +
                     "anonymous it will return nothing"
+            },
+            "stateIn": {
+                "typ": "array",
+                "items": {
+                    "type": "string",
+                    "description": "Returns all events which have a state matching those in this array",
+                }
+            },
+            "reserved": {
+                "type": "boolean",
+                "description": "Whether this event has reserved the time slot in which it is booked"
             }
         }
     }
@@ -272,11 +306,17 @@ export namespace EventValidators {
         startRangeEnd?: number,
         endRangeBegin?: number,
         endRangeEnd?: number,
+        coincidesWith?: {
+            start: number,
+            end: number,
+        },
         attendanceRangeBegin?: number,
         attendanceRangeEnd?: number,
         allVenues?: string[],
         anyVenues?: string[],
         localOnly?: boolean,
+        stateIn?: string[],
+        reserved?: boolean,
     };
     export const EVENT_DELETE_SCHEMA = {
         "type": "object",
@@ -365,6 +405,10 @@ export namespace EventValidators {
                 "type": "boolean",
                 "description": "If the update should only affect data created by the user identified by userID. If " +
                     "anonymous it will perform nothing"
+            },
+            "reserved": {
+                "type": "boolean",
+                "description": "Whether this event has reserved the time slot in which it is booked"
             }
         }
     }
@@ -381,6 +425,7 @@ export namespace EventValidators {
         entsID?: string,
         stateID?: string,
         localOnly?: boolean,
+        reserved?: boolean,
     };
     const EVENT_RESPONSE_OBJECT_SCHEMA = {
         "additionalProperties": false,
