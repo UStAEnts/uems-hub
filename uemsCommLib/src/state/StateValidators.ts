@@ -84,8 +84,19 @@ export namespace StateValidators {
         "properties": {
             ...CORE_SCHEMA('READ'),
             "id": {
-                "type": "string",
-                "description": ""
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The ID of the state to fetch",
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "The set of IDs which should be fetched in this request"
+                        }
+                    },
+                ]
             },
             "name": {
                 "type": "string",
@@ -103,7 +114,7 @@ export namespace StateValidators {
     }
 
     export type StateReadSchema = CoreSchema<'READ'> & {
-        id?: string,
+        id?: string | string[],
         name?: string,
         color?: string,
         icon?: string,

@@ -118,8 +118,19 @@ export namespace UserValidators {
         "properties": {
             ...CORE_SCHEMA('READ'),
             "id": {
-                "type": "string",
-                "description": "The ID of the user to fetch",
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The ID of the user to fetch",
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "The set of IDs which should be fetched in this request"
+                        }
+                    },
+                ]
             },
             "name": {
                 "type": "string",
@@ -145,7 +156,7 @@ export namespace UserValidators {
     }
 
     export type UserReadSchema = CoreSchema<'READ'> & {
-        id?: string,
+        id?: string | string[],
         name?: string,
         username?: string,
         email?: string,

@@ -148,8 +148,19 @@ export namespace VenueReportValidators {
         "properties": {
             ...CORE_SCHEMA('READ'),
             "id": {
-                "type": "string",
-                "description": ""
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The ID of the venue report to fetch",
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "The set of IDs which should be fetched in this request"
+                        }
+                    },
+                ]
             },
             "equipmentID": {
                 "type": "string",
@@ -191,7 +202,7 @@ export namespace VenueReportValidators {
     }
 
     export type VenueReportReadSchema = CoreSchema<'READ'> & {
-        id?: string,
+        id?: string | string[],
         equipmentID?: string,
         report?: string,
         reporterID?: string,

@@ -184,8 +184,19 @@ export namespace EquipmentValidators {
 	  "properties": {
 	    ...CORE_SCHEMA('READ'),
 	    "id": {
-	      "type": "string",
-	      "description": ""
+			"oneOf": [
+				{
+					"type": "string",
+					"description": "The ID of the equipment to fetch",
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"description": "The set of IDs which should be fetched in this request"
+					}
+				},
+			]
 	    },
 	    "assetID": {
 	      "type": "string",
@@ -235,7 +246,7 @@ export namespace EquipmentValidators {
 	}
 
 	export type EquipmentReadSchema = CoreSchema<'READ'> & {
-		id?: string,
+		id?: string | string[],
 		assetID?: string,
 		name?: string,
 		manufacturer?: string,
