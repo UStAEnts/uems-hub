@@ -165,8 +165,19 @@ export namespace CommentValidators {
 	  "properties": {
 	    ...CORE_SCHEMA('READ'),
 	    "id": {
-	      "type": "string",
-	      "description": ""
+			"oneOf": [
+				{
+					"type": "string",
+					"description": "The ID of the comment to fetch",
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"description": "The set of IDs which should be fetched in this request"
+					}
+				},
+			]
 	    },
 	    "assetType": {
 	      "type": "string",
@@ -209,7 +220,7 @@ export namespace CommentValidators {
 	}
 
 	export type CommentReadSchema = CoreSchema<'READ'> & {
-		id?: string,
+		id?: string | string[],
 		assetType?: string,
 		assetID?: string,
 		posterID?: string,

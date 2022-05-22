@@ -94,8 +94,19 @@ export namespace EntStateValidators {
         "properties": {
             ...CORE_SCHEMA('READ'),
             "id": {
-                "type": "string",
-                "description": "The ID of the ent state to read",
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The ID of the ents state to fetch",
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "The set of IDs which should be fetched in this request"
+                        }
+                    },
+                ]
             },
             "name": {
                 "type": "string",
@@ -118,7 +129,7 @@ export namespace EntStateValidators {
      * Type representation of {@link ENT_STATE_READ_SCHEMA}. Color is represented as a string without regex support
      */
     export type EntStateReadSchema = CoreSchema<'READ'> & {
-        id?: string,
+        id?: string | string[],
         name?: string,
         color?: string,
         icon?: string,

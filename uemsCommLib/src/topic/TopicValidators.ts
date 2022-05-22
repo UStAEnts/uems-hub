@@ -96,8 +96,19 @@ export namespace TopicValidators {
         "properties": {
             ...CORE_SCHEMA('READ'),
             "id": {
-                "type": "string",
-                "description": ""
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The ID of the topic to fetch",
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "The set of IDs which should be fetched in this request"
+                        }
+                    },
+                ]
             },
             "name": {
                 "type": "string",
@@ -119,7 +130,7 @@ export namespace TopicValidators {
     }
 
     export type TopicReadSchema = CoreSchema<'READ'> & {
-        id?: string,
+        id?: string | string[],
         name?: string,
         color?: string,
         icon?: string,

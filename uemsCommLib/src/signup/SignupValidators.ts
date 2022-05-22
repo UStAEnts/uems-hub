@@ -111,8 +111,19 @@ export namespace SignupValidators {
 	  "properties": {
 	    ...CORE_SCHEMA('READ'),
 	    "id": {
-	      "type": "string",
-	      "description": ""
+			"oneOf": [
+				{
+					"type": "string",
+					"description": "The ID of the signup to fetch",
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "string",
+						"description": "The set of IDs which should be fetched in this request"
+					}
+				},
+			]
 	    },
 	    "signupUser": {
 	      "type": "string",
@@ -142,7 +153,7 @@ export namespace SignupValidators {
 	}
 
 	export type SignupReadSchema = CoreSchema<'READ'> & {
-		id?: string,
+		id?: string | string[],
 		signupUser?: string,
 		eventID?: string,
 		role?: string,

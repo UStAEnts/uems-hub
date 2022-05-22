@@ -1,7 +1,7 @@
-import { MessageValidator } from "../messaging/MessageValidator";
-import { has } from "../utilities/ObjectUtilities";
-import { BaseSchema } from "../BaseSchema";
-import { UserValidators } from "../user/UserValidators";
+import {MessageValidator} from "../messaging/MessageValidator";
+import {has} from "../utilities/ObjectUtilities";
+import {BaseSchema} from "../BaseSchema";
+import {UserValidators} from "../user/UserValidators";
 
 export namespace VenueValidators {
 
@@ -125,8 +125,19 @@ export namespace VenueValidators {
         "properties": {
             ...CORE_SCHEMA('READ'),
             "id": {
-                "type": "string",
-                "description": "The ID of the venue to fetch",
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "description": "The ID of the venue to fetch",
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "The set of IDs which should be fetched in this request"
+                        }
+                    },
+                ]
             },
             "name": {
                 "type": "string",
@@ -162,7 +173,7 @@ export namespace VenueValidators {
      * @public
      */
     export type VenueReadSchema = CoreSchema<'READ'> & {
-        id?: string,
+        id?: string | string[],
         name?: string,
         capacity?: number,
         approximate_capacity?: number,
