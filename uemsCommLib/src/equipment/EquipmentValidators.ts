@@ -9,7 +9,7 @@ export namespace EquipmentValidators {
     import CoreSchema = BaseSchema.CoreSchema;
     import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
-    import Intentions = BaseSchema.Intentions;
+    import Intentions = BaseSchema.Intention;
 	import VENUE_REPRESENTATION = VenueValidators.VENUE_REPRESENTATION;
 	import USER_REPRESENTATION = UserValidators.USER_REPRESENTATION;
 	import VenueRepresentation = VenueValidators.VenueRepresentation;

@@ -8,7 +8,7 @@ export namespace AuthenticationValidators {
     import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
     import CORE_SCHEMA = BaseSchema.CORE_SCHEMA;
     import USER_REPRESENTATION = UserValidators.USER_REPRESENTATION;
-    import Intentions = BaseSchema.Intentions;
+    import Intentions = BaseSchema.Intention;
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
     export const AUTHENTICATE_MESSAGE = {}
 

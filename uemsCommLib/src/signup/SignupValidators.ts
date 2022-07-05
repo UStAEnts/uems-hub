@@ -9,7 +9,7 @@ export namespace SignupValidators {
     import CoreSchema = BaseSchema.CoreSchema;
     import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
-    import Intentions = BaseSchema.Intentions;
+    import Intentions = BaseSchema.Intention;
 	import USER_REPRESENTATION = UserValidators.USER_REPRESENTATION;
 	import EVENT_REPRESENTATION = EventValidators.EVENT_REPRESENTATION;
 	import UserRepresentation = UserValidators.UserRepresentation;

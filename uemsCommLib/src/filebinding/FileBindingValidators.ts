@@ -9,7 +9,7 @@ export namespace FileBindingValidators {
     import CoreSchema = BaseSchema.CoreSchema;
     import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
-    import Intentions = BaseSchema.Intentions;
+    import Intentions = BaseSchema.Intention;
     import EVENT_REPRESENTATION = EventValidators.EVENT_REPRESENTATION;
     import EventRepresentation = EventValidators.EventRepresentation;
     import FileRepresentation = FileValidators.FileRepresentation;

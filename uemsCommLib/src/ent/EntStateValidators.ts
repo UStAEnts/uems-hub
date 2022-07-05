@@ -7,7 +7,7 @@ export namespace EntStateValidators {
     import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
     import CoreSchema = BaseSchema.CoreSchema;
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
-    import Intentions = BaseSchema.Intentions;
+    import Intentions = BaseSchema.Intention;
 
     /**
      * JSON schema for representing an ent state containing id, name, color and icon. Color is pattern required to be a

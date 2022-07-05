@@ -7,7 +7,7 @@ export namespace StateValidators {
     import CoreSchema = BaseSchema.CoreSchema;
     import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
     import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
-    import Intentions = BaseSchema.Intentions;
+    import Intentions = BaseSchema.Intention;
 
     export const STATE_REPRESENTATION = {
         "type": "object",
