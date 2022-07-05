@@ -67,7 +67,7 @@ export namespace EntStateValidators {
 
     export const ZEntStateDelete = REQUEST_CORE_SCHEMA('DELETE').extend({
         id: zod.string()
-            .describe("undefined"),
+            .describe("The ID of the entity to remove"),
     });
     export type EntStateDelete = zod.infer<typeof ZEntStateDelete>;
     const ZEntStateReadResponse = RESPONSE_CORE_SCHEMA(['READ']).extend({
