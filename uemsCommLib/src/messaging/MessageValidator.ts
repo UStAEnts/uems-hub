@@ -5,34 +5,84 @@
 */
 
 import Ajv from 'ajv';
+import { ZodError, ZodTypeAny } from "zod";
 
-export class MessageValidator {
-    schemaValidator: Ajv.ValidateFunction;
+export type ValidateResponse = {
+	success: true,
+} | {
+	success: false,
+	errors: string[],
+};
 
-    constructor(schema: object) {
-        const ajv = new Ajv({ allErrors: true });
-        this.schemaValidator = ajv.compile(schema);
-    }
+export interface SimpleValidator {
+	validate(message: any): Promise<boolean>;
 
-    public async validate(msg: any): Promise<boolean> {
-        try {
-            const result = await this.schemaValidator(msg);
-            if (result === true) return true;
+	validateWithErrors(message: any): Promise<ValidateResponse>;
+}
 
-            if (process.env.UEMS_AJV_VERBOSE && process.env.UEMS_AJV_VERBOSE === 'on') {
-                console.warn('ajv validation failed');
-                console.warn(this.schemaValidator.errors);
-            }
+export class ZodValidator implements SimpleValidator {
+	constructor(private schema: ZodTypeAny) {
+	}
 
-            return false;
-        } catch (err) {
-            if (!(err instanceof Ajv.ValidationError)) throw err;
+	private static errorToStrings(error: ZodError<any>): string[] {
+		return [
+			error.message,
+			...error.issues.map((e) => `[${ e.code }] ${ e.path }: ${ e.message }`),
+		];
+	}
 
-            if (process.env.UEMS_AJV_VERBOSE && process.env.UEMS_AJV_VERBOSE === 'on') {
-                console.debug(err);
-            }
+	validate(message: any): Promise<boolean> {
+		return Promise.resolve(this.schema.safeParse(message).success);
+	}
 
-            return false;
-        }
-    }
+	validateWithErrors(message: any): Promise<ValidateResponse> {
+		let safeParse = this.schema.safeParse(message);
+		if (safeParse.success) return Promise.resolve({ success: true });
+		else return Promise.resolve({ success: false, errors: ZodValidator.errorToStrings(safeParse.error) });
+	}
+
+}
+
+export class MessageValidator implements SimpleValidator {
+	schemaValidator: Ajv.ValidateFunction;
+
+	constructor(schema: object) {
+		const ajv = new Ajv({ allErrors: true });
+		this.schemaValidator = ajv.compile(schema);
+	}
+
+	validate(message: any): Promise<boolean> {
+		return this.validateWithErrors(message).then((r) => r.success).catch(() => false);
+	}
+
+	public async validateWithErrors(msg: any): Promise<ValidateResponse> {
+		try {
+			const result = await this.schemaValidator(msg);
+			if (result === true) return { success: true };
+
+			if (process.env.UEMS_AJV_VERBOSE && process.env.UEMS_AJV_VERBOSE === 'on') {
+				console.warn('ajv validation failed');
+				console.warn(this.schemaValidator.errors);
+			}
+
+			return {
+				success: false,
+				errors: (this.schemaValidator.errors ?? []).map((v) => `${ v.dataPath } : ${ v.message }`),
+			};
+		} catch (err) {
+			if (!(err instanceof Ajv.ValidationError)) throw err;
+
+			if (process.env.UEMS_AJV_VERBOSE && process.env.UEMS_AJV_VERBOSE === 'on') {
+				console.debug(err);
+			}
+
+			return {
+				success: false,
+				errors: [
+					err.message,
+					...((err.errors ?? []).map((v) => `${ v.dataPath } : ${ v.message }`)),
+				],
+			};
+		}
+	}
 }
