@@ -20,7 +20,8 @@ export namespace SignupMessage {
  */
 export namespace SignupResponse {
     export type InternalSignup = SignupValidators.SignupRepresentation;
-    export type SignupServiceReadResponseMessage = SignupValidators.SignupShallowRepresentation;
+    export type ShallowInternalSignup = SignupValidators.SignupShallowRepresentation;
+    export type SignupServiceReadResponseMessage = SignupValidators.SignupShallowReadResponse;
     export type SignupReadResponseMessage = SignupValidators.SignupReadResponse;
     export type SignupModifyResponseMessage = SignupValidators.SignupModifyResponse;
     export type SignupResponseMessage = SignupReadResponseMessage | SignupModifyResponseMessage;

@@ -20,7 +20,8 @@ export namespace FormMessage {
  */
 export namespace FormResponse {
  	export type InternalForm = FormValidators.FormRepresentation;
- 	export type FormServiceReadResponseMessage = FormValidators.FormShallowRepresentation;
+	 export type ShallowInternalForm = FormValidators.FormShallowRepresentation;
+ 	export type FormServiceReadResponseMessage = FormValidators.FormShallowReadResponse;
 	export type FormReadResponseMessage = FormValidators.FormReadResponse;
 	export type FormModifyResponseMessage = FormValidators.FormModifyResponse;
 	export type FormResponseMessage = FormReadResponseMessage | FormModifyResponseMessage;

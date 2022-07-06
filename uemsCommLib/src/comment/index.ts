@@ -20,7 +20,8 @@ export namespace CommentMessage {
  */
 export namespace CommentResponse {
     export type InternalComment = CommentValidators.CommentRepresentation;
-    export type CommentServiceReadResponseMessage = CommentValidators.CommentShallowRepresentation;
+    export type ShallowInternalComment = CommentValidators.CommentShallowRepresentation;
+    export type CommentServiceReadResponseMessage = CommentValidators.CommentShallowReadResponse;
     export type CommentReadResponseMessage = CommentValidators.CommentReadResponse;
     export type CommentModifyResponseMessage = CommentValidators.CommentModifyResponse;
     export type CommentResponseMessage = CommentReadResponseMessage | CommentModifyResponseMessage;

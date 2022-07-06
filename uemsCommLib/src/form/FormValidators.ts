@@ -119,6 +119,7 @@ export namespace FormValidators {
 		result: zod.array(ZFormShallow)
 			.describe('The shallow array of matched entries'),
 	});
+	export type FormShallowReadResponse = zod.infer<typeof ZFormShallowReadResponse>;
 
 	const ZFormModifyResponse = RESPONSE_CORE_SCHEMA(['READ', 'CREATE', 'UPDATE', 'DELETE']).extend({
 		result: zod.array(zod.string())

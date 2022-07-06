@@ -176,6 +176,7 @@ export namespace CommentValidators {
 		result: zod.array(ZCommentShallow)
 			.describe('The shallow array of matched entries'),
 	});
+	export type CommentShallowReadResponse = zod.infer<typeof ZCommentShallowReadResponse>;
 
 	const ZCommentModifyResponse = RESPONSE_CORE_SCHEMA(['READ', 'CREATE', 'UPDATE', 'DELETE']).extend({
 		result: zod.array(zod.string())

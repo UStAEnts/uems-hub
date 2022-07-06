@@ -200,6 +200,7 @@ export namespace EquipmentValidators {
 		result:zod.array(ZEquipmentShallow)
 			.describe('The shallow array of matched entries'),
 	});
+	export type EquipmentShallowReadResponse = zod.infer<typeof ZEquipmentShallowReadResponse>;
 
 	const ZEquipmentModifyResponse = RESPONSE_CORE_SCHEMA(['READ', 'CREATE', 'UPDATE', 'DELETE']).extend({
 		result: zod.array(zod.string())

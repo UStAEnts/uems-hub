@@ -20,7 +20,8 @@ export namespace EquipmentMessage {
  */
 export namespace EquipmentResponse {
     export type InternalEquipment = EquipmentValidators.EquipmentRepresentation;
-    export type EquipmentServiceReadResponseMessage = EquipmentValidators.EquipmentShallowRepresentation;
+    export type ShallowInternalEquipment = EquipmentValidators.EquipmentShallowRepresentation;
+    export type EquipmentServiceReadResponseMessage = EquipmentValidators.EquipmentShallowReadResponse;
     export type EquipmentReadResponseMessage = EquipmentValidators.EquipmentReadResponse;
     export type EquipmentModifyResponseMessage = EquipmentValidators.EquipmentModifyResponse;
     export type EquipmentResponseMessage = EquipmentReadResponseMessage | EquipmentModifyResponseMessage;

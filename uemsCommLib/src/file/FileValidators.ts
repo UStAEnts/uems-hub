@@ -165,6 +165,7 @@ export namespace FileValidators {
         result:zod.array(ZFileShallow)
             .describe('The shallow array of matched entries'),
     });
+    export type FileShallowReadResponse = zod.infer<typeof ZFileShallowReadResponse>;
 
     const ZFileModifyResponse = RESPONSE_CORE_SCHEMA(['READ', 'CREATE', 'UPDATE', 'DELETE']).extend({
         result: zod.array(zod.string())

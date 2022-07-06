@@ -20,7 +20,8 @@ export namespace FileMessage {
  */
 export namespace FileResponse {
     export type InternalFile = FileValidators.FileRepresentation;
-    export type FileServiceReadResponseMessage = FileValidators.FileShallowRepresentation;
+    export type ShallowInternalFile = FileValidators.FileShallowRepresentation;
+    export type FileServiceReadResponseMessage = FileValidators.FileShallowReadResponse;
     export type FileReadResponseMessage = FileValidators.FileReadResponse;
     export type FileModifyResponseMessage = FileValidators.FileModifyResponse;
     export type FileResponseMessage = FileReadResponseMessage | FileModifyResponseMessage;

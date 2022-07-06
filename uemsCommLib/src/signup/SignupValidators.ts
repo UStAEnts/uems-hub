@@ -104,6 +104,7 @@ export namespace SignupValidators {
 		result:zod.array(ZSignupShallow)
 			.describe('The shallow array of matched entries'),
 	});
+	export type SignupShallowReadResponse = zod.infer<typeof ZSignupShallowReadResponse>;
 
 	const ZSignupModifyResponse = RESPONSE_CORE_SCHEMA(['READ', 'CREATE', 'UPDATE', 'DELETE']).extend({
 		result: zod.array(zod.string())

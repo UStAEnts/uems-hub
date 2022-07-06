@@ -110,6 +110,7 @@ export namespace VenueValidators {
         result:zod.array(ZVenueShallow)
             .describe('The shallow array of matched entries'),
     });
+    export type VenueShallowReadResponse = zod.infer<typeof ZVenueShallowReadResponse>;
 
     const ZVenueModifyResponse = RESPONSE_CORE_SCHEMA(['READ', 'CREATE', 'UPDATE', 'DELETE']).extend({
         result: zod.array(zod.string())

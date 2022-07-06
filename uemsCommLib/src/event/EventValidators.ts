@@ -203,6 +203,7 @@ export namespace EventValidators {
         result: zod.array(ZEventShallow)
             .describe('The shallow array of matched entries'),
     });
+    export type EventShallowReadResponse = zod.infer<typeof ZEventShallowReadResponse>;
 
     const ZEventModifyResponse = RESPONSE_CORE_SCHEMA(['READ', 'CREATE', 'UPDATE', 'DELETE']).extend({
         result: zod.array(zod.string())

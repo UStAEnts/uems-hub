@@ -20,7 +20,8 @@ export namespace VenueMessage {
  */
 export namespace VenueResponse {
     export type InternalVenue = VenueValidators.VenueRepresentation;
-    export type VenueServiceReadResponseMessage = VenueValidators.VenueShallowRepresentation;
+    export type ShallowInternalVenue = VenueValidators.VenueShallowRepresentation;
+    export type VenueServiceReadResponseMessage = VenueValidators.VenueShallowReadResponse;
     export type VenueReadResponseMessage = VenueValidators.VenueReadResponse;
     export type VenueModifyResponseMessage = VenueValidators.VenueModifyResponse;
     export type VenueResponseMessage = VenueReadResponseMessage | VenueModifyResponseMessage;
