@@ -1,6 +1,6 @@
 import * as zod from 'zod';
 import { BaseSchema } from "../BaseSchema";
-import { ZodValidator } from "../messaging/MessageValidator";
+import { ZodValidator } from "../MessageValidator";
 
 export namespace TopicValidators {
 

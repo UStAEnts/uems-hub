@@ -1,6 +1,6 @@
 import { VenueValidators } from "../venues/VenueValidators";
 import assert from "assert";
-import { SimpleValidator } from "../messaging/MessageValidator";
+import { SimpleValidator } from "../MessageValidator";
 import VenueMessage = VenueValidators.VenueMessage;
 import VenueMessageValidator = VenueValidators.VenueMessageValidator;
 import VenueResponseValidator = VenueValidators.VenueResponseValidator;

@@ -1,5 +1,5 @@
 import {BaseSchema} from "../BaseSchema";
-import {MessageValidator} from "../messaging/MessageValidator";
+import {MessageValidator} from "../MessageValidator";
 
 // Source: https://stackoverflow.com/a/47643102
 type Sub<

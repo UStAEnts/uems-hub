@@ -1,5 +1,5 @@
 import { BaseSchema } from "../BaseSchema";
-import { ZodValidator } from "../messaging/MessageValidator";
+import { ZodValidator } from "../MessageValidator";
 import { EventValidators } from "../event/EventValidators";
 import { FileValidators } from "../file/FileValidators";
 import * as zod from 'zod';

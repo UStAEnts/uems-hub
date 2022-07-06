@@ -28,7 +28,7 @@ export { FileBindingMessage, FileBindingResponse, FileBindingResponseValidator, 
 export { DiscoveryMessage, DiscoveryResponse, DiscoveryResponseValidator, DiscoveryMessageValidator } from './discovery/index';
 export { FormMessage, FormResponse, FormResponseValidator, FormMessageValidator } from './form/index';
 
-export { MessageValidator } from './messaging/MessageValidator';
+export { MessageValidator } from './MessageValidator';
 export { has } from './utilities/ObjectUtilities';
 
 export * from './BaseSchema'
