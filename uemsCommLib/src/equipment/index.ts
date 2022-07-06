@@ -1,18 +1,17 @@
 /**
- * Restructures ./equipment into a format to be directly re-exported by src/index.ts
+ * Restructures ./equipment into a format to be re-exported by src/index.ts
  */
-import { EquipmentValidators } from "./EquipmentValidators";
+import { EquipmentValidators } from './EquipmentValidators';
 
 /**
- * Re-exports of types and functions in {@link EquipmentValidators} relating to Equipment messages
+ * Re-exports of types and functions in {@link EquipmentValidators} relating to equipment messages
  */
 export namespace EquipmentMessage {
-    export type CreateEquipmentMessage = EquipmentValidators.EquipmentCreateSchema;
-    export type UpdateEquipmentMessage = EquipmentValidators.EquipmentUpdateSchema;
-    export type DeleteEquipmentMessage = EquipmentValidators.EquipmentDeleteSchema;
-    export type ReadEquipmentMessage = EquipmentValidators.EquipmentReadSchema;
+    export type ReadEquipmentMessage = EquipmentValidators.EquipmentRead;
+    export type CreateEquipmentMessage = EquipmentValidators.EquipmentCreate;
+    export type UpdateEquipmentMessage = EquipmentValidators.EquipmentUpdate;
+    export type DeleteEquipmentMessage = EquipmentValidators.EquipmentDelete;
     export type EquipmentMessage = EquipmentValidators.EquipmentMessage;
-    export const messageToJSON = EquipmentValidators.messageToJSON;
 }
 
 /**
@@ -20,17 +19,11 @@ export namespace EquipmentMessage {
  * exported types with their correct result types for accuracy.
  */
 export namespace EquipmentResponse {
-    export type ShallowInternalEquipment = EquipmentValidators.ShallowEquipmentRepresentation;
-	export type InternalEquipment = EquipmentValidators.EquipmentRepresentation;
-    export type EquipmentReadResponseMessage = Omit<EquipmentValidators.EquipmentResponseSchema, 'result'> & {
-        result: EquipmentValidators.EquipmentRepresentation[],
-    };
-    export type EquipmentServiceReadResponseMessage = Omit<EquipmentValidators.EquipmentResponseSchema, 'result'> & {
-        result: EquipmentValidators.ShallowEquipmentRepresentation[],
-    }
-    export type EquipmentResponseMessage = Omit<EquipmentValidators.EquipmentResponseSchema, 'result'> & {
-        result: string[],
-    };
+    export type InternalEquipment = EquipmentValidators.EquipmentRepresentation;
+    export type EquipmentServiceReadResponseMessage = EquipmentValidators.EquipmentShallowRepresentation;
+    export type EquipmentReadResponseMessage = EquipmentValidators.EquipmentReadResponse;
+    export type EquipmentModifyResponseMessage = EquipmentValidators.EquipmentModifyResponse;
+    export type EquipmentResponseMessage = EquipmentReadResponseMessage | EquipmentModifyResponseMessage;
 }
 
 export const EquipmentMessageValidator = EquipmentValidators.EquipmentMessageValidator;
