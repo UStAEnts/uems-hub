@@ -16,9 +16,9 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "test": "mocha build/test",
+    "test": "ts-mocha -p tsconfig.json src/test/**/*.ts",
     "build": "tsc --listEmittedFiles",
-    "prepublish": "tsc"
+    "prepublish": "tsc && npm run test"
   },
   "author": "Lan2u",
   "contributors": [
