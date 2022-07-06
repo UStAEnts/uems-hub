@@ -72,7 +72,7 @@ export namespace EquipmentValidators {
 	});
 	export type EquipmentShallowRepresentation = zod.infer<typeof ZEquipmentShallow>;
 	export const ZEquipmentRead = REQUEST_CORE_SCHEMA('READ').extend({
-		id: zod.array(zod.string())
+		id: zod.string().or(zod.array(zod.string()))
 			.optional()
 			.describe("The unique ID of this piece of equipment"),
 		assetID: zod.string()

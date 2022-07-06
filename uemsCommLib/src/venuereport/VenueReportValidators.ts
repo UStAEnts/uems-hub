@@ -53,7 +53,7 @@ export namespace VenueReportValidators {
     });
     export type VenueReportShallowRepresentation = zod.infer<typeof ZVenueReportShallow>;
     export const ZVenueReportRead = REQUEST_CORE_SCHEMA('READ').extend({
-        id: zod.array(zod.string())
+        id: zod.string().or(zod.array(zod.string()))
             .optional()
             .describe("The unique ID for this report"),
         equipment: zod.string()

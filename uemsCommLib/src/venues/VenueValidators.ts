@@ -40,7 +40,7 @@ export namespace VenueValidators {
     });
     export type VenueShallowRepresentation = zod.infer<typeof ZVenueShallow>;
     export const ZVenueRead = REQUEST_CORE_SCHEMA('READ').extend({
-        id: zod.array(zod.string())
+        id: zod.string().or(zod.array(zod.string()))
             .optional()
             .describe("The unique ID of this venue"),
         name: zod.string()

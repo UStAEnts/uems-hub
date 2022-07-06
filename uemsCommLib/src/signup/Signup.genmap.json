@@ -56,7 +56,7 @@
 		"READ": [
 			{
 				"name": "id",
-				"type": "array.string",
+				"type": "string|array.string",
 				"optional": true,
 				"description": "The unique identifier for this signup"
 			},

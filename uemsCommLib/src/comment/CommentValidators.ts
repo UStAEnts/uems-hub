@@ -65,7 +65,7 @@ export namespace CommentValidators {
 	});
 	export type CommentShallowRepresentation = zod.infer<typeof ZCommentShallow>;
 	export const ZCommentRead = REQUEST_CORE_SCHEMA('READ').extend({
-		id: zod.array(zod.string())
+		id: zod.string().or(zod.array(zod.string()))
 			.optional()
 			.describe("The unique identifier for this comment"),
 		assetType: zod.string()

@@ -56,7 +56,7 @@ export namespace FileValidators {
     });
     export type FileShallowRepresentation = zod.infer<typeof ZFileShallow>;
     export const ZFileRead = REQUEST_CORE_SCHEMA('READ').extend({
-        id: zod.array(zod.string())
+        id: zod.string().or(zod.array(zod.string()))
             .optional()
             .describe("The unique ID of the file"),
         name: zod.string()

@@ -22,7 +22,7 @@ export namespace EntStateValidators {
     export type EntStateRepresentation = zod.infer<typeof ZEntState>;
 
     export const ZEntStateRead = REQUEST_CORE_SCHEMA('READ').extend({
-        id: zod.array(zod.string())
+        id: zod.string().or(zod.array(zod.string()))
             .optional()
             .describe("The unique ID of this ent state"),
         name: zod.string()

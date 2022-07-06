@@ -44,7 +44,7 @@ export namespace FormValidators {
 	});
 	export type FormShallowRepresentation = zod.infer<typeof ZFormShallow>;
 	export const ZFormRead = REQUEST_CORE_SCHEMA('READ').extend({
-		id: zod.array(zod.string())
+		id: zod.string().or(zod.array(zod.string()))
 			.optional()
 			.describe("The unique ID of this form"),
 		name: zod.string()

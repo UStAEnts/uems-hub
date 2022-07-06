@@ -67,7 +67,7 @@ export namespace EventValidators {
     });
     export type EventShallowRepresentation = zod.infer<typeof ZEventShallow>;
     export const ZEventRead = REQUEST_CORE_SCHEMA('READ').extend({
-        id: zod.array(zod.string())
+        id: zod.string().or(zod.array(zod.string()))
             .optional()
             .describe("The unique ID for this event"),
         name: zod.string()
