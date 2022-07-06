@@ -54,8 +54,8 @@ export namespace FormValidators {
 			.optional()
 			.describe("The summary description of this form"),
 		created: zod.object({
-			greater: zod.number(),
-			less: zod.number(),
+			greater: zod.number().optional(),
+			less: zod.number().optional(),
 		}).or(zod.number())
 			.optional()
 			.describe("The unix-second utc timestamp at which this form was created"),

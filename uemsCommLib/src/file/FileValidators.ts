@@ -66,8 +66,8 @@ export namespace FileValidators {
             .optional()
             .describe("The original file name"),
         size: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The number of bytes in the file"),
@@ -81,8 +81,8 @@ export namespace FileValidators {
             .optional()
             .describe("The type of file"),
         date: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The unix-second timestamp when the file was uploaded"),

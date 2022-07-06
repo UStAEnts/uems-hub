@@ -74,14 +74,14 @@ export namespace EventValidators {
             .optional()
             .describe("The name of the event"),
         start: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The unix-second timestamp UTC when the event will begin"),
         end: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The unix-second UTC timestamp when the event finishes"),
@@ -89,8 +89,8 @@ export namespace EventValidators {
             .optional()
             .describe("The venues in which this event takes place"),
         attendance: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The anticipated attendance of this event"),

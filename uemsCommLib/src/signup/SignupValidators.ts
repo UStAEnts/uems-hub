@@ -51,8 +51,8 @@ export namespace SignupValidators {
 			.optional()
 			.describe("The role this user is signing up for"),
 		date: zod.object({
-			greater: zod.number(),
-			less: zod.number(),
+			greater: zod.number().optional(),
+			less: zod.number().optional(),
 		}).or(zod.number())
 			.optional()
 			.describe("The unix-second UTC timestamp at which this signup was made"),

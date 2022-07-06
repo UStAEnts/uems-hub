@@ -78,8 +78,8 @@ export namespace CommentValidators {
 			.optional()
 			.describe("The user who created this comment"),
 		posted: zod.object({
-			greater: zod.number(),
-			less: zod.number(),
+			greater: zod.number().optional(),
+			less: zod.number().optional(),
 		}).or(zod.number())
 			.optional()
 			.describe("The time (unix-second timestamp UTC) at which this comment was created"),
@@ -90,8 +90,8 @@ export namespace CommentValidators {
 			.optional()
 			.describe("If this comment has been marked as 'requiring attention' by another user"),
 		attendedDate: zod.object({
-			greater: zod.number(),
-			less: zod.number(),
+			greater: zod.number().optional(),
+			less: zod.number().optional(),
 		}).or(zod.number())
 			.optional()
 			.describe("The time (unix-second timestamp UTC) at which this comment was attended to by another user"),

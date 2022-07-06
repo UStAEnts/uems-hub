@@ -91,8 +91,8 @@ export namespace EquipmentValidators {
 			.optional()
 			.describe("An additional identifier in the event the manufacturer and model are not sufficient"),
 		amount: zod.object({
-			greater: zod.number(),
-			less: zod.number(),
+			greater: zod.number().optional(),
+			less: zod.number().optional(),
 		}).or(zod.number())
 			.optional()
 			.describe("The amount of this piece of equipment currently available"),
@@ -106,8 +106,8 @@ export namespace EquipmentValidators {
 			.optional()
 			.describe("The user assigned to manage this piece of equipment and should be the first call when needing information about it"),
 		date: zod.object({
-			greater: zod.number(),
-			less: zod.number(),
+			greater: zod.number().optional(),
+			less: zod.number().optional(),
 		}).or(zod.number())
 			.optional()
 			.describe("The date the equipment was purchased"),

@@ -66,8 +66,8 @@ export namespace VenueReportValidators {
             .optional()
             .describe("The user that produced this submission"),
         date: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The unix-second utc timestamp at which this report was submitted"),
@@ -75,8 +75,8 @@ export namespace VenueReportValidators {
             .optional()
             .describe("The current state of this report"),
         resolvedDate: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The unix-second utc timestamp at which this report was resolved"),

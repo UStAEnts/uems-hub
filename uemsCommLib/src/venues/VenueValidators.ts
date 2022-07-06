@@ -47,8 +47,8 @@ export namespace VenueValidators {
             .optional()
             .describe("The human readable name of the venue"),
         capacity: zod.object({
-            greater: zod.number(),
-            less: zod.number(),
+            greater: zod.number().optional(),
+            less: zod.number().optional(),
         }).or(zod.number())
             .optional()
             .describe("The amount of people that can fit in the venue during a traditional use case"),
