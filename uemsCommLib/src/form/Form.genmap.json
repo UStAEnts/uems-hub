@@ -1,0 +1,173 @@
+{
+	"moduleName": "form",
+	"uppercase": "Form",
+	"lowercase": "form",
+	"folder": "form",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID of this form"
+		},
+		{
+			"name": "name",
+			"type": "string",
+			"optional": false,
+			"description": "The name of this form"
+		},
+		{
+			"name": "description",
+			"type": "string",
+			"optional": true,
+			"description": "The summary description of this form"
+		},
+		{
+			"name": "created",
+			"type": "number",
+			"optional": false,
+			"description": "The unix-second utc timestamp at which this form was created"
+		},
+		{
+			"name": "author",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The user who created or currently manages this asset"
+		},
+		{
+			"name": "configuration",
+			"type": "FormValidator",
+			"optional": false,
+			"description": "The actual form configuration of this entry"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "author",
+			"type": "string"
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "array.string",
+				"optional": true,
+				"description": "The unique ID of this form"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of this form"
+			},
+			{
+				"name": "description",
+				"type": "string",
+				"optional": true,
+				"description": "The summary description of this form"
+			},
+			{
+				"name": "created",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The unix-second utc timestamp at which this form was created"
+			},
+			{
+				"name": "author",
+				"type": "string",
+				"description": "The user who created or currently manages this asset",
+				"optional": true
+			},
+			{
+				"name": "configuration",
+				"type": "Form",
+				"optional": true,
+				"description": "The actual form configuration of this entry"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "name",
+				"type": "string",
+				"optional": false,
+				"description": "The name of this form"
+			},
+			{
+				"name": "description",
+				"type": "string",
+				"optional": true,
+				"description": "The summary description of this form"
+			},
+			{
+				"name": "created",
+				"type": "number",
+				"optional": false,
+				"description": "The unix-second utc timestamp at which this form was created"
+			},
+			{
+				"name": "author",
+				"type": "string",
+				"description": "The user who created or currently manages this asset"
+			},
+			{
+				"name": "configuration",
+				"type": "Form",
+				"optional": false,
+				"description": "The actual form configuration of this entry"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID of this form"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of this form"
+			},
+			{
+				"name": "description",
+				"type": "string",
+				"optional": true,
+				"description": "The summary description of this form"
+			},
+			{
+				"name": "created",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second utc timestamp at which this form was created"
+			},
+			{
+				"name": "author",
+				"type": "string",
+				"description": "The user who created or currently manages this asset",
+				"optional": true
+			},
+			{
+				"name": "configuration",
+				"type": "Form",
+				"optional": true,
+				"description": "The actual form configuration of this entry"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}
