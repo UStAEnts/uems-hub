@@ -1,0 +1,149 @@
+{
+	"moduleName": "venue",
+	"uppercase": "Venue",
+	"lowercase": "venue",
+	"folder": "venue",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID of this venue"
+		},
+		{
+			"name": "name",
+			"type": "string",
+			"optional": false,
+			"description": "The human readable name of the venue"
+		},
+		{
+			"name": "capacity",
+			"type": "number",
+			"optional": false,
+			"description": "The amount of people that can fit in the venue during a traditional use case"
+		},
+		{
+			"name": "color",
+			"type": "string (color)",
+			"optional": true,
+			"description": "The colour to represent this venue if required"
+		},
+		{
+			"name": "user",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The user who manages this venue"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "user",
+			"type": "string"
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "array.string",
+				"optional": true,
+				"description": "The unique ID of this venue"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The human readable name of the venue"
+			},
+			{
+				"name": "capacity",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The amount of people that can fit in the venue during a traditional use case"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": true,
+				"description": "The colour to represent this venue if required"
+			},
+			{
+				"name": "user",
+				"type": "string",
+				"description": "The user who manages this venue",
+				"optional": true
+			}
+		],
+		"CREATE": [
+			{
+				"name": "name",
+				"type": "string",
+				"optional": false,
+				"description": "The human readable name of the venue"
+			},
+			{
+				"name": "capacity",
+				"type": "number",
+				"optional": false,
+				"description": "The amount of people that can fit in the venue during a traditional use case"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": true,
+				"description": "The colour to represent this venue if required"
+			},
+			{
+				"name": "user",
+				"type": "string",
+				"description": "The user who manages this venue"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID of this venue"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The human readable name of the venue"
+			},
+			{
+				"name": "capacity",
+				"type": "number",
+				"optional": true,
+				"description": "The amount of people that can fit in the venue during a traditional use case"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": true,
+				"description": "The colour to represent this venue if required"
+			},
+			{
+				"name": "user",
+				"type": "string",
+				"description": "The user who manages this venue",
+				"optional": true
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}

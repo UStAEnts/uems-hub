@@ -1,0 +1,314 @@
+{
+	"moduleName": "event",
+	"uppercase": "Event",
+	"lowercase": "event",
+	"folder": "event",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID for this event"
+		},
+		{
+			"name": "name",
+			"type": "string",
+			"optional": false,
+			"description": "The name of the event"
+		},
+		{
+			"name": "start",
+			"type": "number",
+			"optional": false,
+			"description": "The unix-second timestamp UTC when the event will begin"
+		},
+		{
+			"name": "end",
+			"type": "number",
+			"optional": false,
+			"description": "The unix-second UTC timestamp when the event finishes"
+		},
+		{
+			"name": "venues",
+			"type": "array.ZVenue",
+			"optional": false,
+			"description": "The venues in which this event takes place"
+		},
+		{
+			"name": "attendance",
+			"type": "number",
+			"optional": false,
+			"description": "The anticipated attendance of this event"
+		},
+		{
+			"name": "ents",
+			"type": "ZEntState",
+			"optional": true,
+			"description": "The ent state of this event"
+		},
+		{
+			"name": "state",
+			"type": "ZState",
+			"optional": true,
+			"description": "The state of this event approval"
+		},
+		{
+			"name": "author",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The user who is running this event"
+		},
+		{
+			"name": "reserved",
+			"type": "boolean",
+			"optional": true,
+			"description": "If this space and time has been reserved for this event"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "venues",
+			"type": "array.string"
+		},
+		{
+			"name": "ents",
+			"type": "string"
+		},
+		{
+			"name": "state",
+			"type": "string"
+		},
+		{
+			"name": "author",
+			"type": "string"
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "array.string",
+				"optional": true,
+				"description": "The unique ID for this event"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of the event"
+			},
+			{
+				"name": "start",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The unix-second timestamp UTC when the event will begin"
+			},
+			{
+				"name": "end",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The unix-second UTC timestamp when the event finishes"
+			},
+			{
+				"name": "venues",
+				"type": "array.string",
+				"description": "The venues in which this event takes place",
+				"optional": true
+			},
+			{
+				"name": "attendance",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The anticipated attendance of this event"
+			},
+			{
+				"name": "ents",
+				"type": "string",
+				"description": "The ent state of this event",
+				"optional": true
+			},
+			{
+				"name": "state",
+				"type": "string",
+				"description": "The state of this event approval",
+				"optional": true
+			},
+			{
+				"name": "author",
+				"type": "string",
+				"description": "The user who is running this event",
+				"optional": true
+			},
+			{
+				"name": "reserved",
+				"type": "boolean",
+				"optional": true,
+				"description": "If this space and time has been reserved for this event"
+			},
+			{
+				"name": "coincidesWith",
+				"type": "object (placeholder)",
+				"optional": true,
+				"description": "Finds events that overlap with this time range"
+			},
+			{
+				"name": "allVenues",
+				"type": "array.string",
+				"optional": true,
+				"description": "All venues required to match an event"
+			},
+			{
+				"name": "anyVenues",
+				"type": "array.string",
+				"optional": true,
+				"description": "Returns events where at least one venue is present"
+			},
+			{
+				"name": "stateIn",
+				"type": "array.string",
+				"optional": true,
+				"description": "Returns events that have at least one state in the given range"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "name",
+				"type": "string",
+				"optional": false,
+				"description": "The name of the event"
+			},
+			{
+				"name": "start",
+				"type": "number",
+				"optional": false,
+				"description": "The unix-second timestamp UTC when the event will begin"
+			},
+			{
+				"name": "end",
+				"type": "number",
+				"optional": false,
+				"description": "The unix-second UTC timestamp when the event finishes"
+			},
+			{
+				"name": "venues",
+				"type": "array.string",
+				"description": "The venues in which this event takes place"
+			},
+			{
+				"name": "attendance",
+				"type": "number",
+				"optional": false,
+				"description": "The anticipated attendance of this event"
+			},
+			{
+				"name": "ents",
+				"type": "string",
+				"description": "The ent state of this event"
+			},
+			{
+				"name": "state",
+				"type": "string",
+				"description": "The state of this event approval"
+			},
+			{
+				"name": "author",
+				"type": "string",
+				"description": "The user who is running this event"
+			},
+			{
+				"name": "reserved",
+				"type": "boolean",
+				"optional": true,
+				"description": "If this space and time has been reserved for this event"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID for this event"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of the event"
+			},
+			{
+				"name": "start",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second timestamp UTC when the event will begin"
+			},
+			{
+				"name": "end",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second UTC timestamp when the event finishes"
+			},
+			{
+				"name": "venues",
+				"type": "array.string",
+				"description": "The venues in which this event takes place",
+				"optional": true
+			},
+			{
+				"name": "addVenues",
+				"type": "array.string",
+				"description": "The venues which should be added to the set",
+				"optional": true
+			},
+			{
+				"name": "removeVenues",
+				"type": "array.string",
+				"description": "The venues which should be removed from the set",
+				"optional": true
+			},
+			{
+				"name": "attendance",
+				"type": "number",
+				"optional": true,
+				"description": "The anticipated attendance of this event"
+			},
+			{
+				"name": "ents",
+				"type": "string",
+				"description": "The ent state of this event",
+				"optional": true
+			},
+			{
+				"name": "state",
+				"type": "string",
+				"description": "The state of this event approval",
+				"optional": true
+			},
+			{
+				"name": "author",
+				"type": "string",
+				"description": "The user who is running this event",
+				"optional": true
+			},
+			{
+				"name": "reserved",
+				"type": "boolean",
+				"optional": true,
+				"description": "If this space and time has been reserved for this event"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}

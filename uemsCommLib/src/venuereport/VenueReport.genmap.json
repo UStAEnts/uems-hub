@@ -1,0 +1,233 @@
+{
+	"moduleName": "venue report",
+	"uppercase": "VenueReport",
+	"lowercase": "venueReport",
+	"folder": "venue-report",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID for this report"
+		},
+		{
+			"name": "equipment",
+			"type": "ZEquipment",
+			"optional": false,
+			"description": "The equipment against which this report is raised"
+		},
+		{
+			"name": "report",
+			"type": "string",
+			"optional": false,
+			"description": "The content of this report"
+		},
+		{
+			"name": "reporter",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The user that produced this submission"
+		},
+		{
+			"name": "date",
+			"type": "number",
+			"optional": false,
+			"description": "The unix-second utc timestamp at which this report was submitted"
+		},
+		{
+			"name": "state",
+			"type": "string",
+			"optional": false,
+			"description": "The current state of this report"
+		},
+		{
+			"name": "resolvedDate",
+			"type": "number",
+			"optional": true,
+			"description": "The unix-second utc timestamp at which this report was resolved"
+		},
+		{
+			"name": "resolver",
+			"type": "ZUser",
+			"optional": true,
+			"description": "The user who resolved this report"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "equipment",
+			"type": "string"
+		},
+		{
+			"name": "reporter",
+			"type": "string"
+		},
+		{
+			"name": "resolver",
+			"type": "string"
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "array.string",
+				"optional": true,
+				"description": "The unique ID for this report"
+			},
+			{
+				"name": "equipment",
+				"type": "string",
+				"description": "The equipment against which this report is raised",
+				"optional": true
+			},
+			{
+				"name": "report",
+				"type": "string",
+				"optional": true,
+				"description": "The content of this report"
+			},
+			{
+				"name": "reporter",
+				"type": "string",
+				"description": "The user that produced this submission",
+				"optional": true
+			},
+			{
+				"name": "date",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The unix-second utc timestamp at which this report was submitted"
+			},
+			{
+				"name": "state",
+				"type": "string",
+				"optional": true,
+				"description": "The current state of this report"
+			},
+			{
+				"name": "resolvedDate",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The unix-second utc timestamp at which this report was resolved"
+			},
+			{
+				"name": "resolver",
+				"type": "string",
+				"description": "The user who resolved this report",
+				"optional": true
+			},
+			{
+				"name": "openFor",
+				"type": "number",
+				"optional": true,
+				"description": "Returns reports that have been open for more than this amount of seconds"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "equipment",
+				"type": "string",
+				"description": "The equipment against which this report is raised"
+			},
+			{
+				"name": "report",
+				"type": "string",
+				"optional": false,
+				"description": "The content of this report"
+			},
+			{
+				"name": "reporter",
+				"type": "string",
+				"description": "The user that produced this submission"
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": false,
+				"description": "The unix-second utc timestamp at which this report was submitted"
+			},
+			{
+				"name": "state",
+				"type": "string",
+				"optional": false,
+				"description": "The current state of this report"
+			},
+			{
+				"name": "resolvedDate",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second utc timestamp at which this report was resolved"
+			},
+			{
+				"name": "resolver",
+				"type": "string",
+				"description": "The user who resolved this report"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID for this report"
+			},
+			{
+				"name": "equipment",
+				"type": "string",
+				"description": "The equipment against which this report is raised",
+				"optional": true
+			},
+			{
+				"name": "report",
+				"type": "string",
+				"optional": true,
+				"description": "The content of this report"
+			},
+			{
+				"name": "reporter",
+				"type": "string",
+				"description": "The user that produced this submission",
+				"optional": true
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second utc timestamp at which this report was submitted"
+			},
+			{
+				"name": "state",
+				"type": "string",
+				"optional": true,
+				"description": "The current state of this report"
+			},
+			{
+				"name": "resolvedDate",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second utc timestamp at which this report was resolved"
+			},
+			{
+				"name": "resolver",
+				"type": "string",
+				"description": "The user who resolved this report",
+				"optional": true
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}
