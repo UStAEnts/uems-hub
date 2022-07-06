@@ -1,18 +1,17 @@
 /**
- * Restructures ./file into a format to be directly re-exported by src/index.ts
+ * Restructures ./file into a format to be re-exported by src/index.ts
  */
-import { FileValidators } from "./FileValidators";
+import { FileValidators } from './FileValidators';
 
 /**
- * Re-exports of types and functions in {@link FileValidators} relating to File messages
+ * Re-exports of types and functions in {@link FileValidators} relating to file messages
  */
 export namespace FileMessage {
-    export type CreateFileMessage = FileValidators.FileCreateSchema;
-    export type UpdateFileMessage = FileValidators.FileUpdateSchema;
-    export type DeleteFileMessage = FileValidators.FileDeleteSchema;
-    export type ReadFileMessage = FileValidators.FileReadSchema;
+    export type ReadFileMessage = FileValidators.FileRead;
+    export type CreateFileMessage = FileValidators.FileCreate;
+    export type UpdateFileMessage = FileValidators.FileUpdate;
+    export type DeleteFileMessage = FileValidators.FileDelete;
     export type FileMessage = FileValidators.FileMessage;
-    export const messageToJSON = FileValidators.messageToJSON;
 }
 
 /**
@@ -20,17 +19,11 @@ export namespace FileMessage {
  * exported types with their correct result types for accuracy.
  */
 export namespace FileResponse {
-    export type ShallowInternalFile = FileValidators.ShallowFileRepresentation;
-	export type InternalFile = FileValidators.FileRepresentation;
-    export type FileReadResponseMessage = Omit<FileValidators.FileResponseSchema, 'result'> & {
-        result: FileValidators.FileRepresentation[],
-    };
-    export type FileServiceReadResponseMessage = Omit<FileValidators.FileResponseSchema, 'result'> & {
-        result: FileValidators.ShallowFileRepresentation[],
-    }
-    export type FileResponseMessage = Omit<FileValidators.FileResponseSchema, 'result'> & {
-        result: string[],
-    };
+    export type InternalFile = FileValidators.FileRepresentation;
+    export type FileServiceReadResponseMessage = FileValidators.FileShallowRepresentation;
+    export type FileReadResponseMessage = FileValidators.FileReadResponse;
+    export type FileModifyResponseMessage = FileValidators.FileModifyResponse;
+    export type FileResponseMessage = FileReadResponseMessage | FileModifyResponseMessage;
 }
 
 export const FileMessageValidator = FileValidators.FileMessageValidator;
