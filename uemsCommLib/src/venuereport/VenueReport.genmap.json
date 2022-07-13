@@ -71,7 +71,8 @@
 		},
 		{
 			"name": "resolver",
-			"type": "string"
+			"type": "string",
+			"optional": true
 		}
 	],
 	"intentionQueries": {

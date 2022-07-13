@@ -49,7 +49,8 @@ export namespace VenueReportValidators {
             .optional()
             .describe("The unix-second utc timestamp at which this report was resolved"),
         resolver: zod.string()
-            .describe("The user who resolved this report"),
+            .describe("The user who resolved this report")
+            .optional(),
     });
     export type VenueReportShallowRepresentation = zod.infer<typeof ZVenueReportShallow>;
     export const ZVenueReportRead = REQUEST_CORE_SCHEMA('READ').extend({
