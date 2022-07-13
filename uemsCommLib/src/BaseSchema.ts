@@ -30,6 +30,10 @@ export namespace BaseSchema {
 			requestID: zod.string()
 				.describe("The request which originated this request to be used for correlational debugging")
 				.optional(),
+			userScoped: zod.boolean()
+				.describe("If this request should be limited to just assets owned by the user specified in userID. If this is specified with userID='anonymous' then a request should fail")
+				.default(false)
+				.optional(),
 		});
 	}
 
