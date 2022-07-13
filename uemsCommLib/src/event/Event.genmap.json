@@ -79,11 +79,13 @@
 		},
 		{
 			"name": "ents",
-			"type": "string"
+			"type": "string",
+			"optional": true
 		},
 		{
 			"name": "state",
-			"type": "string"
+			"type": "string",
+			"optional": true
 		},
 		{
 			"name": "author",
@@ -210,11 +212,13 @@
 			{
 				"name": "ents",
 				"type": "string",
+				"optional": true,
 				"description": "The ent state of this event"
 			},
 			{
 				"name": "state",
 				"type": "string",
+				"optional": true,
 				"description": "The state of this event approval"
 			},
 			{
@@ -308,6 +312,12 @@
 				"name": "id",
 				"type": "string",
 				"description": "The unique identifier of this entity to remove"
+			},
+			{
+				"name": "sameUserOnly",
+				"type": "boolean",
+				"description": "If the delete request should only modify records that have a user equalling the userID",
+				"optional": true
 			}
 		]
 	}

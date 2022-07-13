@@ -51,7 +51,8 @@ export namespace CommentValidators {
 		posted: zod.number()
 			.describe("The time (unix-second timestamp UTC) at which this comment was created"),
 		topic: zod.string()
-			.describe("The topic under which this comment has been assigned"),
+			.describe("The topic under which this comment has been assigned")
+			.optional(),
 		requiresAttention: zod.boolean()
 			.optional()
 			.describe("If this comment has been marked as 'requiring attention' by another user"),
@@ -59,7 +60,8 @@ export namespace CommentValidators {
 			.optional()
 			.describe("The time (unix-second timestamp UTC) at which this comment was attended to by another user"),
 		attendedBy: zod.string()
-			.describe("The user who attended to this comment to disable the flag"),
+			.describe("The user who attended to this comment to disable the flag")
+			.optional(),
 		body: zod.string()
 			.describe("The main content of the comment"),
 	});
@@ -114,7 +116,8 @@ export namespace CommentValidators {
 		posted: zod.number()
 			.describe("The time (unix-second timestamp UTC) at which this comment was created"),
 		topic: zod.string()
-			.describe("The topic under which this comment has been assigned"),
+			.describe("The topic under which this comment has been assigned")
+			.optional(),
 		requiresAttention: zod.boolean()
 			.optional()
 			.describe("If this comment has been marked as 'requiring attention' by another user"),
@@ -122,7 +125,8 @@ export namespace CommentValidators {
 			.optional()
 			.describe("The time (unix-second timestamp UTC) at which this comment was attended to by another user"),
 		attendedBy: zod.string()
-			.describe("The user who attended to this comment to disable the flag"),
+			.describe("The user who attended to this comment to disable the flag")
+			.optional(),
 		body: zod.string()
 			.describe("The main content of the comment"),
 	});

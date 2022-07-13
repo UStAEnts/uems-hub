@@ -56,9 +56,11 @@ export namespace EventValidators {
         attendance: zod.number()
             .describe("The anticipated attendance of this event"),
         ents: zod.string()
-            .describe("The ent state of this event"),
+            .describe("The ent state of this event")
+            .optional(),
         state: zod.string()
-            .describe("The state of this event approval"),
+            .describe("The state of this event approval")
+            .optional(),
         author: zod.string()
             .describe("The user who is running this event"),
         reserved: zod.boolean()
@@ -138,9 +140,11 @@ export namespace EventValidators {
         attendance: zod.number()
             .describe("The anticipated attendance of this event"),
         ents: zod.string()
-            .describe("The ent state of this event"),
+            .describe("The ent state of this event")
+            .optional(),
         state: zod.string()
-            .describe("The state of this event approval"),
+            .describe("The state of this event approval")
+            .optional(),
         author: zod.string()
             .describe("The user who is running this event"),
         reserved: zod.boolean()
@@ -191,6 +195,9 @@ export namespace EventValidators {
     export const ZEventDelete = REQUEST_CORE_SCHEMA('DELETE').extend({
         id: zod.string()
             .describe("The unique identifier of this entity to remove"),
+        sameUserOnly: zod.boolean()
+            .optional()
+            .describe("If the delete request should only modify records that have a user equalling the userID"),
     });
     export type EventDelete = zod.infer<typeof ZEventDelete>;
     const ZEventReadResponse = RESPONSE_CORE_SCHEMA(['READ']).extend({

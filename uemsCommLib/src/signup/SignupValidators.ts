@@ -92,6 +92,9 @@ export namespace SignupValidators {
 	export const ZSignupDelete = REQUEST_CORE_SCHEMA('DELETE').extend({
 		id: zod.string()
 			.describe("The unique identifier of this entity to remove"),
+		sameUserOnly: zod.boolean()
+			.optional()
+			.describe("If the delete request should only modify records that have a user equalling the userID"),
 	});
 	export type SignupDelete = zod.infer<typeof ZSignupDelete>;
 	const ZSignupReadResponse = RESPONSE_CORE_SCHEMA(['READ']).extend({

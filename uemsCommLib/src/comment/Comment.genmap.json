@@ -79,11 +79,13 @@
 		},
 		{
 			"name": "topic",
-			"type": "string"
+			"type": "string",
+			"optional": true
 		},
 		{
 			"name": "attendedBy",
-			"type": "string"
+			"type": "string",
+			"optional": true
 		}
 	],
 	"intentionQueries": {
@@ -176,7 +178,8 @@
 			{
 				"name": "topic",
 				"type": "string",
-				"description": "The topic under which this comment has been assigned"
+				"description": "The topic under which this comment has been assigned",
+				"optional": true
 			},
 			{
 				"name": "requiresAttention",
@@ -193,7 +196,8 @@
 			{
 				"name": "attendedBy",
 				"type": "string",
-				"description": "The user who attended to this comment to disable the flag"
+				"description": "The user who attended to this comment to disable the flag",
+				"optional": true
 			},
 			{
 				"name": "body",

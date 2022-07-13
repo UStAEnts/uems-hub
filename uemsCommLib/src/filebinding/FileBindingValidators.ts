@@ -69,7 +69,7 @@ export namespace FileBindingValidators {
 			.optional(),
 	});
 	export const ZBindEventToFileResponse = RESPONSE_CORE_SCHEMA('CREATE').extend({
-		results: zod.boolean()
+		result: zod.boolean()
 			.describe("If the request completed successfully"),
 	});
 	export type BindEventToFileMessage = zod.infer<typeof ZBindEventToFile>;
@@ -87,11 +87,11 @@ export namespace FileBindingValidators {
 			.optional(),
 	});
 	export const ZBindFileToEventResponse = RESPONSE_CORE_SCHEMA('CREATE').extend({
-		results: zod.boolean()
+		result: zod.boolean()
 			.describe("If the request completed successfully"),
 	});
-	export type BindFileToEventMessage = zod.infer<typeof ZBindEventToFile>;
-	export type BindFileToEventResponse = zod.infer<typeof ZBindEventToFileResponse>;
+	export type BindFileToEventMessage = zod.infer<typeof ZBindFileToEvent>;
+	export type BindFileToEventResponse = zod.infer<typeof ZBindFileToEventResponse>;
 
 	// == DELETE
 	// = Unbind Event from File
@@ -106,7 +106,7 @@ export namespace FileBindingValidators {
 			.optional(),
 	});
 	export const ZUnbindEventFromFileResponse = RESPONSE_CORE_SCHEMA('DELETE').extend({
-		results: zod.boolean()
+		result: zod.boolean()
 			.describe("If the request completed successfully"),
 	});
 	export type UnbindEventFromFileMessage = zod.infer<typeof ZUnbindEventFromFile>;
@@ -124,7 +124,7 @@ export namespace FileBindingValidators {
 			.optional(),
 	});
 	export const ZUnbindFileFromEventResponse = RESPONSE_CORE_SCHEMA('DELETE').extend({
-		results: zod.boolean()
+		result: zod.boolean()
 			.describe("If the request completed successfully"),
 	});
 	export type UnbindFileFromEventMessage = zod.infer<typeof ZUnbindFileFromEvent>;
@@ -136,14 +136,14 @@ export namespace FileBindingValidators {
 	export const ZSetEventsForFile = REQUEST_CORE_SCHEMA('UPDATE').extend({
 		fileID: zod.string()
 			.describe("The file to set these events for"),
-		eventIDs: zod.string()
+		eventIDs: zod.array(zod.string())
 			.describe("The only events to be attached to this file"),
 		userFilter: zod.string()
 			.describe("The user filter that should be applied to this request - this will only modify assets owned by this user")
 			.optional(),
 	});
 	export const ZSetEventsForFileResponse = RESPONSE_CORE_SCHEMA('UPDATE').extend({
-		results: zod.boolean()
+		result: zod.boolean()
 			.describe("If the request completed successfully"),
 	});
 	export type SetEventsForFileMessage = zod.infer<typeof ZSetEventsForFile>;
@@ -161,7 +161,7 @@ export namespace FileBindingValidators {
 			.optional(),
 	});
 	export const ZSetFilesForEventResponse = RESPONSE_CORE_SCHEMA('UPDATE').extend({
-		results: zod.boolean()
+		result: zod.boolean()
 			.describe("If the request completed successfully"),
 	});
 	export type SetFilesForEventMessage = zod.infer<typeof ZSetFilesForEvent>;
