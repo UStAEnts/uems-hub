@@ -7,12 +7,11 @@ import { TopicValidators } from "./TopicValidators";
  * Re-exports of types and functions in {@link TopicValidators} relating to Topic messages
  */
 export namespace TopicMessage {
-    export type CreateTopicMessage = TopicValidators.TopicCreateSchema;
-    export type UpdateTopicMessage = TopicValidators.TopicUpdateSchema;
-    export type DeleteTopicMessage = TopicValidators.TopicDeleteSchema;
-    export type ReadTopicMessage = TopicValidators.TopicReadSchema;
+    export type CreateTopicMessage = TopicValidators.TopicCreate;
+    export type UpdateTopicMessage = TopicValidators.TopicUpdate;
+    export type DeleteTopicMessage = TopicValidators.TopicDelete;
+    export type ReadTopicMessage = TopicValidators.TopicRead;
     export type TopicMessage = TopicValidators.TopicMessage;
-    export const messageToJSON = TopicValidators.messageToJSON;
 }
 
 /**
@@ -21,12 +20,8 @@ export namespace TopicMessage {
  */
 export namespace TopicResponse {
     export type InternalTopic = TopicValidators.TopicRepresentation;
-    export type TopicReadResponseMessage = Omit<TopicValidators.TopicResponseSchema, 'result'> & {
-        result: TopicValidators.TopicRepresentation[],
-    };
-    export type TopicResponseMessage = Omit<TopicValidators.TopicResponseSchema, 'result'> & {
-        result: string[],
-    };
+    export type TopicReadResponseMessage = TopicValidators.TopicReadResponse;
+    export type TopicResponseMessage = TopicValidators.TopicModifyResponse;
 }
 
 export const TopicMessageValidator = TopicValidators.TopicMessageValidator;

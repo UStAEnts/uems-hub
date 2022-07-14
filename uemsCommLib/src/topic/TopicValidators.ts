@@ -1,283 +1,113 @@
+import * as zod from 'zod';
 import { BaseSchema } from "../BaseSchema";
-import { MessageValidator } from "../messaging/MessageValidator";
+import { ZodValidator } from "../MessageValidator";
 
 export namespace TopicValidators {
 
-    import CORE_SCHEMA = BaseSchema.CORE_SCHEMA;
-    import CoreSchema = BaseSchema.CoreSchema;
-    import CORE_REQUIRED = BaseSchema.CORE_REQUIRED;
-    import CoreSchemaWithStatus = BaseSchema.CoreSchemaWithStatus;
-    import Intentions = BaseSchema.Intentions;
+	import REQUEST_CORE_SCHEMA = BaseSchema.REQUEST_CORE_SCHEMA;
+	import RESPONSE_CORE_SCHEMA = BaseSchema.RESPONSE_CORE_SCHEMA;
 
-    export const TOPIC_REPRESENTATION = {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-            "id",
-            "name",
-            "color",
-            "icon",
-            "description",
-        ],
-        "properties": {
-            "id": {
-                "type": "string",
-                "description": ""
-            },
-            "description": {
-                "type": "string",
-                "description": "",
-            },
-            "name": {
-                "type": "string",
-                "description": ""
-            },
-            "color": {
-                "type": "string",
-                "pattern": "^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$"
-            },
-            "icon": {
-                "type": "string",
-                "description": ""
-            }
-        }
-    }
+	export const ZTopic = zod.object({
+		id: zod.string(),
+		name: zod.string(),
+		color: zod.string()
+			.regex(/^#?([\dA-Fa-f]{3}([\dA-Fa-f]{3})?)$/),
+		icon: zod.string(),
+		description: zod.string(),
+	});
+	export type TopicRepresentation = zod.infer<typeof ZTopic>;
 
-    export type TopicRepresentation = {
-        id: string,
-        name: string,
-        color: string,
-        icon: string,
-        description: string,
-    };
+	export const ZTopicCreate = REQUEST_CORE_SCHEMA('CREATE').extend({
+		name: zod.string(),
+		color: zod.string()
+			.regex(/^#?([\dA-Fa-f]{3}([\dA-Fa-f]{3})?)$/),
+		icon: zod.string(),
+		description: zod.string()
+			.optional(),
+	});
+	export type TopicCreate = zod.infer<typeof ZTopicCreate>;
 
-    export const TOPIC_CREATE_SCHEMA = {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-            ...CORE_REQUIRED,
-            "name",
-            "color",
-            "icon"
-        ],
-        "properties": {
-            ...CORE_SCHEMA('CREATE'),
-            "name": {
-                "type": "string",
-                "description": ""
-            },
-            "color": {
-                "type": "string",
-                "pattern": "^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$"
-            },
-            "icon": {
-                "type": "string",
-                "description": ""
-            },
-            "description": {
-                "type": "string",
-                "description": "",
-            },
-        }
-    }
+	export const ZTopicRead = REQUEST_CORE_SCHEMA('READ').extend({
+		id: zod.string()
+			.describe("The ID of the topic to fetch")
+			.or(
+				zod.array(zod.string())
+					.describe("The set of IDs which should be fetched in this request"),
+			)
+			.optional(),
+		name: zod.string()
+			.optional(),
+		color: zod.string()
+			.regex(/^#?([\dA-Fa-f]{3}([\dA-Fa-f]{3})?)$/)
+			.optional(),
+		icon: zod.string()
+			.optional(),
+		description: zod.string()
+			.optional(),
+	});
+	export type TopicRead = zod.infer<typeof ZTopicRead>;
 
-    export type TopicCreateSchema = CoreSchema<'CREATE'> & {
-        name: string,
-        color: string,
-        icon: string,
-        description: string,
-    };
-    export const TOPIC_READ_SCHEMA = {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-            ...CORE_REQUIRED
-        ],
-        "properties": {
-            ...CORE_SCHEMA('READ'),
-            "id": {
-                "oneOf": [
-                    {
-                        "type": "string",
-                        "description": "The ID of the topic to fetch",
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "description": "The set of IDs which should be fetched in this request"
-                        }
-                    },
-                ]
-            },
-            "name": {
-                "type": "string",
-                "description": ""
-            },
-            "color": {
-                "type": "string",
-                "pattern": "^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$"
-            },
-            "icon": {
-                "type": "string",
-                "description": ""
-            },
-            "description": {
-                "type": "string",
-                "description": "",
-            },
-        }
-    }
+	export const ZTopicDelete = REQUEST_CORE_SCHEMA('DELETE').extend({
+		id: zod.string(),
+	})
+	export type TopicDelete = zod.infer<typeof ZTopicDelete>;
 
-    export type TopicReadSchema = CoreSchema<'READ'> & {
-        id?: string | string[],
-        name?: string,
-        color?: string,
-        icon?: string,
-        description?: string,
-    };
-    export const TOPIC_DELETE_SCHEMA = {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-            ...CORE_REQUIRED,
-            "id"
-        ],
-        "properties": {
-            ...CORE_SCHEMA('DELETE'),
-            "id": {
-                "type": "string",
-                "description": ""
-            }
-        }
-    }
+	export const ZTopicUpdate = REQUEST_CORE_SCHEMA('UPDATE').extend({
+		id: zod.string(),
+		name: zod.string()
+			.optional(),
+		color: zod.string()
+			.regex(/^#?([\dA-Fa-f]{3}([\dA-Fa-f]{3})?)$/)
+			.optional(),
+		icon: zod.string()
+			.optional(),
+		description: zod.string()
+			.optional(),
+	});
+	export type TopicUpdate = zod.infer<typeof ZTopicUpdate>;
 
-    export type TopicDeleteSchema = CoreSchema<'DELETE'> & {
-        id: string,
-    };
-    export const TOPIC_UPDATE_SCHEMA = {
-        "type": "object",
-        "additionalProperties": false,
-        "minProperties": 2 + CORE_REQUIRED.length,
-        "required": [
-            ...CORE_REQUIRED,
-            "id"
-        ],
-        "properties": {
-            ...CORE_SCHEMA('UPDATE'),
-            "id": {
-                "type": "string",
-                "description": ""
-            },
-            "name": {
-                "type": "string",
-                "description": ""
-            },
-            "color": {
-                "type": "string",
-                "pattern": "^#?([0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?)$"
-            },
-            "icon": {
-                "type": "string",
-                "description": ""
-            },
-            "description": {
-                "type": "string",
-                "description": "",
-            },
-        }
-    }
+	const ZTopicModifyResponse = RESPONSE_CORE_SCHEMA(['UPDATE', 'CREATE', 'DELETE', 'ASSERT']).extend({
+		result: zod.array(zod.string())
+			.describe("The array of matched or manipulated responses"),
+	});
+	export type TopicModifyResponse = zod.infer<typeof ZTopicModifyResponse>;
 
-    export type TopicUpdateSchema = CoreSchema<'UPDATE'> & {
-        id: string,
-        name?: string,
-        color?: string,
-        icon?: string,
-        description?: string,
-    };
-    const TOPIC_RESPONSE_OBJECT_SCHEMA = {
-        "additionalProperties": false,
-        "required": [...CORE_REQUIRED, "result"],
-        "properties": {
-            ...CORE_SCHEMA(['UPDATE', 'CREATE', 'DELETE', 'READ'], true),
-            "result": {
-                "type": "array",
-                "items": {
-                    "oneOf": [
-                        { ...TOPIC_REPRESENTATION },
-                        { "type": "string" }
-                    ]
-                },
-                "description": "The array of matched or manipulated responses",
-            },
-        },
-    };
+	const ZTopicReadResponse = RESPONSE_CORE_SCHEMA(['READ']).extend({
+		result: zod.array(ZTopic)
+			.describe("The array of matched Topics"),
+	});
+	export type TopicReadResponse = zod.infer<typeof ZTopicReadResponse>;
 
-    export type TopicResponseSchema = CoreSchemaWithStatus<Intentions> & {
-        result: string[] | TopicRepresentation[],
-    };
-    export type TopicMessage = TopicCreateSchema | TopicUpdateSchema | TopicDeleteSchema | TopicReadSchema;
+	const ZTopicResponse = ZTopicModifyResponse.or(ZTopicReadResponse);
+	export type TopicResponse = zod.infer<typeof ZTopicResponse>;
 
-    const TOPIC_MESSAGE_SCHEMA = {
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "anyOf": [
-            TOPIC_CREATE_SCHEMA,
-            TOPIC_UPDATE_SCHEMA,
-            TOPIC_READ_SCHEMA,
-            TOPIC_DELETE_SCHEMA,
-        ],
-    };
+	export const ZTopicRequest = ZTopicCreate
+		.or(ZTopicUpdate)
+		.or(ZTopicRead)
+		.or(ZTopicDelete);
+	export type TopicMessage = zod.infer<typeof ZTopicRequest>;
 
-    const TOPIC_RESPONSE_SCHEMA = {
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "anyOf": [
-            TOPIC_RESPONSE_OBJECT_SCHEMA,
-        ],
-    };
+	/**
+	 * A validator supporting only incoming Topic messages (read, create, delete and update). This uses the default
+	 * validation scheme as the state schema does not have any additional validation rules
+	 */
+	export class TopicMessageValidator extends ZodValidator {
 
-    /**
-     * A validator supporting only incoming Topic messages (read, create, delete and update). This uses the default
-     * validation scheme as the state schema does not have any additional validation rules
-     */
-    export class TopicMessageValidator extends MessageValidator {
+		constructor() {
+			super(ZTopicRequest);
+		}
 
-        constructor() {
-            super(TOPIC_MESSAGE_SCHEMA);
-        }
+	}
 
-        /**
-         * Sets up a new message validator
-         * @deprecated this is not an async function so you can directly call the constructor. Added for compatibility
-         */
-        static async setup() {
-            return new TopicMessageValidator();
-        }
+	/**
+	 * A validator supporting only outgoing messages
+	 */
+	export class TopicResponseValidator extends ZodValidator {
 
-    }
+		constructor() {
+			super(ZTopicResponse);
+		}
 
-    /**
-     * A validator supporting only outgoing messages
-     */
-    export class TopicResponseValidator extends MessageValidator {
-
-        constructor() {
-            super(TOPIC_RESPONSE_SCHEMA);
-        }
-
-        /**
-         * Sets up a new message validator
-         * @deprecated this is not an async function so you can directly call the constructor. Added for compatibility
-         */
-        static async setup() {
-            return new TopicResponseValidator();
-        }
-
-    }
-
-    /**
-     * Converts a message to JSON applying any additional manipulations, if required
-     * @param message the message to convert to JSON
-     */
-    export const messageToJSON = (message: TopicMessage) => JSON.stringify(message);
+	}
 
 }

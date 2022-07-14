@@ -1,36 +1,30 @@
 /**
-* Restructures ./comment into a format to be directly re-exported by src/index.ts
-*/
-import { CommentValidators } from "./CommentValidators";
+ * Restructures ./comment into a format to be re-exported by src/index.ts
+ */
+import { CommentValidators } from './CommentValidators';
 
 /**
-* Re-exports of types and functions in {@link CommentValidators} relating to Comment messages
-*/
+ * Re-exports of types and functions in {@link CommentValidators} relating to comment messages
+ */
 export namespace CommentMessage {
-    export type CreateCommentMessage = CommentValidators.CommentCreateSchema;
-    export type UpdateCommentMessage = CommentValidators.CommentUpdateSchema;
-    export type DeleteCommentMessage = CommentValidators.CommentDeleteSchema;
-    export type ReadCommentMessage = CommentValidators.CommentReadSchema;
+    export type ReadCommentMessage = CommentValidators.CommentRead;
+    export type CreateCommentMessage = CommentValidators.CommentCreate;
+    export type UpdateCommentMessage = CommentValidators.CommentUpdate;
+    export type DeleteCommentMessage = CommentValidators.CommentDelete;
     export type CommentMessage = CommentValidators.CommentMessage;
-    export const messageToJSON = CommentValidators.messageToJSON;
 }
 
 /**
-* Re-exports of types and functions in {@link CommentValidators} relating to the comment messages. This overrides
-* exported types with their correct result types for accuracy.
-*/
+ * Re-exports of types and functions in {@link CommentValidators} relating to the comment messages. This overrides
+ * exported types with their correct result types for accuracy.
+ */
 export namespace CommentResponse {
-    export type ShallowInternalComment = CommentValidators.ShallowCommentRepresentation;
-	export type InternalComment = CommentValidators.CommentRepresentation;
-    export type CommentReadResponseMessage = Omit<CommentValidators.CommentResponseSchema, 'result'> & {
-        result: CommentValidators.CommentRepresentation[],
-    };
-    export type CommentServiceReadResponseMessage = Omit<CommentValidators.CommentResponseSchema, 'result'> & {
-        result: CommentValidators.ShallowCommentRepresentation[],
-    }
-    export type CommentResponseMessage = Omit<CommentValidators.CommentResponseSchema, 'result'> & {
-        result: string[],
-    };
+    export type InternalComment = CommentValidators.CommentRepresentation;
+    export type ShallowInternalComment = CommentValidators.CommentShallowRepresentation;
+    export type CommentServiceReadResponseMessage = CommentValidators.CommentShallowReadResponse;
+    export type CommentReadResponseMessage = CommentValidators.CommentReadResponse;
+    export type CommentModifyResponseMessage = CommentValidators.CommentModifyResponse;
+    export type CommentResponseMessage = CommentReadResponseMessage | CommentModifyResponseMessage;
 }
 
 export const CommentMessageValidator = CommentValidators.CommentMessageValidator;

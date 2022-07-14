@@ -1,0 +1,152 @@
+{
+	"moduleName": "signup",
+	"uppercase": "Signup",
+	"lowercase": "signup",
+	"folder": "signup",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique identifier for this signup"
+		},
+		{
+			"name": "user",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The user who is being signed up to the event"
+		},
+		{
+			"name": "event",
+			"type": "ZEvent",
+			"optional": false,
+			"description": "The event to which this user is signing up"
+		},
+		{
+			"name": "role",
+			"type": "string",
+			"optional": false,
+			"description": "The role this user is signing up for"
+		},
+		{
+			"name": "date",
+			"type": "number",
+			"optional": false,
+			"description": "The unix-second UTC timestamp at which this signup was made"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "user",
+			"type": "string"
+		},
+		{
+			"name": "event",
+			"type": "string"
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "string|array.string",
+				"optional": true,
+				"description": "The unique identifier for this signup"
+			},
+			{
+				"name": "user",
+				"type": "string",
+				"description": "The user who is being signed up to the event",
+				"optional": true
+			},
+			{
+				"name": "event",
+				"type": "string",
+				"description": "The event to which this user is signing up",
+				"optional": true
+			},
+			{
+				"name": "role",
+				"type": "string",
+				"optional": true,
+				"description": "The role this user is signing up for"
+			},
+			{
+				"name": "date",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The unix-second UTC timestamp at which this signup was made"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "user",
+				"type": "string",
+				"description": "The user who is being signed up to the event"
+			},
+			{
+				"name": "event",
+				"type": "string",
+				"description": "The event to which this user is signing up"
+			},
+			{
+				"name": "role",
+				"type": "string",
+				"optional": false,
+				"description": "The role this user is signing up for"
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": false,
+				"description": "The unix-second UTC timestamp at which this signup was made"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique identifier for this signup"
+			},
+			{
+				"name": "user",
+				"type": "string",
+				"description": "The user who is being signed up to the event",
+				"optional": true
+			},
+			{
+				"name": "event",
+				"type": "string",
+				"description": "The event to which this user is signing up",
+				"optional": true
+			},
+			{
+				"name": "role",
+				"type": "string",
+				"optional": true,
+				"description": "The role this user is signing up for"
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second UTC timestamp at which this signup was made"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}

@@ -1,0 +1,120 @@
+{
+	"moduleName": "state",
+	"uppercase": "State",
+	"lowercase": "state",
+	"folder": "state",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID of this state"
+		},
+		{
+			"name": "name",
+			"type": "string",
+			"optional": false,
+			"description": "The name of this state"
+		},
+		{
+			"name": "color",
+			"type": "string (color)",
+			"optional": false,
+			"description": "The color of this state"
+		},
+		{
+			"name": "icon",
+			"type": "string",
+			"optional": false,
+			"description": "The icon of this state in a format that can be rendered by the frontend"
+		}
+	],
+	"primaryIdentifier": "id",
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "string|array.string",
+				"optional": true,
+				"description": "The unique ID of this state"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of this state"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": true,
+				"description": "The color of this state"
+			},
+			{
+				"name": "icon",
+				"type": "string",
+				"optional": true,
+				"description": "The icon of this state in a format that can be rendered by the frontend"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "name",
+				"type": "string",
+				"optional": false,
+				"description": "The name of this state"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": false,
+				"description": "The color of this state"
+			},
+			{
+				"name": "icon",
+				"type": "string",
+				"optional": false,
+				"description": "The icon of this state in a format that can be rendered by the frontend"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID of this state"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of this state"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": true,
+				"description": "The color of this state"
+			},
+			{
+				"name": "icon",
+				"type": "string",
+				"optional": true,
+				"description": "The icon of this state in a format that can be rendered by the frontend"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}

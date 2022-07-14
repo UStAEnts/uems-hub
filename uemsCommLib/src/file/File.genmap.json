@@ -1,0 +1,269 @@
+{
+	"moduleName": "file",
+	"uppercase": "File",
+	"lowercase": "file",
+	"folder": "file",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID of the file"
+		},
+		{
+			"name": "name",
+			"type": "string",
+			"optional": false,
+			"description": "The human readable name of the file - this is user chosen and does not need to be the actual file name"
+		},
+		{
+			"name": "filename",
+			"type": "string",
+			"optional": false,
+			"description": "The original file name"
+		},
+		{
+			"name": "size",
+			"type": "number",
+			"optional": false,
+			"description": "The number of bytes in the file"
+		},
+		{
+			"name": "mime",
+			"type": "string",
+			"optional": false,
+			"description": "The mime type of the file to be used in download requests"
+		},
+		{
+			"name": "owner",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The owner of this file, originally the user who uploaded it"
+		},
+		{
+			"name": "type",
+			"type": "string",
+			"optional": false,
+			"description": "The type of file"
+		},
+		{
+			"name": "date",
+			"type": "number",
+			"optional": false,
+			"description": "The unix-second timestamp when the file was uploaded"
+		},
+		{
+			"name": "downloadURL",
+			"type": "string",
+			"optional": false,
+			"description": "The URL at which the file can be downloaded if it is stored at an external location"
+		},
+		{
+			"name": "checksum",
+			"type": "string",
+			"optional": false,
+			"description": "The checksum of the file"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "owner",
+			"type": "string"
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "string|array.string",
+				"optional": true,
+				"description": "The unique ID of the file"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The human readable name of the file - this is user chosen and does not need to be the actual file name"
+			},
+			{
+				"name": "filename",
+				"type": "string",
+				"optional": true,
+				"description": "The original file name"
+			},
+			{
+				"name": "size",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The number of bytes in the file"
+			},
+			{
+				"name": "mime",
+				"type": "string",
+				"optional": true,
+				"description": "The mime type of the file to be used in download requests"
+			},
+			{
+				"name": "owner",
+				"type": "string",
+				"description": "The owner of this file, originally the user who uploaded it",
+				"optional": true
+			},
+			{
+				"name": "type",
+				"type": "string",
+				"optional": true,
+				"description": "The type of file"
+			},
+			{
+				"name": "date",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The unix-second timestamp when the file was uploaded"
+			},
+			{
+				"name": "downloadURL",
+				"type": "string",
+				"optional": true,
+				"description": "The URL at which the file can be downloaded if it is stored at an external location"
+			},
+			{
+				"name": "checksum",
+				"type": "string",
+				"optional": true,
+				"description": "The checksum of the file"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "name",
+				"type": "string",
+				"optional": false,
+				"description": "The human readable name of the file - this is user chosen and does not need to be the actual file name"
+			},
+			{
+				"name": "filename",
+				"type": "string",
+				"optional": false,
+				"description": "The original file name"
+			},
+			{
+				"name": "size",
+				"type": "number",
+				"optional": false,
+				"description": "The number of bytes in the file"
+			},
+			{
+				"name": "mime",
+				"type": "string",
+				"optional": false,
+				"description": "The mime type of the file to be used in download requests"
+			},
+			{
+				"name": "owner",
+				"type": "string",
+				"description": "The owner of this file, originally the user who uploaded it"
+			},
+			{
+				"name": "type",
+				"type": "string",
+				"optional": false,
+				"description": "The type of file"
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": false,
+				"description": "The unix-second timestamp when the file was uploaded"
+			},
+			{
+				"name": "downloadURL",
+				"type": "string",
+				"optional": false,
+				"description": "The URL at which the file can be downloaded if it is stored at an external location"
+			},
+			{
+				"name": "checksum",
+				"type": "string",
+				"optional": false,
+				"description": "The checksum of the file"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID of the file"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The human readable name of the file - this is user chosen and does not need to be the actual file name"
+			},
+			{
+				"name": "filename",
+				"type": "string",
+				"optional": true,
+				"description": "The original file name"
+			},
+			{
+				"name": "size",
+				"type": "number",
+				"optional": true,
+				"description": "The number of bytes in the file"
+			},
+			{
+				"name": "mime",
+				"type": "string",
+				"optional": true,
+				"description": "The mime type of the file to be used in download requests"
+			},
+			{
+				"name": "owner",
+				"type": "string",
+				"description": "The owner of this file, originally the user who uploaded it",
+				"optional": true
+			},
+			{
+				"name": "type",
+				"type": "string",
+				"optional": true,
+				"description": "The type of file"
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": true,
+				"description": "The unix-second timestamp when the file was uploaded"
+			},
+			{
+				"name": "downloadURL",
+				"type": "string",
+				"optional": true,
+				"description": "The URL at which the file can be downloaded if it is stored at an external location"
+			},
+			{
+				"name": "checksum",
+				"type": "string",
+				"optional": true,
+				"description": "The checksum of the file"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}

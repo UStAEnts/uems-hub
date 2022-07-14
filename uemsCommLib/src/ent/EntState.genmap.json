@@ -1,0 +1,119 @@
+{
+	"moduleName": "ent state",
+	"uppercase": "EntState",
+	"lowercase": "entState",
+	"folder": "ent-state",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID of this ent state"
+		},
+		{
+			"name": "name",
+			"type": "string",
+			"optional": false,
+			"description": "The name of this ent state"
+		},
+		{
+			"name": "color",
+			"type": "string (color)",
+			"optional": false,
+			"description": "The hex colour of the ent state"
+		},
+		{
+			"name": "icon",
+			"type": "string",
+			"optional": false,
+			"description": "The icon of this ent state, in a format that can be displayed using the frontend client"
+		}
+	],
+	"primaryIdentifier": "id",
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "string|array.string",
+				"optional": true,
+				"description": "The unique ID of this ent state"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of this ent state"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": true,
+				"description": "The hex colour of the ent state"
+			},
+			{
+				"name": "icon",
+				"type": "string",
+				"optional": true,
+				"description": "The icon of this ent state, in a format that can be displayed using the frontend client"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "name",
+				"type": "string",
+				"optional": false,
+				"description": "The name of this ent state"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": false,
+				"description": "The hex colour of the ent state"
+			},
+			{
+				"name": "icon",
+				"type": "string",
+				"optional": false,
+				"description": "The icon of this ent state, in a format that can be displayed using the frontend client"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID of this ent state"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The name of this ent state"
+			},
+			{
+				"name": "color",
+				"type": "string (color)",
+				"optional": true,
+				"description": "The hex colour of the ent state"
+			},
+			{
+				"name": "icon",
+				"type": "string",
+				"optional": true,
+				"description": "The icon of this ent state, in a format that can be displayed using the frontend client"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string"
+			}
+		]
+	}
+}

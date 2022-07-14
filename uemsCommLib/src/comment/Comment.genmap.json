@@ -1,0 +1,279 @@
+{
+	"moduleName": "comment",
+	"uppercase": "Comment",
+	"lowercase": "comment",
+	"folder": "comment",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique identifier for this comment"
+		},
+		{
+			"name": "assetType",
+			"type": "string",
+			"optional": false,
+			"description": "The category of assets on which this comment has been placed, used to locate the service relevant to this comment"
+		},
+		{
+			"name": "assetID",
+			"type": "string",
+			"optional": false,
+			"description": "The unique identifier for the asset against which this comment has been placed"
+		},
+		{
+			"name": "poster",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The user who created this comment"
+		},
+		{
+			"name": "posted",
+			"type": "number",
+			"optional": false,
+			"description": "The time (unix-second timestamp UTC) at which this comment was created"
+		},
+		{
+			"name": "topic",
+			"type": "ZTopic",
+			"optional": true,
+			"description": "The topic under which this comment has been assigned"
+		},
+		{
+			"name": "requiresAttention",
+			"type": "boolean",
+			"optional": true,
+			"description": "If this comment has been marked as 'requiring attention' by another user"
+		},
+		{
+			"name": "attendedDate",
+			"type": "number",
+			"optional": true,
+			"description": "The time (unix-second timestamp UTC) at which this comment was attended to by another user"
+		},
+		{
+			"name": "attendedBy",
+			"type": "ZUser",
+			"optional": true,
+			"description": "The user who attended to this comment to disable the flag"
+		},
+		{
+			"name": "body",
+			"type": "string",
+			"optional": false,
+			"description": "The main content of the comment"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "poster",
+			"type": "string"
+		},
+		{
+			"name": "topic",
+			"type": "string",
+			"optional": true
+		},
+		{
+			"name": "attendedBy",
+			"type": "string",
+			"optional": true
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "string|array.string",
+				"optional": true,
+				"description": "The unique identifier for this comment"
+			},
+			{
+				"name": "assetType",
+				"type": "string",
+				"optional": true,
+				"description": "The category of assets on which this comment has been placed, used to locate the service relevant to this comment"
+			},
+			{
+				"name": "assetID",
+				"type": "string",
+				"optional": true,
+				"description": "The unique identifier for the asset against which this comment has been placed"
+			},
+			{
+				"name": "poster",
+				"type": "string",
+				"description": "The user who created this comment",
+				"optional": true
+			},
+			{
+				"name": "posted",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The time (unix-second timestamp UTC) at which this comment was created"
+			},
+			{
+				"name": "topic",
+				"type": "string",
+				"description": "The topic under which this comment has been assigned",
+				"optional": true
+			},
+			{
+				"name": "requiresAttention",
+				"type": "boolean",
+				"optional": true,
+				"description": "If this comment has been marked as 'requiring attention' by another user"
+			},
+			{
+				"name": "attendedDate",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The time (unix-second timestamp UTC) at which this comment was attended to by another user"
+			},
+			{
+				"name": "attendedBy",
+				"type": "string",
+				"description": "The user who attended to this comment to disable the flag",
+				"optional": true
+			},
+			{
+				"name": "body",
+				"type": "string",
+				"optional": true,
+				"description": "The main content of the comment"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "assetType",
+				"type": "string",
+				"optional": false,
+				"description": "The category of assets on which this comment has been placed, used to locate the service relevant to this comment"
+			},
+			{
+				"name": "assetID",
+				"type": "string",
+				"optional": false,
+				"description": "The unique identifier for the asset against which this comment has been placed"
+			},
+			{
+				"name": "poster",
+				"type": "string",
+				"description": "The user who created this comment"
+			},
+			{
+				"name": "posted",
+				"type": "number",
+				"optional": false,
+				"description": "The time (unix-second timestamp UTC) at which this comment was created"
+			},
+			{
+				"name": "topic",
+				"type": "string",
+				"description": "The topic under which this comment has been assigned",
+				"optional": true
+			},
+			{
+				"name": "requiresAttention",
+				"type": "boolean",
+				"optional": true,
+				"description": "If this comment has been marked as 'requiring attention' by another user"
+			},
+			{
+				"name": "attendedDate",
+				"type": "number",
+				"optional": true,
+				"description": "The time (unix-second timestamp UTC) at which this comment was attended to by another user"
+			},
+			{
+				"name": "attendedBy",
+				"type": "string",
+				"description": "The user who attended to this comment to disable the flag",
+				"optional": true
+			},
+			{
+				"name": "body",
+				"type": "string",
+				"optional": false,
+				"description": "The main content of the comment"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique identifier for this comment"
+			},
+			{
+				"name": "assetType",
+				"type": "string",
+				"optional": true,
+				"description": "The category of assets on which this comment has been placed, used to locate the service relevant to this comment"
+			},
+			{
+				"name": "assetID",
+				"type": "string",
+				"optional": true,
+				"description": "The unique identifier for the asset against which this comment has been placed"
+			},
+			{
+				"name": "poster",
+				"type": "string",
+				"description": "The user who created this comment",
+				"optional": true
+			},
+			{
+				"name": "posted",
+				"type": "number",
+				"optional": true,
+				"description": "The time (unix-second timestamp UTC) at which this comment was created"
+			},
+			{
+				"name": "topic",
+				"type": "string",
+				"description": "The topic under which this comment has been assigned",
+				"optional": true
+			},
+			{
+				"name": "requiresAttention",
+				"type": "boolean",
+				"optional": true,
+				"description": "If this comment has been marked as 'requiring attention' by another user"
+			},
+			{
+				"name": "attendedDate",
+				"type": "number",
+				"optional": true,
+				"description": "The time (unix-second timestamp UTC) at which this comment was attended to by another user"
+			},
+			{
+				"name": "attendedBy",
+				"type": "string",
+				"description": "The user who attended to this comment to disable the flag",
+				"optional": true
+			},
+			{
+				"name": "body",
+				"type": "string",
+				"optional": true,
+				"description": "The main content of the comment"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The ID of the entity to delete"
+			}
+		]
+	}
+}

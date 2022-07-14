@@ -1,36 +1,30 @@
 /**
- * Restructures ./venuereport into a format to be directly re-exported by src/index.ts
+ * Restructures ./venue-report into a format to be re-exported by src/index.ts
  */
-import { VenueReportValidators } from "./VenueReportValidators";
+import { VenueReportValidators } from './VenueReportValidators';
 
 /**
- * Re-exports of types and functions in {@link VenueReportValidators} relating to VenueReport messages
+ * Re-exports of types and functions in {@link VenueReportValidators} relating to venue report messages
  */
 export namespace VenueReportMessage {
-    export type CreateVenueReportMessage = VenueReportValidators.VenueReportCreateSchema;
-    export type UpdateVenueReportMessage = VenueReportValidators.VenueReportUpdateSchema;
-    export type DeleteVenueReportMessage = VenueReportValidators.VenueReportDeleteSchema;
-    export type ReadVenueReportMessage = VenueReportValidators.VenueReportReadSchema;
+    export type ReadVenueReportMessage = VenueReportValidators.VenueReportRead;
+    export type CreateVenueReportMessage = VenueReportValidators.VenueReportCreate;
+    export type UpdateVenueReportMessage = VenueReportValidators.VenueReportUpdate;
+    export type DeleteVenueReportMessage = VenueReportValidators.VenueReportDelete;
     export type VenueReportMessage = VenueReportValidators.VenueReportMessage;
-    export const messageToJSON = VenueReportValidators.messageToJSON;
 }
 
 /**
- * Re-exports of types and functions in {@link VenueReportValidators} relating to the venuereport messages. This overrides
+ * Re-exports of types and functions in {@link VenueReportValidators} relating to the venue report messages. This overrides
  * exported types with their correct result types for accuracy.
  */
 export namespace VenueReportResponse {
-    export type ShallowInternalVenueReport = VenueReportValidators.ShallowVenueReportRepresentation;
-	export type InternalVenueReport = VenueReportValidators.VenueReportRepresentation;
-    export type VenueReportReadResponseMessage = Omit<VenueReportValidators.VenueReportResponseSchema, 'result'> & {
-        result: VenueReportValidators.VenueReportRepresentation[],
-    };
-    export type VenueReportServiceReadResponseMessage = Omit<VenueReportValidators.VenueReportResponseSchema, 'result'> & {
-        result: VenueReportValidators.ShallowVenueReportRepresentation[],
-    }
-    export type VenueReportResponseMessage = Omit<VenueReportValidators.VenueReportResponseSchema, 'result'> & {
-        result: string[],
-    };
+    export type InternalVenueReport = VenueReportValidators.VenueReportRepresentation;
+    export type ShallowInternalVenueReport = VenueReportValidators.VenueReportShallowRepresentation;
+    export type VenueReportServiceReadResponseMessage = VenueReportValidators.VenueReportShallowReadResponse;
+    export type VenueReportReadResponseMessage = VenueReportValidators.VenueReportReadResponse;
+    export type VenueReportModifyResponseMessage = VenueReportValidators.VenueReportModifyResponse;
+    export type VenueReportResponseMessage = VenueReportReadResponseMessage | VenueReportModifyResponseMessage;
 }
 
 export const VenueReportMessageValidator = VenueReportValidators.VenueReportMessageValidator;

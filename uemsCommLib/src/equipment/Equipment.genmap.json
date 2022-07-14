@@ -1,0 +1,320 @@
+{
+	"moduleName": "equipment",
+	"uppercase": "Equipment",
+	"lowercase": "equipment",
+	"folder": "equipment",
+	"intentions": [
+		"READ",
+		"CREATE",
+		"UPDATE",
+		"DELETE"
+	],
+	"properties": [
+		{
+			"name": "id",
+			"type": "string",
+			"optional": false,
+			"description": "The unique ID of this piece of equipment"
+		},
+		{
+			"name": "assetID",
+			"type": "string",
+			"optional": true,
+			"description": "The asset ID tag assigned to this piece of equipment is one has been allocated"
+		},
+		{
+			"name": "name",
+			"type": "string",
+			"optional": false,
+			"description": "The human readable name of this equipment"
+		},
+		{
+			"name": "manufacturer",
+			"type": "string",
+			"optional": false,
+			"description": "The original manufacturer of this equipment"
+		},
+		{
+			"name": "model",
+			"type": "string",
+			"optional": false,
+			"description": "The specific model of this equipment"
+		},
+		{
+			"name": "miscIdentifier",
+			"type": "string",
+			"optional": true,
+			"description": "An additional identifier in the event the manufacturer and model are not sufficient"
+		},
+		{
+			"name": "amount",
+			"type": "number",
+			"optional": false,
+			"description": "The amount of this piece of equipment currently available"
+		},
+		{
+			"name": "location",
+			"type": "ZVenue",
+			"optional": false,
+			"description": "The venue in which this equipment is stored"
+		},
+		{
+			"name": "locationSpecifier",
+			"type": "string",
+			"optional": true,
+			"description": "Additional information about where in the venue this piece of equipment has been stored"
+		},
+		{
+			"name": "manager",
+			"type": "ZUser",
+			"optional": false,
+			"description": "The user assigned to manage this piece of equipment and should be the first call when needing information about it"
+		},
+		{
+			"name": "date",
+			"type": "number",
+			"optional": false,
+			"description": "The date the equipment was purchased"
+		},
+		{
+			"name": "category",
+			"type": "string",
+			"optional": false,
+			"description": "The textual category of this equipment"
+		}
+	],
+	"primaryIdentifier": "id",
+	"shallowType": [
+		{
+			"name": "location",
+			"type": "string"
+		},
+		{
+			"name": "manager",
+			"type": "string"
+		}
+	],
+	"intentionQueries": {
+		"READ": [
+			{
+				"name": "id",
+				"type": "string|array.string",
+				"optional": true,
+				"description": "The unique ID of this piece of equipment"
+			},
+			{
+				"name": "assetID",
+				"type": "string",
+				"optional": true,
+				"description": "The asset ID tag assigned to this piece of equipment is one has been allocated"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The human readable name of this equipment"
+			},
+			{
+				"name": "manufacturer",
+				"type": "string",
+				"optional": true,
+				"description": "The original manufacturer of this equipment"
+			},
+			{
+				"name": "model",
+				"type": "string",
+				"optional": true,
+				"description": "The specific model of this equipment"
+			},
+			{
+				"name": "miscIdentifier",
+				"type": "string",
+				"optional": true,
+				"description": "An additional identifier in the event the manufacturer and model are not sufficient"
+			},
+			{
+				"name": "amount",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The amount of this piece of equipment currently available"
+			},
+			{
+				"name": "location",
+				"type": "string",
+				"description": "The venue in which this equipment is stored",
+				"optional": true
+			},
+			{
+				"name": "locationSpecifier",
+				"type": "string",
+				"optional": true,
+				"description": "Additional information about where in the venue this piece of equipment has been stored"
+			},
+			{
+				"name": "manager",
+				"type": "string",
+				"description": "The user assigned to manage this piece of equipment and should be the first call when needing information about it",
+				"optional": true
+			},
+			{
+				"name": "date",
+				"type": "ranged.number",
+				"optional": true,
+				"description": "The date the equipment was purchased"
+			},
+			{
+				"name": "category",
+				"type": "string",
+				"optional": true,
+				"description": "The textual category of this equipment"
+			}
+		],
+		"CREATE": [
+			{
+				"name": "assetID",
+				"type": "string",
+				"optional": true,
+				"description": "The asset ID tag assigned to this piece of equipment is one has been allocated"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": false,
+				"description": "The human readable name of this equipment"
+			},
+			{
+				"name": "manufacturer",
+				"type": "string",
+				"optional": false,
+				"description": "The original manufacturer of this equipment"
+			},
+			{
+				"name": "model",
+				"type": "string",
+				"optional": false,
+				"description": "The specific model of this equipment"
+			},
+			{
+				"name": "miscIdentifier",
+				"type": "string",
+				"optional": true,
+				"description": "An additional identifier in the event the manufacturer and model are not sufficient"
+			},
+			{
+				"name": "amount",
+				"type": "number",
+				"optional": false,
+				"description": "The amount of this piece of equipment currently available"
+			},
+			{
+				"name": "location",
+				"type": "string",
+				"description": "The venue in which this equipment is stored"
+			},
+			{
+				"name": "locationSpecifier",
+				"type": "string",
+				"optional": true,
+				"description": "Additional information about where in the venue this piece of equipment has been stored"
+			},
+			{
+				"name": "manager",
+				"type": "string",
+				"description": "The user assigned to manage this piece of equipment and should be the first call when needing information about it"
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": false,
+				"description": "The date the equipment was purchased"
+			},
+			{
+				"name": "category",
+				"type": "string",
+				"optional": false,
+				"description": "The textual category of this equipment"
+			}
+		],
+		"UPDATE": [
+			{
+				"name": "id",
+				"type": "string",
+				"optional": false,
+				"description": "The unique ID of this piece of equipment"
+			},
+			{
+				"name": "assetID",
+				"type": "string",
+				"optional": true,
+				"description": "The asset ID tag assigned to this piece of equipment is one has been allocated"
+			},
+			{
+				"name": "name",
+				"type": "string",
+				"optional": true,
+				"description": "The human readable name of this equipment"
+			},
+			{
+				"name": "manufacturer",
+				"type": "string",
+				"optional": true,
+				"description": "The original manufacturer of this equipment"
+			},
+			{
+				"name": "model",
+				"type": "string",
+				"optional": true,
+				"description": "The specific model of this equipment"
+			},
+			{
+				"name": "miscIdentifier",
+				"type": "string",
+				"optional": true,
+				"description": "An additional identifier in the event the manufacturer and model are not sufficient"
+			},
+			{
+				"name": "amount",
+				"type": "number",
+				"optional": true,
+				"description": "The amount of this piece of equipment currently available"
+			},
+			{
+				"name": "location",
+				"type": "string",
+				"description": "The venue in which this equipment is stored",
+				"optional": true
+			},
+			{
+				"name": "locationSpecifier",
+				"type": "string",
+				"optional": true,
+				"description": "Additional information about where in the venue this piece of equipment has been stored"
+			},
+			{
+				"name": "manager",
+				"type": "string",
+				"description": "The user assigned to manage this piece of equipment and should be the first call when needing information about it",
+				"optional": true
+			},
+			{
+				"name": "date",
+				"type": "number",
+				"optional": true,
+				"description": "The date the equipment was purchased"
+			},
+			{
+				"name": "category",
+				"type": "string",
+				"optional": true,
+				"description": "The textual category of this equipment"
+			}
+		],
+		"DELETE": [
+			{
+				"name": "id",
+				"type": "string",
+				"description": "The unique identifier of this entity to remove"
+			}
+		]
+	}
+}

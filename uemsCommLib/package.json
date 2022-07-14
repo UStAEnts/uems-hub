@@ -1,22 +1,24 @@
 {
   "name": "@uems/uemscommlib",
-  "version": "0.1.0-beta.57",
+  "version": "2.0.0-beta.11",
   "description": "The common library used by backend elements of the uems system",
   "dependencies": {
-    "ajv": "^6.12.3"
+    "ajv": "^6.12.3",
+    "zod": "^3.17.3"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.23",
     "mocha": "^8.0.1",
     "nyc": "^15.1.0",
+    "prompts": "^2.4.2",
     "ts-mocha": "^7.0.0",
-    "typescript": "^3.9.7"
+    "typescript": "^4.7.4"
   },
   "scripts": {
-    "test": "mocha build/test",
+    "test": "ts-mocha -p tsconfig.json src/test/**/*.ts",
     "build": "tsc --listEmittedFiles",
-    "prepublish": "tsc"
+    "prepublish": "tsc && npm run test"
   },
   "author": "Lan2u",
   "contributors": [
@@ -26,9 +28,15 @@
       "name": "Ryan Delaney"
     }
   ],
-  "files": ["build/**"],
+  "files": [
+    "build/**"
+  ],
   "license": "ISC",
   "main": "build/index.js",
   "types": "build/index.d.ts",
-  "prepublish": "tsc"
+  "prepublish": "tsc",
+  "tsd": {
+    "directory": "test-d",
+    "typingsFile": "build/index.d.ts"
+  }
 }
