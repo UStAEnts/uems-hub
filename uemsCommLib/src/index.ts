@@ -27,6 +27,7 @@ export { EventMessage, EventResponse, EventResponseValidator, EventMessageValida
 export { FileBindingMessage, FileBindingResponse, FileBindingResponseValidator, FileBindingMessageValidator } from './filebinding/index';
 export { DiscoveryMessage, DiscoveryResponse, DiscoveryResponseValidator, DiscoveryMessageValidator } from './discovery/index';
 export { FormMessage, FormResponse, FormResponseValidator, FormMessageValidator } from './form/index';
+export { AutomationMessage, AutomationResponse, AutomationResponseValidator, AutomationMessageValidator, ACTIVE_AUTOMATION_VERSION } from './automation/index';
 
 export { MessageValidator } from './MessageValidator';
 export { has } from './utilities/ObjectUtilities';
