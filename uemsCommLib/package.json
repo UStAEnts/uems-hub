@@ -1,6 +1,6 @@
 {
   "name": "@uems/uemscommlib",
-  "version": "2.0.0-beta.14",
+  "version": "2.0.0-beta.15",
   "description": "The common library used by backend elements of the uems system",
   "dependencies": {
     "ajv": "^6.12.3",

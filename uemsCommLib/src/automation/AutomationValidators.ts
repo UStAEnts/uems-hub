@@ -158,10 +158,14 @@ export namespace AutomationValidators {
 	export type AutomationCreate = zod.infer<typeof ZAutomationCreate>;
 
 	export const ZAutomationUpdate = REQUEST_CORE_SCHEMA('UPDATE').extend({
+		id: zod.string()
+			.describe("The identifier of the automation to update"),
 		description: zod.string()
-			.describe("The description providing detail about the function of this automation"),
+			.describe("The description providing detail about the function of this automation")
+			.optional(),
 		title: zod.string()
-			.describe("The name of this automation flow"),
+			.describe("The name of this automation flow")
+			.optional(),
 		nodes: zod.array(
 			zod.object({
 				width: zod.number().or(zod.null()).optional(),
@@ -182,7 +186,8 @@ export namespace AutomationValidators {
 				selected: zod.boolean().optional(),
 				dragging: zod.boolean().optional(),
 			}),
-		).describe("The set of nodes which form the automation configuration"),
+		).describe("The set of nodes which form the automation configuration")
+			.optional(),
 		edges: zod.array(
 			zod.object({
 				animated: zod.boolean().optional(),
@@ -194,13 +199,16 @@ export namespace AutomationValidators {
 				id: zod.string(),
 				label: zod.string(),
 			}),
-		),
+		)
+			.optional(),
 		viewport: zod.object({
 			x: zod.number(),
 			y: zod.number(),
 			zoom: zod.number(),
-		}),
-		state: zod.record(zod.any()),
+		})
+			.optional(),
+		state: zod.record(zod.any())
+			.optional(),
 	});
 	export type AutomationUpdate = zod.infer<typeof ZAutomationUpdate>;
 
