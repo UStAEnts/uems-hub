@@ -9,7 +9,7 @@
   "devDependencies": {
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.23",
-    "mocha": "^8.0.1",
+    "mocha": "^10.1.0",
     "nyc": "^15.1.0",
     "prompts": "^2.4.2",
     "ts-mocha": "^7.0.0",
